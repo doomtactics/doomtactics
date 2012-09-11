@@ -1,0 +1,7 @@
+E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\DoomTactics.Game.exe
+E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\DoomTactics.Game.pdb
+E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\obj\x86\Debug\DoomTactics.Game.csprojResolveAssemblyReference.cache
+E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\obj\x86\Debug\Microsoft.Xna.Framework.RuntimeProfile.txt
+E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\obj\x86\Debug\DoomTactics.Game.exe
+E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\obj\x86\Debug\DoomTactics.Game.pdb
+E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\DoomTactics.Game.exe.config

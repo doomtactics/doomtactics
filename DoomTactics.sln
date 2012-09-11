@@ -1,0 +1,24 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DoomTactics.Game", "DoomTactics.Game\DoomTactics.Game\DoomTactics.Game.csproj", "{DB98EE22-3AEC-4BAD-A418-93CDAB67D42E}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "DoomTactics.GameContent", "DoomTactics.Game\DoomTactics.GameContent\DoomTactics.GameContent.contentproj", "{05DE9477-6E69-405E-ADF1-0B77B9C3EC0A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DB98EE22-3AEC-4BAD-A418-93CDAB67D42E}.Debug|x86.ActiveCfg = Debug|x86
+		{DB98EE22-3AEC-4BAD-A418-93CDAB67D42E}.Debug|x86.Build.0 = Debug|x86
+		{DB98EE22-3AEC-4BAD-A418-93CDAB67D42E}.Release|x86.ActiveCfg = Release|x86
+		{DB98EE22-3AEC-4BAD-A418-93CDAB67D42E}.Release|x86.Build.0 = Release|x86
+		{05DE9477-6E69-405E-ADF1-0B77B9C3EC0A}.Debug|x86.ActiveCfg = Debug|x86
+		{05DE9477-6E69-405E-ADF1-0B77B9C3EC0A}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
