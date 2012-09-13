@@ -1,4 +1,5 @@
 <Modules>
   <Module PersistentId="DB98EE22-3AEC-4BAD-A418-93CDAB67D42E" ModuleId="DoomTactics.Game" />
   <Module PersistentId="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553" ModuleId="Microsoft.Xna.Framework.Game" />
+  <Module PersistentId="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553" ModuleId="Microsoft.Xna.Framework.Graphics" />
 </Modules>

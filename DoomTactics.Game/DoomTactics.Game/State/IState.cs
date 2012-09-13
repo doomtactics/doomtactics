@@ -12,7 +12,7 @@ namespace DoomTactics
     {        
         bool IsPaused { get; }
         void Update(GameTime gameTime);
-        void Render(SpriteBatch spriteBatch);
+        void Render(GraphicsDevice device);
         void ProcessInput(KeyboardState keyState, MouseState mouseState, GameTime gameTime);
     }
 }

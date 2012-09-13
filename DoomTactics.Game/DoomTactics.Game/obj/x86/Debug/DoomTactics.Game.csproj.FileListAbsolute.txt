@@ -5,3 +5,6 @@ E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\obj\x86\Debug\
 E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\obj\x86\Debug\DoomTactics.Game.exe
 E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\obj\x86\Debug\DoomTactics.Game.pdb
 E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\DoomTactics.Game.exe.config
+E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\NLog.dll
+E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\NLog.xml
+E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\Content\bubble.xnb

@@ -18,6 +18,8 @@ namespace DoomTactics
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        private IState state;
+        private BasicEffect basicEffect;
 
         public DoomTacticsGame()
         {
@@ -34,7 +36,7 @@ namespace DoomTactics
         protected override void Initialize()
         {            
             base.Initialize();
-            var bootstrapState = new BootstrapState();
+            
         }
 
         /// <summary>
@@ -44,8 +46,8 @@ namespace DoomTactics
         protected override void LoadContent()
         {
             // Create a new SpriteBatch, which can be used to draw textures.
-            spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            spriteBatch = new SpriteBatch(GraphicsDevice);            
+            state = new GameState(this);
             // TODO: use this.Content to load your game content here
         }
 
@@ -69,7 +71,7 @@ namespace DoomTactics
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // TODO: Add your update logic here
+            state.Update(gameTime);
 
             base.Update(gameTime);
         }
@@ -83,6 +85,8 @@ namespace DoomTactics
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             // TODO: Add your drawing code here
+
+            state.Render(GraphicsDevice);
 
             base.Draw(gameTime);
         }

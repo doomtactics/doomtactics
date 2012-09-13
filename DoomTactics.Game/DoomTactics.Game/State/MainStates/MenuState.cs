@@ -29,7 +29,7 @@ namespace DoomTactics
             throw new NotImplementedException();
         }
 
-        public void Render(SpriteBatch spriteBatch)
+        public void Render(GraphicsDevice device)
         {
             throw new NotImplementedException();
         }
