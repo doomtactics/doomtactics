@@ -9,6 +9,8 @@ namespace DoomTactics.Map
 {
     public class Tile
     {
+        private const float TileLength = 64.0f;
+
         public int XCoord;
         public int YCoord;
         public decimal Height;
@@ -49,9 +51,9 @@ namespace DoomTactics.Map
             Vector3 topRightBack = position + Vector3.Right;
             Vector3 topLeftBack = position + Vector3.Backward;*/
             Vector3 topLeftFront = position + new Vector3(0.0f, 1.0f, 0.0f);
-            Vector3 topLeftBack = position + new Vector3(0.0f, 1.0f, 1.0f);
-            Vector3 topRightFront = position + new Vector3(1.0f, 1.0f, 0.0f);
-            Vector3 topRightBack = position + new Vector3(1.0f, 1.0f, 1.0f);
+            Vector3 topLeftBack = position + new Vector3(0.0f, 1.0f, TileLength);
+            Vector3 topRightFront = position + new Vector3(TileLength, 1.0f, 0.0f);
+            Vector3 topRightBack = position + new Vector3(TileLength, 1.0f, TileLength);
             Vector2 textureTopLeft = new Vector2(1.0f, 0.0f);
             Vector2 textureTopRight = new Vector2(0.0f, 0.0f);
             Vector2 textureBottomLeft = new Vector2(1.0f, 1.0f);

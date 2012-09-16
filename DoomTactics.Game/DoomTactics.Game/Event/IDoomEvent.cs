@@ -2,10 +2,10 @@
 {
     public enum DoomEventType
     {
-        
-    }
+        CameraMoveEvent,
+    }    
 
-    interface IDoomEvent
+    public interface IDoomEvent
     {
         DoomEventType EventType { get; }
         string[] ListenerNames { get; }

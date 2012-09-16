@@ -112,8 +112,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Actor\ActorBase.cs" />
+    <Compile Include="Event\CameraEvent.cs" />
     <Compile Include="Event\DoomEvent.cs" />
     <Compile Include="Event\IDoomEvent.cs" />
+    <Compile Include="Event\MessagingHelper.cs" />
+    <Compile Include="Event\MessagingSystem.cs" />
+    <Compile Include="Input\GameInputProcessor.cs" />
     <Compile Include="Input\IInputProcessor.cs" />
     <Compile Include="Map\Camera.cs" />
     <Compile Include="Map\Level.cs" />
