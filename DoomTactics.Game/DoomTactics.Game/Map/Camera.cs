@@ -9,7 +9,7 @@ namespace DoomTactics
     public class Camera
     {
         private const float PanModifier = 0.5f;
-        private const float FreelookSpeed = 2.0f;
+        private const float FreelookSpeed = 10.0f;
 
         public Vector3 Position;
         public Vector3 Direction;
@@ -18,7 +18,7 @@ namespace DoomTactics
         public Matrix Projection;
         private readonly string _cameraName;
         private const float ZNear = 1.0f;
-        private const float ZFar = 1000.0f;
+        private const float ZFar = 10000.0f;
         private static readonly float Fov = MathHelper.ToRadians(45);
 
         public Camera(string cameraName, Vector3 position, Vector3 target, Vector3 up, float aspectRatio)

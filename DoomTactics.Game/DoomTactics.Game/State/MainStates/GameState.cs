@@ -5,6 +5,7 @@ using System.Text;
 using DoomTactics.Input;
 using DoomTactics.Map;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 
@@ -17,6 +18,7 @@ namespace DoomTactics
         private readonly BasicEffect _effect;
         private readonly Tile _tile;
         private readonly Tile _tile2;
+        private Tile[] _tempLevel;
         private readonly Texture2D _temptex;
         private readonly IInputProcessor _processor;
         
@@ -31,6 +33,8 @@ namespace DoomTactics
             _tile = new Tile(_temptex, Vector3.Zero);
             _tile2 = new Tile(_temptex, new Vector3(0.0f, 0.0f, 64.0f));
             _processor = new GameInputProcessor(Keyboard.GetState(), Mouse.GetState(), this);
+
+            CreateLevelTemp(gameInstance.Content);
         }
 
         public bool IsPaused
@@ -54,13 +58,40 @@ namespace DoomTactics
             _effect.Texture = _temptex;
             _effect.EnableDefaultLighting();
 
-            foreach (EffectPass pass in _effect.CurrentTechnique.Passes)
+            foreach (var tile in _tempLevel)
             {
-                pass.Apply();
-                _tile.Render(device);
-                _tile2.Render(device);
+                foreach (EffectPass pass in _effect.CurrentTechnique.Passes)
+                {
+                    _effect.Texture = tile.Texture;
+                    pass.Apply();
+                    tile.Render(device);
+                }
             }
-            
+        }
+
+        private void CreateLevelTemp(ContentManager contentManager)
+        {
+            const int levelSize = 10;
+            _tempLevel = new Tile[levelSize * levelSize];
+            string[] textureNames = new[] {"textures\\FLAT1_1", "textures\\FLAT5_4", "textures\\FLAT5_5"};
+            var random = new Random();
+            for (int i = 0; i < levelSize; i++)
+            {
+                for (int j = 0; j < levelSize; j++)
+                {
+                    int num = random.Next(0, 3);
+                    Texture2D texture = contentManager.Load<Texture2D>(textureNames[num]);
+                    Vector3 position = new Vector3(j * 64.0f, 0.0f, i * 64.0f);
+                    _tempLevel[i * levelSize + j] = new Tile(texture, position);
+                }
+            }
+
+            // overwrite stuff with some specific tiles
+            Texture2D text = contentManager.Load<Texture2D>("textures\\GRNROCK");
+            _tempLevel[35] = new Tile(text, new Vector3(5 * 64.0f, 24.0f, 3 * 64.0f));
+            _tempLevel[36] = new Tile(text, new Vector3(6 * 64.0f, 48.0f, 3 * 64.0f));
+            _tempLevel[45] = new Tile(text, new Vector3(5 * 64.0f, 72.0f, 4 * 64.0f));
+            _tempLevel[46] = new Tile(text, new Vector3(6 * 64.0f, 96.0f, 4 * 64.0f));
         }
 
         public void ProcessInput(KeyboardState keyState, MouseState mouseState, GameTime gameTime)

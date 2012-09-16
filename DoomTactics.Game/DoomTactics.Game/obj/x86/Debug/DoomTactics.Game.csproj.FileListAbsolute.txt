@@ -8,3 +8,7 @@ E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\
 E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\NLog.dll
 E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\NLog.xml
 E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\Content\bubble.xnb
+E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\Content\textures\FLAT1_1.xnb
+E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\Content\textures\FLAT5_4.xnb
+E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\Content\textures\FLAT5_5.xnb
+E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\Content\textures\GRNROCK.xnb

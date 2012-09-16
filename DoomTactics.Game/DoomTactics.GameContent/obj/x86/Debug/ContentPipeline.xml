@@ -10,6 +10,42 @@
       <Output>E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\Content\bubble.xnb</Output>
       <Time>2012-09-11T20:38:36.4487687-07:00</Time>
     </Item>
+    <Item>
+      <Source>textures\FLAT1_1.png</Source>
+      <Name>textures\FLAT1_1</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\Content\textures\FLAT1_1.xnb</Output>
+      <Time>2012-09-15T21:04:43.2194755-07:00</Time>
+    </Item>
+    <Item>
+      <Source>textures\FLAT5_4.png</Source>
+      <Name>textures\FLAT5_4</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\Content\textures\FLAT5_4.xnb</Output>
+      <Time>2012-09-15T21:04:43.2244758-07:00</Time>
+    </Item>
+    <Item>
+      <Source>textures\FLAT5_5.png</Source>
+      <Name>textures\FLAT5_5</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\Content\textures\FLAT5_5.xnb</Output>
+      <Time>2012-09-15T21:04:43.2254758-07:00</Time>
+    </Item>
+    <Item>
+      <Source>textures\GRNROCK.png</Source>
+      <Name>textures\GRNROCK</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\Content\textures\GRNROCK.xnb</Output>
+      <Time>2012-09-15T21:26:05.8668387-07:00</Time>
+    </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>
       <TargetPlatform>Windows</TargetPlatform>
