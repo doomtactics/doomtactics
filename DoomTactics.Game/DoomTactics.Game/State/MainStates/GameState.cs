@@ -23,7 +23,7 @@ namespace DoomTactics
         public GameState(DoomTacticsGame gameInstance)
         {
             float aspectRatio = gameInstance.Window.ClientBounds.Width/gameInstance.Window.ClientBounds.Height;
-            Camera = new Camera("camera", new Vector3(5.0f, 5.0f, 5.0f), Vector3.Zero, Vector3.Up, aspectRatio);
+            Camera = new Camera("camera", new Vector3(100.0f, 100.0f, 100.0f), Vector3.Zero, Vector3.Up, aspectRatio);
             MessagingSystem.Subscribe(Camera.MoveCamera, DoomEventType.CameraMoveEvent, "camera");
             _gameInstance = gameInstance;
             _effect = new BasicEffect(_gameInstance.GraphicsDevice);

@@ -8,8 +8,8 @@ namespace DoomTactics
 {
     public class Camera
     {
-        private const float PanModifier = 0.0005f;
-        private const float FreelookSpeed = 0.1f;
+        private const float PanModifier = 0.5f;
+        private const float FreelookSpeed = 2.0f;
 
         public Vector3 Position;
         public Vector3 Direction;
@@ -40,7 +40,7 @@ namespace DoomTactics
             if (cameraEvent.CameraMovementMode == CameraMovementMode.Pan)
             {
                 Position += sideVector * PanModifier * cameraEvent.MouseDelta.X;
-                Position -= Up * PanModifier * cameraEvent.MouseDelta.Y;
+                Position += Up * PanModifier * cameraEvent.MouseDelta.Y;
             }
             else
             {
