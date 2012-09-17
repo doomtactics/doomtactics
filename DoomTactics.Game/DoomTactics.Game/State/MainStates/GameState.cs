@@ -21,6 +21,9 @@ namespace DoomTactics
         private Tile[] _tempLevel;
         private readonly Texture2D _temptex;
         private readonly IInputProcessor _processor;
+        private readonly Imp _imp;
+        private readonly SpriteBatch _spriteBatch;
+        private readonly BasicEffect _spriteEffect;
         
         public GameState(DoomTacticsGame gameInstance)
         {
@@ -35,6 +38,12 @@ namespace DoomTactics
             _processor = new GameInputProcessor(Keyboard.GetState(), Mouse.GetState(), this);
 
             CreateLevelTemp(gameInstance.Content);
+            
+            var imptex = gameInstance.Content.Load<Texture2D>("sheets\\impsheet");
+            _imp = new Imp("imp", new Vector3(160.0f, 0, 160.0f),  imptex);
+
+            _spriteBatch = new SpriteBatch(gameInstance.GraphicsDevice);
+            _spriteEffect = new BasicEffect(gameInstance.GraphicsDevice);
         }
 
         public bool IsPaused
@@ -55,7 +64,6 @@ namespace DoomTactics
             _effect.Projection = Camera.Projection;
 
             _effect.TextureEnabled = true;
-            _effect.Texture = _temptex;
             _effect.EnableDefaultLighting();
 
             foreach (var tile in _tempLevel)
@@ -67,6 +75,8 @@ namespace DoomTactics
                     tile.Render(device);
                 }
             }
+
+            _imp.Render(device, _spriteBatch, _spriteEffect, Camera);
         }
 
         private void CreateLevelTemp(ContentManager contentManager)

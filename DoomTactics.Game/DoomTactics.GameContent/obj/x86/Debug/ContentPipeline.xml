@@ -17,7 +17,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\Content\textures\FLAT1_1.xnb</Output>
-      <Time>2012-09-15T21:04:43.2194755-07:00</Time>
+      <Time>2012-09-15T21:41:00.7720244-07:00</Time>
     </Item>
     <Item>
       <Source>textures\FLAT5_4.png</Source>
@@ -26,7 +26,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\Content\textures\FLAT5_4.xnb</Output>
-      <Time>2012-09-15T21:04:43.2244758-07:00</Time>
+      <Time>2012-09-15T21:41:00.7730244-07:00</Time>
     </Item>
     <Item>
       <Source>textures\FLAT5_5.png</Source>
@@ -35,7 +35,7 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\Content\textures\FLAT5_5.xnb</Output>
-      <Time>2012-09-15T21:04:43.2254758-07:00</Time>
+      <Time>2012-09-15T21:41:00.7730244-07:00</Time>
     </Item>
     <Item>
       <Source>textures\GRNROCK.png</Source>
@@ -44,7 +44,16 @@
       <Processor>TextureProcessor</Processor>
       <Options>None</Options>
       <Output>E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\Content\textures\GRNROCK.xnb</Output>
-      <Time>2012-09-15T21:26:05.8668387-07:00</Time>
+      <Time>2012-09-15T21:41:00.7740245-07:00</Time>
+    </Item>
+    <Item>
+      <Source>sheets\impsheet.png</Source>
+      <Name>sheets\impsheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+      <Options>None</Options>
+      <Output>E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\Content\sheets\impsheet.xnb</Output>
+      <Time>2012-09-15T22:03:38.0796579-07:00</Time>
     </Item>
     <BuildSuccessful>true</BuildSuccessful>
     <Settings>

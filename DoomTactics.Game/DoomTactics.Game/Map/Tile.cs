@@ -33,7 +33,7 @@ namespace DoomTactics.Map
             using (var buffer = new VertexBuffer(
                device,
                VertexPositionNormalTexture.VertexDeclaration,
-               36,
+               6,
                BufferUsage.WriteOnly))
             {
                 // Load the buffer

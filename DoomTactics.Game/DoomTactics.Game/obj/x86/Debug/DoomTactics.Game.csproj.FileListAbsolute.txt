@@ -12,3 +12,4 @@ E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\
 E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\Content\textures\FLAT5_4.xnb
 E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\Content\textures\FLAT5_5.xnb
 E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\Content\textures\GRNROCK.xnb
+E:\code\DoomTactics\DoomTactics\DoomTactics.Game\DoomTactics.Game\bin\x86\Debug\Content\sheets\impsheet.xnb
