@@ -21,9 +21,9 @@ namespace DoomTactics
         private Tile[] _tempLevel;
         private readonly Texture2D _temptex;
         private readonly IInputProcessor _processor;
-        private readonly Imp _imp;
         private readonly SpriteBatch _spriteBatch;
         private readonly BasicEffect _spriteEffect;
+        private readonly IList<ActorBase> _actors; 
         
         public GameState(DoomTacticsGame gameInstance)
         {
@@ -40,7 +40,19 @@ namespace DoomTactics
             CreateLevelTemp(gameInstance.Content);
             
             var imptex = gameInstance.Content.Load<Texture2D>("sheets\\impsheet");
-            _imp = new Imp("imp", new Vector3(160.0f, 0, 160.0f),  imptex);
+            _actors = new List<ActorBase>();
+            /*for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    var imp = new Imp("imp", new Vector3(32.0f + 64.0f*j, 0, 32.0f + 64.0f*i), imptex);
+                    _actors.Add(imp);
+                }
+            }*/
+            var imp = new Imp("imp", new Vector3(160.0f, 0, 160.0f),  imptex);
+            var imp2 = new Imp("imp", new Vector3(224.0f, 0.0f, 224.0f), imptex);
+            _actors.Add(imp);
+            _actors.Add(imp2);
 
             _spriteBatch = new SpriteBatch(gameInstance.GraphicsDevice);
             _spriteEffect = new BasicEffect(gameInstance.GraphicsDevice);
@@ -66,6 +78,8 @@ namespace DoomTactics
             _effect.TextureEnabled = true;
             _effect.EnableDefaultLighting();
 
+            device.DepthStencilState = DepthStencilState.Default;
+
             foreach (var tile in _tempLevel)
             {
                 foreach (EffectPass pass in _effect.CurrentTechnique.Passes)
@@ -76,7 +90,13 @@ namespace DoomTactics
                 }
             }
 
-            _imp.Render(device, _spriteBatch, _spriteEffect, Camera);
+            _spriteEffect.TextureEnabled = true;
+            _spriteEffect.VertexColorEnabled = true;
+            
+            foreach (var actor in _actors)
+            {
+                actor.Render(device, _spriteBatch, _spriteEffect, Camera);
+            }            
         }
 
         private void CreateLevelTemp(ContentManager contentManager)
