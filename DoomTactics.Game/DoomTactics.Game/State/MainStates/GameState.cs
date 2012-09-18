@@ -23,6 +23,7 @@ namespace DoomTactics
         private readonly IInputProcessor _processor;
         private readonly SpriteBatch _spriteBatch;
         private readonly BasicEffect _spriteEffect;
+        private readonly AlphaTestEffect _alphaTestEffect;
         private readonly IList<ActorBase> _actors; 
         
         public GameState(DoomTacticsGame gameInstance)
@@ -56,6 +57,7 @@ namespace DoomTactics
 
             _spriteBatch = new SpriteBatch(gameInstance.GraphicsDevice);
             _spriteEffect = new BasicEffect(gameInstance.GraphicsDevice);
+            _alphaTestEffect = new AlphaTestEffect(gameInstance.GraphicsDevice);
         }
 
         public bool IsPaused
@@ -92,11 +94,23 @@ namespace DoomTactics
 
             _spriteEffect.TextureEnabled = true;
             _spriteEffect.VertexColorEnabled = true;
-            
+
+            //_spriteBatch.Begin(0, null, null, DepthStencilState.DepthRead, RasterizerState.CullNone, _alphaTestEffect);
+            // Pass 1: full alpha
+            _alphaTestEffect.AlphaFunction = CompareFunction.Greater;
+            _alphaTestEffect.ReferenceAlpha = 128;                
             foreach (var actor in _actors)
             {
-                actor.Render(device, _spriteBatch, _spriteEffect, Camera);
-            }            
+                actor.Render(device, _spriteBatch, _alphaTestEffect, Camera, 0);
+            }
+            // Pass 2: alpha blend
+            foreach (var actor in _actors)
+            {
+                _alphaTestEffect.AlphaFunction = CompareFunction.Less;
+                _alphaTestEffect.ReferenceAlpha = 20;
+                actor.Render(device, _spriteBatch, _alphaTestEffect, Camera, 1);
+            }
+            //_spriteBatch.End();
         }
 
         private void CreateLevelTemp(ContentManager contentManager)

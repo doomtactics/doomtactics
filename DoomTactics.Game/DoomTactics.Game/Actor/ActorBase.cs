@@ -31,7 +31,7 @@ namespace DoomTactics
             ActorID = id;
         }
 
-        public void Render(GraphicsDevice device, SpriteBatch spriteBatch, BasicEffect spriteEffect, Camera camera)
+        public void Render(GraphicsDevice device, SpriteBatch spriteBatch, AlphaTestEffect spriteEffect, Camera camera, int passNumber)
         {
             Matrix bill = Matrix.CreateConstrainedBillboard(Position, camera.Position, Vector3.Down, camera.Direction,
                                                             Vector3.Forward);
@@ -40,12 +40,20 @@ namespace DoomTactics
             spriteEffect.View = camera.View;
             spriteEffect.Projection = camera.Projection;
 
-            spriteBatch.Begin(0, null, null, DepthStencilState.DepthRead, RasterizerState.CullNone, spriteEffect);
-            device.DepthStencilState = DepthStencilState.Default;            
-            device.BlendState = BlendState.AlphaBlend;
-            device.RasterizerState = RasterizerState.CullNone;
-            spriteBatch.Draw(MyTexture, new Rectangle(-Width / 2, -Height, Width, Height), MyRectangle, Color.White);
-            spriteBatch.End();
+            if (passNumber == 0)
+            {
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque, null, DepthStencilState.DepthRead,
+                                  RasterizerState.CullNone, spriteEffect);
+                device.DepthStencilState = DepthStencilState.Default;
+                spriteBatch.Draw(MyTexture, new Rectangle(-Width/2, -Height, Width, Height), MyRectangle, Color.White);
+                spriteBatch.End();
+            }
+            else
+            {
+                spriteBatch.Begin(0, null, null, DepthStencilState.DepthRead, RasterizerState.CullNone, spriteEffect);
+                spriteBatch.Draw(MyTexture, new Rectangle(-Width / 2, -Height, Width, Height), MyRectangle, Color.White);
+                spriteBatch.End();
+            }
         }
     }
 }
