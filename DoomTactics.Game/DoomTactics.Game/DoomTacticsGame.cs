@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using DoomTactics.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
@@ -8,6 +9,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Squid;
 
 namespace DoomTactics
 {
@@ -17,6 +19,7 @@ namespace DoomTactics
         SpriteBatch spriteBatch;
         private IState state;
         private BasicEffect basicEffect;
+        private DoomDesktop _desktop;
 
         public DoomTacticsGame()
         {
@@ -25,13 +28,17 @@ namespace DoomTactics
         }
 
         protected override void Initialize()
-        {            
+        {
+            GuiHost.Renderer = new RendererXna(this);
+            _desktop = new DoomDesktop() {Name = "desk"};
             base.Initialize();
+
         }
 
         protected override void LoadContent()
         {
             state = new GameState(this);
+            
         }
 
         protected override void UnloadContent()
@@ -48,10 +55,9 @@ namespace DoomTactics
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.Black);
-
-            state.Render(GraphicsDevice);
-
+            GraphicsDevice.Clear(Color.Coral);
+            _desktop.Draw();
+            state.Render(GraphicsDevice);              
             base.Draw(gameTime);
         }
     }
