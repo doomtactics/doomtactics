@@ -8,6 +8,7 @@ namespace DoomTactics.Controls
 {
     public class DoomDesktop : Desktop
     {
+        
         protected override void Initialize()
         {
             Reflector.RegisterAssemblies(System.Reflection.Assembly.GetAssembly(typeof(DoomWindow)));
@@ -26,9 +27,7 @@ namespace DoomTactics.Controls
             AddCursor(Cursors.HSplit, new Cursor { Texture = "squid\\cursors\\SizeNS.png", Size = cursorSize, HotSpot = halfSize });
             AddCursor(Cursors.VSplit, new Cursor { Texture = "squid\\cursors\\SizeWE.png", Size = cursorSize, HotSpot = halfSize });
             AddCursor(Cursors.SizeNESW, new Cursor { Texture = "squid\\cursors\\SizeNESW.png", Size = cursorSize, HotSpot = halfSize });
-            AddCursor(Cursors.SizeNWSE, new Cursor { Texture = "squid\\cursors\\SizeNWSE.png", Size = cursorSize, HotSpot = halfSize });
-
-            this.ShowCursor = true;
+            AddCursor(Cursors.SizeNWSE, new Cursor { Texture = "squid\\cursors\\SizeNWSE.png", Size = cursorSize, HotSpot = halfSize });            
 
             #endregion
 
@@ -37,32 +36,32 @@ namespace DoomTactics.Controls
             ControlStyle itemStyle = new ControlStyle();
             itemStyle.Tiling = TextureMode.Grid;
             itemStyle.Grid = new Margin(6);
-            itemStyle.Texture = "button_hot.dds";
-            itemStyle.Default.Texture = "button_default.dds";
-            itemStyle.Pressed.Texture = "button_down.dds";
-            itemStyle.SelectedPressed.Texture = "button_down.dds";
-            itemStyle.Focused.Texture = "button_down.dds";
-            itemStyle.SelectedFocused.Texture = "button_down.dds";
-            itemStyle.Selected.Texture = "button_down.dds";
-            itemStyle.SelectedHot.Texture = "button_down.dds";
+            itemStyle.Texture = "squid\\button_hot.dds";
+            itemStyle.Default.Texture = "squid\\button_default.dds";
+            itemStyle.Pressed.Texture = "squid\\button_down.dds";
+            itemStyle.SelectedPressed.Texture = "squid\\button_down.dds";
+            itemStyle.Focused.Texture = "squid\\button_down.dds";
+            itemStyle.SelectedFocused.Texture = "squid\\button_down.dds";
+            itemStyle.Selected.Texture = "squid\\button_down.dds";
+            itemStyle.SelectedHot.Texture = "squid\\button_down.dds";
             itemStyle.TextPadding = new Margin(10, 0, 10, 0);
 
             ControlStyle inputStyle = new ControlStyle();
-            inputStyle.Texture = "input_default.dds";
-            inputStyle.Hot.Texture = "input_focused.dds";
-            inputStyle.Focused.Texture = "input_focused.dds";
+            inputStyle.Texture = "squid\\input_default.dds";
+            inputStyle.Hot.Texture = "squid\\input_focused.dds";
+            inputStyle.Focused.Texture = "squid\\input_focused.dds";
             inputStyle.TextPadding = new Margin(8);
             inputStyle.Tiling = TextureMode.Grid;
             inputStyle.Focused.Tint = ColorInt.RGBA(1, 0, 0, 1);
             inputStyle.Grid = new Margin(6);
 
             ControlStyle buttonStyle = new ControlStyle();
-            buttonStyle.Texture = "button_default.dds";
-            buttonStyle.Hot.Texture = "button_hot.dds";
-            buttonStyle.Focused.Texture = "button_hot.dds";
-            buttonStyle.Pressed.Texture = "button_down.dds";
-            buttonStyle.Checked.Texture = "button_down.dds";
-            buttonStyle.CheckedHot.Texture = "button_down.dds";
+            buttonStyle.Texture = "squid\\button_default.dds";
+            buttonStyle.Hot.Texture = "squid\\button_hot.dds";
+            buttonStyle.Focused.Texture = "squid\\button_hot.dds";
+            buttonStyle.Pressed.Texture = "squid\\button_down.dds";
+            buttonStyle.Checked.Texture = "squid\\button_down.dds";
+            buttonStyle.CheckedHot.Texture = "squid\\button_down.dds";
             buttonStyle.TextAlign = Alignment.MiddleCenter;
             buttonStyle.Tiling = TextureMode.Grid;
             buttonStyle.Grid = new Margin(2);
@@ -70,13 +69,13 @@ namespace DoomTactics.Controls
             ControlStyle frameStyle = new ControlStyle();
             frameStyle.Tiling = TextureMode.GridRepeat;
             frameStyle.Grid = new Margin(8);
-            frameStyle.Texture = "grid.dds";
+            frameStyle.Texture = "squid\\grid.dds";
 
             ControlStyle frameStyle2 = new ControlStyle();
             frameStyle2.CheckedHot.Tiling = TextureMode.Grid;
             frameStyle2.Tiling = TextureMode.Grid;
             frameStyle2.Grid = new Margin(8);
-            frameStyle2.Texture = "grid2.dds";
+            frameStyle2.Texture = "squid\\grid2.dds";
             frameStyle2.TextPadding = new Margin(8);
 
             ControlStyle vscrollTrackStyle = new ControlStyle();
@@ -127,18 +126,18 @@ namespace DoomTactics.Controls
 
             ControlStyle comboLabelStyle = new ControlStyle();
             comboLabelStyle.TextPadding = new Margin(10, 0, 0, 0);
-            comboLabelStyle.Default.Texture = "combo_default.dds";
-            comboLabelStyle.Hot.Texture = "combo_hot.dds";
-            comboLabelStyle.Pressed.Texture = "combo_down.dds";
-            comboLabelStyle.Focused.Texture = "combo_hot.dds";
+            comboLabelStyle.Default.Texture = "squid\\combo_default.dds";
+            comboLabelStyle.Hot.Texture = "squid\\combo_hot.dds";
+            comboLabelStyle.Pressed.Texture = "squid\\combo_down.dds";
+            comboLabelStyle.Focused.Texture = "squid\\combo_hot.dds";
             comboLabelStyle.Tiling = TextureMode.Grid;
             comboLabelStyle.Grid = new Margin(6, 0, 0, 0);
 
             ControlStyle comboButtonStyle = new ControlStyle();
-            comboButtonStyle.Default.Texture = "combo_button_default.dds";
-            comboButtonStyle.Hot.Texture = "combo_button_hot.dds";
-            comboButtonStyle.Pressed.Texture = "combo_button_down.dds";
-            comboButtonStyle.Focused.Texture = "combo_button_hot.dds";
+            comboButtonStyle.Default.Texture = "squid\\combo_button_default.dds";
+            comboButtonStyle.Hot.Texture = "squid\\combo_button_hot.dds";
+            comboButtonStyle.Pressed.Texture = "squid\\combo_button_down.dds";
+            comboButtonStyle.Focused.Texture = "squid\\combo_button_hot.dds";
 
             ControlStyle labelStyle = new ControlStyle();
             labelStyle.TextAlign = Alignment.TopRight;
@@ -167,13 +166,18 @@ namespace DoomTactics.Controls
             #endregion
 
             var window1 = new DoomWindow();
-            window1.Size = new Squid.Point(440, 340);
+            window1.Size = new Squid.Point(440, 170);
             window1.Position = new Squid.Point(40, 40);
             window1.Style = "frame";
-            window1.TitleBar.Text = "Anchoring, [color=ffcc0000]DropDown, Modal Dialog[/color]";
+            window1.TitleBar.Text = "These imps are [color=ffcc0000]SICK!!![/color]";
             window1.Parent = this;
-            window1.Resizable = true;
-            
+
+            var label = new Label();
+            label.Text = "fuck yea they are [color=ff00cccc]dude[/color]";
+            label.Size = new Squid.Point(100, 100);
+            label.Position = new Squid.Point(50, 50);
+            label.Parent = window1;            
+
         }
     }
 }

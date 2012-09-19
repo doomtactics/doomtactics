@@ -45,4 +45,4 @@ Content\squid\vscroll_button_down.xnb
 Content\squid\vscroll_button_hot.xnb
 Content\squid\vscroll_track.xnb
 Content\squid\SampleMap.xnb
-Content\squid\Arial10.xnb
+Content\Arial10.xnb

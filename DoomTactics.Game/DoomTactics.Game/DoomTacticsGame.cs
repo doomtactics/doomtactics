@@ -29,8 +29,7 @@ namespace DoomTactics
 
         protected override void Initialize()
         {
-            GuiHost.Renderer = new RendererXna(this);
-            _desktop = new DoomDesktop() {Name = "desk"};
+            GuiHost.Renderer = new RendererXna(this);            
             base.Initialize();
 
         }
@@ -38,7 +37,7 @@ namespace DoomTactics
         protected override void LoadContent()
         {
             state = new GameState(this);
-            
+            _desktop = new DoomDesktop() { Name = "desk" };
         }
 
         protected override void UnloadContent()
@@ -49,12 +48,15 @@ namespace DoomTactics
         protected override void Update(GameTime gameTime)
         {           
             state.Update(gameTime);
-
+            _desktop.Update();
             base.Update(gameTime);
         }
 
         protected override void Draw(GameTime gameTime)
         {
+            GuiHost.TimeElapsed = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
+
+            _desktop.Size = new Squid.Point(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
             GraphicsDevice.Clear(Color.Coral);
             _desktop.Draw();
             state.Render(GraphicsDevice);              
