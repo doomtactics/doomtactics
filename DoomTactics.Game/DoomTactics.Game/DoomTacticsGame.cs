@@ -16,10 +16,9 @@ namespace DoomTactics
     public class DoomTacticsGame : Microsoft.Xna.Framework.Game
     {
         GraphicsDeviceManager graphics;
-        SpriteBatch spriteBatch;
         private IState state;
-        private BasicEffect basicEffect;
         private DoomDesktop _desktop;
+        private SquidInputManager _inputManager;
 
         public DoomTacticsGame()
         {
@@ -38,6 +37,8 @@ namespace DoomTactics
         {
             state = new GameState(this);
             _desktop = new DoomDesktop() { Name = "desk" };
+            _desktop.ShowCursor = true;
+            _inputManager = new SquidInputManager(this);
         }
 
         protected override void UnloadContent()
@@ -48,6 +49,7 @@ namespace DoomTactics
         protected override void Update(GameTime gameTime)
         {           
             state.Update(gameTime);
+            _inputManager.Update(gameTime);
             _desktop.Update();
             base.Update(gameTime);
         }
@@ -57,9 +59,9 @@ namespace DoomTactics
             GuiHost.TimeElapsed = (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
             _desktop.Size = new Squid.Point(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
-            GraphicsDevice.Clear(Color.Coral);
+            GraphicsDevice.Clear(Color.Coral);            
+            state.Render(GraphicsDevice);
             _desktop.Draw();
-            state.Render(GraphicsDevice);              
             base.Draw(gameTime);
         }
     }
