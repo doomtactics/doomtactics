@@ -1,6 +1,0 @@
-﻿Code version: 6.1.1000.82
-Assembly name Squid, Version=1.0.0.0, Culture=neutral, PublicKeyToken=5ba804b1072f6e05 mvid {140e16bf-2e5d-4942-b7bb-28bf37d3e96a}
-* ref mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
-  mvid {8d72cd66-3505-496d-9c29-6f5111d4d831}
-* ref System, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089
-  mvid {fe33b146-7b17-4c0a-ad71-ac6debff2fed}
