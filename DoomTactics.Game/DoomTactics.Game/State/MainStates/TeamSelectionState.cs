@@ -12,12 +12,22 @@ namespace DoomTactics
     {
         private IInputProcessor _inputProcessor;
 
+        public void OnEnter()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void OnExit()
+        {
+            throw new NotImplementedException();
+        }
+
         public bool IsPaused
         {
             get { return false; }
         }
 
-        public void Update(GameTime gameTime)
+        public IState Update(GameTime gameTime)
         {
             throw new NotImplementedException();
         }

@@ -13,34 +13,39 @@ namespace DoomTactics
 {
     public class GameState : IState
     {
-        public readonly Camera Camera;
-        private readonly DoomTacticsGame _gameInstance;
-        private readonly BasicEffect _effect;
-        private readonly Tile _tile;
-        private readonly Tile _tile2;
+        public Camera Camera;
+        private DoomTacticsGame _gameInstance;
+        private BasicEffect _effect;
+        private Tile _tile;
+        private Tile _tile2;
         private Tile[] _tempLevel;
-        private readonly Texture2D _temptex;
-        private readonly IInputProcessor _processor;
-        private readonly SpriteBatch _spriteBatch;
-        private readonly BasicEffect _spriteEffect;
-        private readonly AlphaTestEffect _alphaTestEffect;
-        private readonly IList<ActorBase> _actors; 
+        private Texture2D _temptex;
+        private IInputProcessor _processor;
+        private SpriteBatch _spriteBatch;
+        private BasicEffect _spriteEffect;
+        private AlphaTestEffect _alphaTestEffect;
+        private IList<ActorBase> _actors; 
         
         public GameState(DoomTacticsGame gameInstance)
         {
-            float aspectRatio = gameInstance.Window.ClientBounds.Width/gameInstance.Window.ClientBounds.Height;
+            _gameInstance = gameInstance;
+        }
+
+        public void OnEnter()
+        {
+            float aspectRatio = _gameInstance.Window.ClientBounds.Width / _gameInstance.Window.ClientBounds.Height;
             Camera = new Camera("camera", new Vector3(100.0f, 100.0f, 100.0f), Vector3.Zero, Vector3.Up, aspectRatio);
             MessagingSystem.Subscribe(Camera.MoveCamera, DoomEventType.CameraMoveEvent, "camera");
-            _gameInstance = gameInstance;
+            _gameInstance = _gameInstance;
             _effect = new BasicEffect(_gameInstance.GraphicsDevice);
             _temptex = _gameInstance.Content.Load<Texture2D>("bubble");
             _tile = new Tile(_temptex, Vector3.Zero);
             _tile2 = new Tile(_temptex, new Vector3(0.0f, 0.0f, 64.0f));
             _processor = new GameInputProcessor(Keyboard.GetState(), Mouse.GetState(), this);
 
-            CreateLevelTemp(gameInstance.Content);
-            
-            var imptex = gameInstance.Content.Load<Texture2D>("sheets\\impsheet");
+            CreateLevelTemp(_gameInstance.Content);
+
+            var imptex = _gameInstance.Content.Load<Texture2D>("sheets\\impsheet");
             _actors = new List<ActorBase>();
             /*for (int i = 0; i < 10; i++)
             {
@@ -50,14 +55,19 @@ namespace DoomTactics
                     _actors.Add(imp);
                 }
             }*/
-            var imp = new Imp("imp", new Vector3(160.0f, 0, 160.0f),  imptex);
+            var imp = new Imp("imp", new Vector3(160.0f, 0, 160.0f), imptex);
             var imp2 = new Imp("imp", new Vector3(224.0f, 0.0f, 224.0f), imptex);
             _actors.Add(imp);
             _actors.Add(imp2);
 
-            _spriteBatch = new SpriteBatch(gameInstance.GraphicsDevice);
-            _spriteEffect = new BasicEffect(gameInstance.GraphicsDevice);
-            _alphaTestEffect = new AlphaTestEffect(gameInstance.GraphicsDevice);
+            _spriteBatch = new SpriteBatch(_gameInstance.GraphicsDevice);
+            _spriteEffect = new BasicEffect(_gameInstance.GraphicsDevice);
+            _alphaTestEffect = new AlphaTestEffect(_gameInstance.GraphicsDevice);
+        }
+
+        public void OnExit()
+        {
+            
         }
 
         public bool IsPaused
@@ -65,10 +75,12 @@ namespace DoomTactics
             get { return false; }
         }
 
-        public void Update(GameTime gameTime)
+        public IState Update(GameTime gameTime)
         {
             MessagingSystem.ProcessQueued();
             _processor.ProcessInput(Keyboard.GetState(), Mouse.GetState(), gameTime);
+
+            return null;
         }
 
         public void Render(GraphicsDevice device)
@@ -136,11 +148,6 @@ namespace DoomTactics
             _tempLevel[36] = new Tile(text, new Vector3(6 * 64.0f, 48.0f, 3 * 64.0f));
             _tempLevel[45] = new Tile(text, new Vector3(5 * 64.0f, 72.0f, 4 * 64.0f));
             _tempLevel[46] = new Tile(text, new Vector3(6 * 64.0f, 96.0f, 4 * 64.0f));
-        }
-
-        public void ProcessInput(KeyboardState keyState, MouseState mouseState, GameTime gameTime)
-        {
-            
         }
     }
 }

@@ -94,6 +94,9 @@
     <Reference Include="NLog">
       <HintPath>..\..\packages\NLog.2.0.0.2000\lib\net40\NLog.dll</HintPath>
     </Reference>
+    <Reference Include="Squid">
+      <HintPath>..\..\lib\Squid.dll</HintPath>
+    </Reference>
     <Reference Include="System">
       <Private>False</Private>
     </Reference>
@@ -113,6 +116,8 @@
   <ItemGroup>
     <Compile Include="Actor\ActorBase.cs" />
     <Compile Include="Actor\Imp.cs" />
+    <Compile Include="Controls\DoomDesktop.cs" />
+    <Compile Include="Controls\DoomWindow.cs" />
     <Compile Include="Event\CameraEvent.cs" />
     <Compile Include="Event\DoomEvent.cs" />
     <Compile Include="Event\IDoomEvent.cs" />
@@ -120,6 +125,7 @@
     <Compile Include="Event\MessagingSystem.cs" />
     <Compile Include="Input\GameInputProcessor.cs" />
     <Compile Include="Input\IInputProcessor.cs" />
+    <Compile Include="Input\SquidInputManager.cs" />
     <Compile Include="Map\Camera.cs" />
     <Compile Include="Map\Level.cs" />
     <Compile Include="Map\Tile.cs" />
@@ -127,11 +133,14 @@
     <Compile Include="Program.cs" />
     <Compile Include="DoomTacticsGame.cs" />
     <Compile Include="Render\Cube.cs" />
+    <Compile Include="Render\DoomScene.cs" />
+    <Compile Include="Render\RendererXna.cs" />
     <Compile Include="State\IState.cs" />
     <Compile Include="State\MainStates\BootstrapState.cs" />
     <Compile Include="State\MainStates\GameState.cs" />
     <Compile Include="State\MainStates\MenuState.cs" />
     <Compile Include="State\MainStates\TeamSelectionState.cs" />
+    <Compile Include="State\StateMachine.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />
