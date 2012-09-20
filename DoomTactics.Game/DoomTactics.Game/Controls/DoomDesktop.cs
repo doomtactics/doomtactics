@@ -81,48 +81,48 @@ namespace DoomTactics.Controls
             ControlStyle vscrollTrackStyle = new ControlStyle();
             vscrollTrackStyle.Tiling = TextureMode.Grid;
             vscrollTrackStyle.Grid = new Margin(0, 3, 0, 3);
-            vscrollTrackStyle.Texture = "vscroll_track.dds";
+            vscrollTrackStyle.Texture = "squid\\vscroll_track.dds";
 
             ControlStyle vscrollButtonStyle = new ControlStyle();
             vscrollButtonStyle.Tiling = TextureMode.Grid;
             vscrollButtonStyle.Grid = new Margin(0, 4, 0, 4);
-            vscrollButtonStyle.Texture = "vscroll_button.dds";
-            vscrollButtonStyle.Hot.Texture = "vscroll_button_hot.dds";
-            vscrollButtonStyle.Pressed.Texture = "vscroll_button_down.dds";
+            vscrollButtonStyle.Texture = "squid\\vscroll_button.dds";
+            vscrollButtonStyle.Hot.Texture = "squid\\vscroll_button_hot.dds";
+            vscrollButtonStyle.Pressed.Texture = "squid\\vscroll_button_down.dds";
 
             ControlStyle vscrollUp = new ControlStyle();
-            vscrollUp.Default.Texture = "vscrollUp_default.dds";
-            vscrollUp.Hot.Texture = "vscrollUp_hot.dds";
-            vscrollUp.Pressed.Texture = "vscrollUp_down.dds";
-            vscrollUp.Focused.Texture = "vscrollUp_hot.dds";
+            vscrollUp.Default.Texture = "squid\\vscrollUp_default.dds";
+            vscrollUp.Hot.Texture = "squid\\vscrollUp_hot.dds";
+            vscrollUp.Pressed.Texture = "squid\\vscrollUp_down.dds";
+            vscrollUp.Focused.Texture = "squid\\vscrollUp_hot.dds";
 
             ControlStyle hscrollTrackStyle = new ControlStyle();
             hscrollTrackStyle.Tiling = TextureMode.Grid;
             hscrollTrackStyle.Grid = new Margin(3, 0, 3, 0);
-            hscrollTrackStyle.Texture = "hscroll_track.dds";
+            hscrollTrackStyle.Texture = "squid\\hscroll_track.dds";
 
             ControlStyle hscrollButtonStyle = new ControlStyle();
             hscrollButtonStyle.Tiling = TextureMode.Grid;
             hscrollButtonStyle.Grid = new Margin(4, 0, 4, 0);
-            hscrollButtonStyle.Texture = "hscroll_button.dds";
-            hscrollButtonStyle.Hot.Texture = "hscroll_button_hot.dds";
-            hscrollButtonStyle.Pressed.Texture = "hscroll_button_down.dds";
+            hscrollButtonStyle.Texture = "squid\\hscroll_button.dds";
+            hscrollButtonStyle.Hot.Texture = "squid\\hscroll_button_hot.dds";
+            hscrollButtonStyle.Pressed.Texture = "squid\\hscroll_button_down.dds";
 
             ControlStyle hscrollUp = new ControlStyle();
-            hscrollUp.Default.Texture = "hscrollUp_default.dds";
-            hscrollUp.Hot.Texture = "hscrollUp_hot.dds";
-            hscrollUp.Pressed.Texture = "hscrollUp_down.dds";
-            hscrollUp.Focused.Texture = "hscrollUp_hot.dds";
+            hscrollUp.Default.Texture = "squid\\hscrollUp_default.dds";
+            hscrollUp.Hot.Texture = "squid\\hscrollUp_hot.dds";
+            hscrollUp.Pressed.Texture = "squid\\hscrollUp_down.dds";
+            hscrollUp.Focused.Texture = "squid\\hscrollUp_hot.dds";
 
 
             ControlStyle checkButtonStyle = new ControlStyle();
-            checkButtonStyle.Default.Texture = "checkbox_default.dds";
-            checkButtonStyle.Hot.Texture = "checkbox_hot.dds";
-            checkButtonStyle.Pressed.Texture = "checkbox_down.dds";
-            checkButtonStyle.Checked.Texture = "checkbox_checked.dds";
-            checkButtonStyle.CheckedFocused.Texture = "checkbox_checked_hot.dds";
-            checkButtonStyle.CheckedHot.Texture = "checkbox_checked_hot.dds";
-            checkButtonStyle.CheckedPressed.Texture = "checkbox_down.dds";
+            checkButtonStyle.Default.Texture = "squid\\checkbox_default.dds";
+            checkButtonStyle.Hot.Texture = "squid\\checkbox_hot.dds";
+            checkButtonStyle.Pressed.Texture = "squid\\checkbox_down.dds";
+            checkButtonStyle.Checked.Texture = "squid\\checkbox_checked.dds";
+            checkButtonStyle.CheckedFocused.Texture = "squid\\checkbox_checked_hot.dds";
+            checkButtonStyle.CheckedHot.Texture = "squid\\checkbox_checked_hot.dds";
+            checkButtonStyle.CheckedPressed.Texture = "squid\\checkbox_down.dds";
 
             ControlStyle comboLabelStyle = new ControlStyle();
             comboLabelStyle.TextPadding = new Margin(10, 0, 0, 0);
@@ -164,7 +164,7 @@ namespace DoomTactics.Controls
             GuiHost.SetSkin(skin);
 
             #endregion
-
+            /*
             var window1 = new DoomWindow();
             window1.Size = new Squid.Point(440, 170);
             window1.Position = new Squid.Point(40, 40);
@@ -176,7 +176,7 @@ namespace DoomTactics.Controls
             label.Text = "fuck yea they are [color=ff00cccc]dude[/color]";
             label.Size = new Squid.Point(100, 100);
             label.Position = new Squid.Point(50, 50);
-            label.Parent = window1;            
+            label.Parent = window1;        */    
 
         }
     }

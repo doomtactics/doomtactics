@@ -8,11 +8,12 @@ using Microsoft.Xna.Framework.Input;
 
 namespace DoomTactics
 {
-    interface IState
-    {        
+    public interface IState
+    {
+        void OnEnter();
+        void OnExit();
         bool IsPaused { get; }
-        void Update(GameTime gameTime);
-        void Render(GraphicsDevice device);
-        void ProcessInput(KeyboardState keyState, MouseState mouseState, GameTime gameTime);
+        IState Update(GameTime gameTime);
+        void Render(GraphicsDevice device);        
     }
 }

@@ -140,6 +140,7 @@
     <Compile Include="State\MainStates\GameState.cs" />
     <Compile Include="State\MainStates\MenuState.cs" />
     <Compile Include="State\MainStates\TeamSelectionState.cs" />
+    <Compile Include="State\StateMachine.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

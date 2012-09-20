@@ -2,41 +2,90 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DoomTactics.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Squid;
 
 namespace DoomTactics
 {
     public class MenuState : IState
     {
-        public static string[] mainMenuItems = new[]
+        private readonly DoomTacticsGame _game;
+        private readonly SquidInputManager _squidInputManager;
+        private readonly DoomDesktop _desktop;
+        private DoomWindow _window;
+        private Button[] _buttons;
+        private static readonly string[] ButtonNames = new[] {"New Game", "Multiplayer", "Options", "Quit"};
+        private IState _nextState;
+
+        public MenuState(DoomTacticsGame game, SquidInputManager squidInputManager, DoomDesktop desktop)
         {
-            "NEW GAME",
-            "CONTINUE",
-            "MULTIPLAYER",
-            "OPTIONS",
-            "QUIT"
-        };
+            _game = game;
+            _squidInputManager = squidInputManager;
+            _desktop = desktop;
+            _desktop.ShowCursor = true;
+            _nextState = null;
+
+            InitializeControls();
+        }
+
+        private void InitializeControls()
+        {
+            _window = new DoomWindow(canClose: false);
+            _window.Size = new Squid.Point(440, 170);
+            _window.Position = new Squid.Point(40, 40);
+            _window.Style = "frame";
+            _window.TitleBar.Text = "DOOM TACTICS";            
+            _window.Parent = _desktop;
+
+            _buttons = new Button[ButtonNames.Length];
+            for (int i = 0; i < ButtonNames.Length; i++)
+            {
+                var button = new Button();
+                button.Text = ButtonNames[i];
+                button.AutoSize = AutoSize.Vertical;
+                button.Dock = DockStyle.Top;
+                button.Parent = _window;
+                _buttons[i] = button;
+            }
+           
+            _buttons[0].OnMouseClick += NewGameClicked;
+        }
+
+        public void OnEnter()
+        {
+            
+        }
+
+        public void OnExit()
+        {
+            
+        }
 
         public bool IsPaused
         {
             get { return false; }
         }
 
-        public void Update(GameTime gameTime)
+        public IState Update(GameTime gameTime)
         {
-            throw new NotImplementedException();
+            _squidInputManager.Update(gameTime);
+            _desktop.Update();
+
+            return _nextState;
         }
 
         public void Render(GraphicsDevice device)
         {
-            throw new NotImplementedException();
+            _desktop.Size = new Squid.Point(device.Viewport.Width, device.Viewport.Height);
+            _desktop.Draw();
         }
 
-        public void ProcessInput(KeyboardState keyState, MouseState mouseState, GameTime gameTime)
+        private void NewGameClicked(Control sender, MouseEventArgs args)
         {
-            throw new NotImplementedException();
+            _nextState = new GameState(_game);
         }
     }
 }
