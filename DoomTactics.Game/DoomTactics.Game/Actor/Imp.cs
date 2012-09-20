@@ -18,7 +18,7 @@ namespace DoomTactics
             Width = 50;
             Position = position;
             MyTexture = impTex;
-            MyRectangle = new Rectangle(0, 0, 40, 56);
+            MyRectangle = new Rectangle(0, 0, 41, 57);
         }
         
     }

@@ -132,9 +132,12 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="DoomTacticsGame.cs" />
+    <Compile Include="Render\ActorAnimation.cs" />
+    <Compile Include="Render\ActorAnimationManager.cs" />
     <Compile Include="Render\Cube.cs" />
-    <Compile Include="Render\DoomScene.cs" />
+    <Compile Include="Render\ImpSheet.cs" />
     <Compile Include="Render\RendererXna.cs" />
+    <Compile Include="Render\SpriteSheet.cs" />
     <Compile Include="State\IState.cs" />
     <Compile Include="State\MainStates\BootstrapState.cs" />
     <Compile Include="State\MainStates\GameState.cs" />
