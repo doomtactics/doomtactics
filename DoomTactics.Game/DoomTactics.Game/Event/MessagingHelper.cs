@@ -26,6 +26,11 @@ namespace DoomTactics
             callbacks.Add(new CallbackWithType() { callback = callback, type = type, ListenerName = name });
         }
 
+        public void Unsubscribe(string name)
+        {
+            callbacks.RemoveAll(x => x.ListenerName == name);
+        }
+
         public void DispatchEvent(IDoomEvent evt)
         {
             var interestedListeners =

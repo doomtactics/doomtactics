@@ -17,8 +17,8 @@ namespace DoomTactics
     {
         GraphicsDeviceManager graphics;
         private StateMachine _stateMachine;
-        private DoomDesktop _desktop;
-        private SquidInputManager _inputManager;
+        private static DoomDesktop _desktop;
+        private static SquidInputManager _inputManager;
 
         public DoomTacticsGame()
         {
@@ -56,6 +56,11 @@ namespace DoomTactics
             GraphicsDevice.Clear(Color.Coral);            
             _stateMachine.Render(GraphicsDevice);
             base.Draw(gameTime);
+        }
+
+        public static IState CreateMenuState(DoomTacticsGame gameInstance)
+        {
+            return new MenuState(gameInstance, _inputManager, _desktop);
         }
     }
 }

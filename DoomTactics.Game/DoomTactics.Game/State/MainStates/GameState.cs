@@ -25,11 +25,13 @@ namespace DoomTactics
         private SpriteBatch _spriteBatch;
         private BasicEffect _spriteEffect;
         private AlphaTestEffect _alphaTestEffect;
-        private IList<ActorBase> _actors; 
+        private IList<ActorBase> _actors;
+        private IState _nextState;
         
         public GameState(DoomTacticsGame gameInstance)
         {
             _gameInstance = gameInstance;
+            _nextState = null;
         }
 
         public void OnEnter()
@@ -82,10 +84,18 @@ namespace DoomTactics
             MessagingSystem.ProcessQueued();
             _processor.ProcessInput(Keyboard.GetState(), Mouse.GetState(), gameTime);
 
+            if (_nextState != null)
+                return _nextState;
+
             foreach (var actor in _actors)
                 actor.Update(gameTime);
 
-            return null;
+            return _nextState;
+        }
+
+        public void ShowMainMenu()
+        {
+            _nextState = DoomTacticsGame.CreateMenuState(_gameInstance);
         }
 
         public void Render(GraphicsDevice device)

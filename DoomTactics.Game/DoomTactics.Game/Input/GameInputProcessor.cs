@@ -39,11 +39,26 @@ namespace DoomTactics.Input
                 MessagingSystem.DispatchEvent(cameraEvent);                
             }
 
+            if (KeyPressed(Keys.Escape, keyState))
+            {
+                _gameState.ShowMainMenu(); 
+            }
+
             // lock mouse
             Mouse.SetPosition(100, 100);
             OldKeyState = keyState;
             OldMouseState = Mouse.GetState();
         }
        
+        private bool KeyPressed(Keys key, KeyboardState newKeyState)
+        {
+            return (newKeyState.IsKeyDown(key) && !OldKeyState.IsKeyDown(key));
+        }
+
+        private bool KeyReleased(Keys key, KeyboardState newKeyState)
+        {
+            return (newKeyState.IsKeyUp(key) && !OldKeyState.IsKeyUp(key));
+        }
+
     }
 }
