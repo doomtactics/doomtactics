@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DoomTactics.Data;
 using DoomTactics.Input;
 using DoomTactics.Map;
 using Microsoft.Xna.Framework;
@@ -33,6 +34,7 @@ namespace DoomTactics
 
         public void OnEnter()
         {
+            HardcodedAnimations.CreateAnimations();
             float aspectRatio = _gameInstance.Window.ClientBounds.Width / _gameInstance.Window.ClientBounds.Height;
             Camera = new Camera("camera", new Vector3(100.0f, 100.0f, 100.0f), Vector3.Zero, Vector3.Up, aspectRatio);
             MessagingSystem.Subscribe(Camera.MoveCamera, DoomEventType.CameraMoveEvent, "camera");
@@ -79,6 +81,9 @@ namespace DoomTactics
         {
             MessagingSystem.ProcessQueued();
             _processor.ProcessInput(Keyboard.GetState(), Mouse.GetState(), gameTime);
+
+            foreach (var actor in _actors)
+                actor.Update(gameTime);
 
             return null;
         }

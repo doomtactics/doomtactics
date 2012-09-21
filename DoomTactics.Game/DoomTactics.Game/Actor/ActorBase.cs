@@ -12,23 +12,30 @@ namespace DoomTactics
         public string ActorID;
         public int Height;
         public int Width;
+        protected ActorAnimation CurrentAnimation;
 
-        public virtual Texture2D MyTexture 
+        public virtual SpriteSheet SpriteSheet 
         { 
             get;
             protected set;
         }
 
-        public virtual Rectangle MyRectangle
+        public virtual Rectangle CurrentTextureRectangle
         {
             get; 
-            protected set; 
-        } 
+            protected set;
+        }
+
         public Vector3 Position;
 
-        public ActorBase(string id)
+        protected ActorBase(string id)
         {
             ActorID = id;
+        }
+
+        public virtual void Update(GameTime elapsedTime)
+        {
+            CurrentAnimation.Update(elapsedTime.ElapsedGameTime);
         }
 
         public void Render(GraphicsDevice device, SpriteBatch spriteBatch, AlphaTestEffect spriteEffect, Camera camera, int passNumber)
@@ -40,18 +47,20 @@ namespace DoomTactics
             spriteEffect.View = camera.View;
             spriteEffect.Projection = camera.Projection;
 
+            Rectangle textureRectangle = SpriteSheet.GetRectangle(CurrentAnimation.CurrentImageName());
+
             if (passNumber == 0)
             {
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque, null, DepthStencilState.DepthRead,
                                   RasterizerState.CullNone, spriteEffect);
                 device.DepthStencilState = DepthStencilState.Default;
-                spriteBatch.Draw(MyTexture, new Rectangle(-Width/2, -Height, Width, Height), MyRectangle, Color.White);
+                spriteBatch.Draw(SpriteSheet.Texture, new Rectangle(-Width/2, -Height, Width, Height), textureRectangle, Color.White);
                 spriteBatch.End();
             }
             else
             {
                 spriteBatch.Begin(0, null, null, DepthStencilState.DepthRead, RasterizerState.CullNone, spriteEffect);
-                spriteBatch.Draw(MyTexture, new Rectangle(-Width / 2, -Height, Width, Height), MyRectangle, Color.White);
+                spriteBatch.Draw(SpriteSheet.Texture, new Rectangle(-Width / 2, -Height, Width, Height), textureRectangle, Color.White);
                 spriteBatch.End();
             }
         }

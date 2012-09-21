@@ -13,10 +13,11 @@ namespace DoomTactics
         {
             _animations.Add(name, anim);
         }
-
-        public static ActorAnimation Make(string name)
+        
+        public static ActorAnimation Make(string animationName, string entityName)
         {
-            return (ActorAnimation) _animations[name].Clone();
+            // entity name is needed for the events dispatched by the animation
+            return _animations[animationName].MakeCopy(entityName);
         }
     }
 }

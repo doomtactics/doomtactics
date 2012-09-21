@@ -17,8 +17,8 @@ namespace DoomTactics
             Height = 70;
             Width = 50;
             Position = position;
-            MyTexture = impTex;
-            MyRectangle = new Rectangle(0, 0, 41, 57);
+            CurrentAnimation = ActorAnimationManager.Make("impidle", "testimp");
+            SpriteSheet = new ImpSheet(impTex);
         }
         
     }

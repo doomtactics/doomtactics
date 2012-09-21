@@ -3,6 +3,9 @@
     public enum DoomEventType
     {
         CameraMoveEvent,
+
+        AnimationStart,
+        AnimationEnd
     }    
 
     public interface IDoomEvent

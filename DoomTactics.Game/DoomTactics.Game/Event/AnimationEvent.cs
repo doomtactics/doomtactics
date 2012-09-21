@@ -14,12 +14,12 @@ namespace DoomTactics
     public class AnimationEvent : IDoomEvent
     {
         private readonly DoomEventType _eventType;
-        private readonly AnimationEventType _animationEventType;
+        private readonly string _entityName;
         private readonly string[] _listenerNames;
 
-        public AnimationEvent(DoomEventType eventType, AnimationEventType animationEventType, params string[] listenerNames)
+        public AnimationEvent(DoomEventType eventType, string entityName, params string[] listenerNames)
         {
-            _animationEventType = animationEventType;
+            _entityName = entityName;
             _eventType = eventType;
             _listenerNames = listenerNames;
         }
@@ -34,9 +34,9 @@ namespace DoomTactics
             get { return _listenerNames; }
         }
 
-        public AnimationEventType AnimationEventType
+        public string EntityName
         {
-            get { return _animationEventType; }
+            get { return _entityName; }
         }
     }
 }
