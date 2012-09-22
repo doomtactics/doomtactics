@@ -32,11 +32,15 @@ namespace DoomTactics
 
         public void OnEnter()
         {
+            // setup
+            SpriteSheetFactory.Initialize(_gameInstance.Content);
             HardcodedAnimations.CreateAnimations();
+
+            // camera
             float aspectRatio = (float)_gameInstance.Window.ClientBounds.Width / _gameInstance.Window.ClientBounds.Height;
             Camera = new Camera("camera", new Vector3(0f, 32f, 0), new Vector3(100.0f, 32.0f, 0.0f), Vector3.Up, aspectRatio);
             MessagingSystem.Subscribe(Camera.MoveCamera, DoomEventType.CameraMoveEvent, "camera");
-            _gameInstance = _gameInstance;
+            
             _effect = new BasicEffect(_gameInstance.GraphicsDevice);
             //_tile = new Tile(_temptex, Vector3.Zero);
             //_tile2 = new Tile(_temptex, new Vector3(0.0f, 0.0f, 64.0f));
@@ -54,8 +58,8 @@ namespace DoomTactics
                     _actors.Add(imp);
                 }
             }*/
-            var imp = new Imp("imp", new Vector3(160.0f, 0, 160.0f), imptex);
-            var imp2 = new Imp("imp", new Vector3(224.0f, 0.0f, 224.0f), imptex);
+            var imp = new Imp("imp", new Vector3(160.0f, 0, 160.0f));
+            var imp2 = new Imp("imp", new Vector3(224.0f, 0.0f, 224.0f));
             _actors.Add(imp);
             _actors.Add(imp2);
 
@@ -134,28 +138,6 @@ namespace DoomTactics
         {
             const int levelSize = 10;
             _tempLevel = new Tile[levelSize * levelSize];
-            string[] textureNames = new[] {"textures\\FLAT1_1", "textures\\FLAT5_4", "textures\\FLAT5_5"};
-            var random = new Random();            
-            for (int i = 0; i < levelSize; i++)
-            {
-                for (int j = 0; j < levelSize; j++)
-                {
-                    int num = random.Next(0, 3);
-                    TileTextures texture = new TileTextures(contentManager.Load<Texture2D>(textureNames[num]));
-                    Vector3 position = new Vector3(j * 64.0f, 0.0f, i * 64.0f);
-                    _tempLevel[i * levelSize + j] = new Tile(texture, position, 32.0f);
-                }
-            }
-
-            // overwrite stuff with some specific tiles
-            Texture2D topTex = contentManager.Load<Texture2D>("textures\\GRNROCK");
-            Texture2D sideTex = contentManager.Load<Texture2D>("textures\\gothic\\ADEL_S70");
-            // Texture2D directionTest = contentManager.Load<Texture2D>("directiontest");
-            TileTextures text = new TileTextures(topTex, sideTex);
-            _tempLevel[35] = new Tile(text, new Vector3(5 * 64.0f, 24.0f, 3 * 64.0f), 56.0f);
-            _tempLevel[36] = new Tile(text, new Vector3(6 * 64.0f, 48.0f, 3 * 64.0f), 80.0f);
-            _tempLevel[45] = new Tile(text, new Vector3(5 * 64.0f, 72.0f, 4 * 64.0f), 104.0f);
-            _tempLevel[46] = new Tile(text, new Vector3(6 * 64.0f, 96.0f, 4 * 64.0f), 128.0f);
         }
     }
 }

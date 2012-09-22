@@ -12,7 +12,7 @@ namespace DoomTactics
         public string ActorID;
         public int Height;
         public int Width;
-        protected ActorAnimation CurrentAnimation;
+        protected ActorAnimation CurrentAnimation;        
 
         public virtual SpriteSheet SpriteSheet 
         { 

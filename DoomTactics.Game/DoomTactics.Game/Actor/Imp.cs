@@ -9,14 +9,14 @@ namespace DoomTactics
 {
     public class Imp : ActorBase
     {
-        public Imp(string id, Vector3 position, Texture2D impTex)
+        public Imp(string id, Vector3 position)
             : base(id)
         {
             Height = 56;
             Width = 40;
             Position = position;
             CurrentAnimation = ActorAnimationManager.Make("impidle", "testimp");
-            SpriteSheet = new ImpSheet(impTex);
+            SpriteSheet = SpriteSheetFactory.CreateSpriteSheet(ActorType.Imp);
         }
         
     }

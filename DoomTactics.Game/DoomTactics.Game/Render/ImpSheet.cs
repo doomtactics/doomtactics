@@ -16,8 +16,8 @@ namespace DoomTactics
 
         private void PopulateSheet()
         {
-            _textureMap.Add("impidle1", new Rectangle(0, 0, 40, 57));
-            _textureMap.Add("impidle2", new Rectangle(212, 0, 40, 57));
+            TextureMap.Add("impidle1", new Rectangle(0, 0, 40, 57));
+            TextureMap.Add("impidle2", new Rectangle(212, 0, 40, 57));
         }
     }
 }
