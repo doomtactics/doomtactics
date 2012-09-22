@@ -35,7 +35,7 @@ namespace DoomTactics
         {
             HardcodedAnimations.CreateAnimations();
             float aspectRatio = _gameInstance.Window.ClientBounds.Width / _gameInstance.Window.ClientBounds.Height;
-            Camera = new Camera("camera", new Vector3(100.0f, 100.0f, 100.0f), Vector3.Zero, Vector3.Up, aspectRatio);
+            Camera = new Camera("camera", new Vector3(0f, 32f, 0), new Vector3(100.0f, 32.0f, 0.0f), Vector3.Up, aspectRatio);
             MessagingSystem.Subscribe(Camera.MoveCamera, DoomEventType.CameraMoveEvent, "camera");
             _gameInstance = _gameInstance;
             _effect = new BasicEffect(_gameInstance.GraphicsDevice);
@@ -149,9 +149,10 @@ namespace DoomTactics
             }
 
             // overwrite stuff with some specific tiles
-            Texture2D topTex = contentManager.Load<Texture2D>("textures\\GRNROCK");
-            Texture2D sideTex = contentManager.Load<Texture2D>("textures\\gothic\\ADEL_S70");
-            TileTextures text = new TileTextures(topTex, sideTex);
+            //Texture2D topTex = contentManager.Load<Texture2D>("textures\\GRNROCK");
+            //Texture2D sideTex = contentManager.Load<Texture2D>("textures\\gothic\\ADEL_S70");
+            Texture2D directionTest = contentManager.Load<Texture2D>("directiontest");
+            TileTextures text = new TileTextures(directionTest);
             _tempLevel[35] = new Tile(text, new Vector3(5 * 64.0f, 24.0f, 3 * 64.0f), 56.0f);
             _tempLevel[36] = new Tile(text, new Vector3(6 * 64.0f, 48.0f, 3 * 64.0f), 80.0f);
             _tempLevel[45] = new Tile(text, new Vector3(5 * 64.0f, 72.0f, 4 * 64.0f), 104.0f);

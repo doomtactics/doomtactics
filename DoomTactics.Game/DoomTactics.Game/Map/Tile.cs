@@ -36,7 +36,7 @@ namespace DoomTactics.Map
     public class Tile
     {
         private const float TileLength = 64.0f;
-        private const int NumVertexes = 24;
+        private const int NumVertexes = 30;
 
         public int XCoord;
         public int YCoord;
@@ -81,7 +81,7 @@ namespace DoomTactics.Map
                     pass.Apply();
                     device.DrawPrimitives(PrimitiveType.TriangleList, 6, 2);
                 }
-
+                
                 // south
                 foreach (EffectPass pass in effect.CurrentTechnique.Passes)
                 {
@@ -89,13 +89,21 @@ namespace DoomTactics.Map
                     pass.Apply();
                     device.DrawPrimitives(PrimitiveType.TriangleList, 12, 2);
                 }
-
+                
                 // east
                 foreach (EffectPass pass in effect.CurrentTechnique.Passes)
                 {
                     effect.Texture = _tileTextures.East;
                     pass.Apply();
                     device.DrawPrimitives(PrimitiveType.TriangleList, 18, 2);
+                }
+                
+                // west
+                foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+                {
+                    effect.Texture = _tileTextures.West;
+                    pass.Apply();
+                    device.DrawPrimitives(PrimitiveType.TriangleList, 24, 2);
                 }
             }
         }
@@ -155,6 +163,12 @@ namespace DoomTactics.Map
             _vertexes[23] = new VertexPositionNormalTexture(bottomRightBack, normalTop, textureBottomRight);
 
             /* WEST FACE */
+            _vertexes[24] = new VertexPositionNormalTexture(topLeftFront, normalTop, textureTopLeft);
+            _vertexes[25] = new VertexPositionNormalTexture(bottomLeftBack, normalTop, textureBottomRight);
+            _vertexes[26] = new VertexPositionNormalTexture(topLeftBack, normalTop, textureTopRight);
+            _vertexes[27] = new VertexPositionNormalTexture(topLeftFront, normalTop, textureTopLeft);
+            _vertexes[28] = new VertexPositionNormalTexture(bottomLeftFront, normalTop, textureBottomLeft);
+            _vertexes[29] = new VertexPositionNormalTexture(bottomLeftBack, normalTop, textureBottomRight);
         }
     }
 }
