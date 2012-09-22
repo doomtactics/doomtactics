@@ -97,7 +97,7 @@ namespace DoomTactics.Map
                     pass.Apply();
                     device.DrawPrimitives(PrimitiveType.TriangleList, 18, 2);
                 }
-                
+
                 // west
                 foreach (EffectPass pass in effect.CurrentTechnique.Passes)
                 {
@@ -131,12 +131,12 @@ namespace DoomTactics.Map
             Vector3 bottomRightBack = position + new Vector3(TileLength, -height, TileLength);
 
             /* TOP FACE */
-            _vertexes[0] = new VertexPositionNormalTexture(topLeftFront, normalTop, textureBottomRight);
-            _vertexes[1] = new VertexPositionNormalTexture(topRightBack, normalTop, textureTopLeft);
-            _vertexes[2] = new VertexPositionNormalTexture(topLeftBack, normalTop, textureTopRight);
-            _vertexes[3] = new VertexPositionNormalTexture(topLeftFront, normalTop, textureBottomRight);
-            _vertexes[4] = new VertexPositionNormalTexture(topRightFront, normalTop, textureBottomLeft);
-            _vertexes[5] = new VertexPositionNormalTexture(topRightBack, normalTop, textureTopLeft);
+            _vertexes[0] = new VertexPositionNormalTexture(topLeftFront, normalTop, textureTopLeft);
+            _vertexes[1] = new VertexPositionNormalTexture(topRightBack, normalTop, textureBottomRight);
+            _vertexes[2] = new VertexPositionNormalTexture(topLeftBack, normalTop, textureBottomLeft);
+            _vertexes[3] = new VertexPositionNormalTexture(topLeftFront, normalTop, textureTopLeft);
+            _vertexes[4] = new VertexPositionNormalTexture(topRightFront, normalTop, textureTopRight);
+            _vertexes[5] = new VertexPositionNormalTexture(topRightBack, normalTop, textureBottomRight);
 
             /* NORTH FACE */
             _vertexes[6] = new VertexPositionNormalTexture(topLeftFront, normalTop, textureTopLeft);
