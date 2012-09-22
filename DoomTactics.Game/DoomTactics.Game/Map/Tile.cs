@@ -112,6 +112,10 @@ namespace DoomTactics.Map
         {
             _vertexes = new VertexPositionNormalTexture[NumVertexes];
             Vector3 normalTop = Vector3.Up;
+            Vector3 normalNorth = Vector3.Forward;
+            Vector3 normalSouth = Vector3.Backward;
+            Vector3 normalEast = Vector3.Right;
+            Vector3 normalWest = Vector3.Left;
             /*Vector3 topLeftFront = position;
             Vector3 topRightFront = position + Vector3.Backward + Vector3.Right;
             Vector3 topRightBack = position + Vector3.Right;
@@ -139,36 +143,36 @@ namespace DoomTactics.Map
             _vertexes[5] = new VertexPositionNormalTexture(topRightBack, normalTop, textureBottomRight);
 
             /* NORTH FACE */
-            _vertexes[6] = new VertexPositionNormalTexture(topLeftFront, normalTop, textureTopRight);
-            _vertexes[7] = new VertexPositionNormalTexture(bottomRightFront, normalTop, textureBottomLeft);
-            _vertexes[8] = new VertexPositionNormalTexture(topRightFront, normalTop, textureTopLeft);
-            _vertexes[9] = new VertexPositionNormalTexture(topLeftFront, normalTop, textureTopRight);
-            _vertexes[10] = new VertexPositionNormalTexture(bottomLeftFront, normalTop, textureBottomRight);
-            _vertexes[11] = new VertexPositionNormalTexture(bottomRightFront, normalTop, textureBottomLeft);
+            _vertexes[6] = new VertexPositionNormalTexture(topLeftFront, normalNorth, textureTopRight);
+            _vertexes[7] = new VertexPositionNormalTexture(bottomRightFront, normalNorth, textureBottomLeft);
+            _vertexes[8] = new VertexPositionNormalTexture(topRightFront, normalNorth, textureTopLeft);
+            _vertexes[9] = new VertexPositionNormalTexture(topLeftFront, normalNorth, textureTopRight);
+            _vertexes[10] = new VertexPositionNormalTexture(bottomLeftFront, normalNorth, textureBottomRight);
+            _vertexes[11] = new VertexPositionNormalTexture(bottomRightFront, normalNorth, textureBottomLeft);
 
             /* SOUTH FACE */
-            _vertexes[12] = new VertexPositionNormalTexture(topLeftBack, normalTop, textureTopLeft);
-            _vertexes[13] = new VertexPositionNormalTexture(bottomRightBack, normalTop, textureBottomRight);
-            _vertexes[14] = new VertexPositionNormalTexture(topRightBack, normalTop, textureTopRight);
-            _vertexes[15] = new VertexPositionNormalTexture(topLeftBack, normalTop, textureTopLeft);
-            _vertexes[16] = new VertexPositionNormalTexture(bottomLeftBack, normalTop, textureBottomLeft);
-            _vertexes[17] = new VertexPositionNormalTexture(bottomRightBack, normalTop, textureBottomRight);
+            _vertexes[12] = new VertexPositionNormalTexture(topLeftBack, normalSouth, textureTopLeft);
+            _vertexes[13] = new VertexPositionNormalTexture(bottomRightBack, normalSouth, textureBottomRight);
+            _vertexes[14] = new VertexPositionNormalTexture(topRightBack, normalSouth, textureTopRight);
+            _vertexes[15] = new VertexPositionNormalTexture(topLeftBack, normalSouth, textureTopLeft);
+            _vertexes[16] = new VertexPositionNormalTexture(bottomLeftBack, normalSouth, textureBottomLeft);
+            _vertexes[17] = new VertexPositionNormalTexture(bottomRightBack, normalSouth, textureBottomRight);
 
             /* EAST FACE */
-            _vertexes[18] = new VertexPositionNormalTexture(topRightFront, normalTop, textureTopRight);
-            _vertexes[19] = new VertexPositionNormalTexture(bottomRightBack, normalTop, textureBottomLeft);
-            _vertexes[20] = new VertexPositionNormalTexture(topRightBack, normalTop, textureTopLeft);
-            _vertexes[21] = new VertexPositionNormalTexture(topRightFront, normalTop, textureTopRight);
-            _vertexes[22] = new VertexPositionNormalTexture(bottomRightFront, normalTop, textureBottomRight);
-            _vertexes[23] = new VertexPositionNormalTexture(bottomRightBack, normalTop, textureBottomLeft);
+            _vertexes[18] = new VertexPositionNormalTexture(topRightFront, normalEast, textureTopRight);
+            _vertexes[19] = new VertexPositionNormalTexture(bottomRightBack, normalEast, textureBottomLeft);
+            _vertexes[20] = new VertexPositionNormalTexture(topRightBack, normalEast, textureTopLeft);
+            _vertexes[21] = new VertexPositionNormalTexture(topRightFront, normalEast, textureTopRight);
+            _vertexes[22] = new VertexPositionNormalTexture(bottomRightFront, normalEast, textureBottomRight);
+            _vertexes[23] = new VertexPositionNormalTexture(bottomRightBack, normalEast, textureBottomLeft);
 
             /* WEST FACE */
-            _vertexes[24] = new VertexPositionNormalTexture(topLeftFront, normalTop, textureTopLeft);
-            _vertexes[25] = new VertexPositionNormalTexture(bottomLeftBack, normalTop, textureBottomRight);
-            _vertexes[26] = new VertexPositionNormalTexture(topLeftBack, normalTop, textureTopRight);
-            _vertexes[27] = new VertexPositionNormalTexture(topLeftFront, normalTop, textureTopLeft);
-            _vertexes[28] = new VertexPositionNormalTexture(bottomLeftFront, normalTop, textureBottomLeft);
-            _vertexes[29] = new VertexPositionNormalTexture(bottomLeftBack, normalTop, textureBottomRight);
+            _vertexes[24] = new VertexPositionNormalTexture(topLeftFront, normalWest, textureTopLeft);
+            _vertexes[25] = new VertexPositionNormalTexture(bottomLeftBack, normalWest, textureBottomRight);
+            _vertexes[26] = new VertexPositionNormalTexture(topLeftBack, normalWest, textureTopRight);
+            _vertexes[27] = new VertexPositionNormalTexture(topLeftFront, normalWest, textureTopLeft);
+            _vertexes[28] = new VertexPositionNormalTexture(bottomLeftFront, normalWest, textureBottomLeft);
+            _vertexes[29] = new VertexPositionNormalTexture(bottomLeftBack, normalWest, textureBottomRight);
         }
     }
 }
