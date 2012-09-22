@@ -17,10 +17,7 @@ namespace DoomTactics
         public Camera Camera;
         private DoomTacticsGame _gameInstance;
         private BasicEffect _effect;
-        private Tile _tile;
-        private Tile _tile2;
         private Tile[] _tempLevel;
-        private Texture2D _temptex;
         private IInputProcessor _processor;
         private SpriteBatch _spriteBatch;
         private BasicEffect _spriteEffect;
@@ -42,9 +39,8 @@ namespace DoomTactics
             MessagingSystem.Subscribe(Camera.MoveCamera, DoomEventType.CameraMoveEvent, "camera");
             _gameInstance = _gameInstance;
             _effect = new BasicEffect(_gameInstance.GraphicsDevice);
-            _temptex = _gameInstance.Content.Load<Texture2D>("bubble");
-            _tile = new Tile(_temptex, Vector3.Zero);
-            _tile2 = new Tile(_temptex, new Vector3(0.0f, 0.0f, 64.0f));
+            //_tile = new Tile(_temptex, Vector3.Zero);
+            //_tile2 = new Tile(_temptex, new Vector3(0.0f, 0.0f, 64.0f));
             _processor = new GameInputProcessor(Keyboard.GetState(), Mouse.GetState(), this);
 
             CreateLevelTemp(_gameInstance.Content);
@@ -153,16 +149,16 @@ namespace DoomTactics
                     int num = random.Next(0, 3);
                     Texture2D texture = contentManager.Load<Texture2D>(textureNames[num]);
                     Vector3 position = new Vector3(j * 64.0f, 0.0f, i * 64.0f);
-                    _tempLevel[i * levelSize + j] = new Tile(texture, position);
+                    _tempLevel[i * levelSize + j] = new Tile(texture, position, 32.0f);
                 }
             }
 
             // overwrite stuff with some specific tiles
             Texture2D text = contentManager.Load<Texture2D>("textures\\GRNROCK");
-            _tempLevel[35] = new Tile(text, new Vector3(5 * 64.0f, 24.0f, 3 * 64.0f));
-            _tempLevel[36] = new Tile(text, new Vector3(6 * 64.0f, 48.0f, 3 * 64.0f));
-            _tempLevel[45] = new Tile(text, new Vector3(5 * 64.0f, 72.0f, 4 * 64.0f));
-            _tempLevel[46] = new Tile(text, new Vector3(6 * 64.0f, 96.0f, 4 * 64.0f));
+            _tempLevel[35] = new Tile(text, new Vector3(5 * 64.0f, 24.0f, 3 * 64.0f), 56.0f);
+            _tempLevel[36] = new Tile(text, new Vector3(6 * 64.0f, 48.0f, 3 * 64.0f), 80.0f);
+            _tempLevel[45] = new Tile(text, new Vector3(5 * 64.0f, 72.0f, 4 * 64.0f), 104.0f);
+            _tempLevel[46] = new Tile(text, new Vector3(6 * 64.0f, 96.0f, 4 * 64.0f), 128.0f);
         }
     }
 }

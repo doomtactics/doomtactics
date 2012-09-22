@@ -17,10 +17,10 @@ namespace DoomTactics.Map
         private readonly Texture2D _texture;
         private VertexPositionNormalTexture[] _vertexes;        
 
-        public Tile(Texture2D texture, Vector3 position)
+        public Tile(Texture2D texture, Vector3 position, float height)
         {
             _texture = texture;
-            Construct(position);
+            Construct(position, height);
         }
 
         public Texture2D Texture
@@ -33,7 +33,7 @@ namespace DoomTactics.Map
             using (var buffer = new VertexBuffer(
                device,
                VertexPositionNormalTexture.VertexDeclaration,
-               6,
+               12,
                BufferUsage.WriteOnly))
             {
                 // Load the buffer
@@ -44,13 +44,13 @@ namespace DoomTactics.Map
             }
 
             // Draw the primitives from the vertex buffer to the device as triangles
-            device.DrawPrimitives(PrimitiveType.TriangleList, 0, 2);  
+            device.DrawPrimitives(PrimitiveType.TriangleList, 0, 4);  
         }
 
-        private void Construct(Vector3 position)
+        private void Construct(Vector3 position, float height)
         {
-            _vertexes = new VertexPositionNormalTexture[6];
-            Vector3 normal = Vector3.Up;
+            _vertexes = new VertexPositionNormalTexture[12];
+            Vector3 normalTop = Vector3.Up;
             /*Vector3 topLeftFront = position;
             Vector3 topRightFront = position + Vector3.Backward + Vector3.Right;
             Vector3 topRightBack = position + Vector3.Right;
@@ -64,12 +64,24 @@ namespace DoomTactics.Map
             Vector2 textureBottomLeft = new Vector2(1.0f, 1.0f);
             Vector2 textureBottomRight = new Vector2(0.0f, 1.0f);
 
-            _vertexes[0] = new VertexPositionNormalTexture(topLeftFront, normal, textureBottomLeft);
-            _vertexes[1] = new VertexPositionNormalTexture(topRightBack, normal, textureTopRight);
-            _vertexes[2] = new VertexPositionNormalTexture(topLeftBack, normal, textureTopLeft);
-            _vertexes[3] = new VertexPositionNormalTexture(topLeftFront, normal, textureBottomLeft);
-            _vertexes[4] = new VertexPositionNormalTexture(topRightFront, normal, textureBottomRight);
-            _vertexes[5] = new VertexPositionNormalTexture(topRightBack, normal, textureTopRight);
+            Vector3 bottomLeftFront = position + new Vector3(0.0f, -height, 0.0f);
+            Vector3 bottomRightFront = position + new Vector3(TileLength, -height, 0.0f);
+
+            /* TOP FACE */
+            _vertexes[0] = new VertexPositionNormalTexture(topLeftFront, normalTop, textureBottomLeft);
+            _vertexes[1] = new VertexPositionNormalTexture(topRightBack, normalTop, textureTopRight);
+            _vertexes[2] = new VertexPositionNormalTexture(topLeftBack, normalTop, textureTopLeft);
+            _vertexes[3] = new VertexPositionNormalTexture(topLeftFront, normalTop, textureBottomLeft);
+            _vertexes[4] = new VertexPositionNormalTexture(topRightFront, normalTop, textureBottomRight);
+            _vertexes[5] = new VertexPositionNormalTexture(topRightBack, normalTop, textureTopRight);
+
+            /* SIDE FACE 1 */
+            _vertexes[6] = new VertexPositionNormalTexture(topLeftFront, normalTop, textureBottomLeft);
+            _vertexes[7] = new VertexPositionNormalTexture(bottomRightFront, normalTop, textureTopRight);
+            _vertexes[8] = new VertexPositionNormalTexture(topRightFront, normalTop, textureTopLeft);
+            _vertexes[9] = new VertexPositionNormalTexture(topLeftFront, normalTop, textureBottomLeft);
+            _vertexes[10] = new VertexPositionNormalTexture(bottomLeftFront, normalTop, textureBottomRight);
+            _vertexes[11] = new VertexPositionNormalTexture(bottomRightFront, normalTop, textureTopRight);
         }
     }
 }
