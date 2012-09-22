@@ -7,6 +7,6 @@ namespace DoomTactics
 {
     public class Level
     {
-
+        //public Tile
     }
 }

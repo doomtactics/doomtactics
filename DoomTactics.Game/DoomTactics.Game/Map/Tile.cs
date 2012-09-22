@@ -5,7 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace DoomTactics.Map
+namespace DoomTactics
 {
     public struct TileTextures
     {

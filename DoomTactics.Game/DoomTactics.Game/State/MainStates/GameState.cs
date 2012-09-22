@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using DoomTactics.Data;
 using DoomTactics.Input;
-using DoomTactics.Map;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -34,7 +33,7 @@ namespace DoomTactics
         public void OnEnter()
         {
             HardcodedAnimations.CreateAnimations();
-            float aspectRatio = _gameInstance.Window.ClientBounds.Width / _gameInstance.Window.ClientBounds.Height;
+            float aspectRatio = (float)_gameInstance.Window.ClientBounds.Width / _gameInstance.Window.ClientBounds.Height;
             Camera = new Camera("camera", new Vector3(0f, 32f, 0), new Vector3(100.0f, 32.0f, 0.0f), Vector3.Up, aspectRatio);
             MessagingSystem.Subscribe(Camera.MoveCamera, DoomEventType.CameraMoveEvent, "camera");
             _gameInstance = _gameInstance;
