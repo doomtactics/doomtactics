@@ -59,6 +59,7 @@ namespace DoomTactics
             }
             else
             {
+                // spritebatch begin ignores depth buffer
                 spriteBatch.Begin(0, null, null, DepthStencilState.DepthRead, RasterizerState.CullNone, spriteEffect);
                 spriteBatch.Draw(SpriteSheet.Texture, new Rectangle(-Width / 2, -Height, Width, Height), textureRectangle, Color.White);
                 spriteBatch.End();

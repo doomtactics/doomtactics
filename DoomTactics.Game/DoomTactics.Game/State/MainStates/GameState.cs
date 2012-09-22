@@ -107,12 +107,7 @@ namespace DoomTactics
 
             foreach (var tile in _tempLevel)
             {
-                foreach (EffectPass pass in _effect.CurrentTechnique.Passes)
-                {
-                    _effect.Texture = tile.Texture;
-                    pass.Apply();
-                    tile.Render(device);
-                }
+                tile.Render(device, _effect);             
             }
 
             _spriteEffect.TextureEnabled = true;
@@ -141,20 +136,22 @@ namespace DoomTactics
             const int levelSize = 10;
             _tempLevel = new Tile[levelSize * levelSize];
             string[] textureNames = new[] {"textures\\FLAT1_1", "textures\\FLAT5_4", "textures\\FLAT5_5"};
-            var random = new Random();
+            var random = new Random();            
             for (int i = 0; i < levelSize; i++)
             {
                 for (int j = 0; j < levelSize; j++)
                 {
                     int num = random.Next(0, 3);
-                    Texture2D texture = contentManager.Load<Texture2D>(textureNames[num]);
+                    TileTextures texture = new TileTextures(contentManager.Load<Texture2D>(textureNames[num]));
                     Vector3 position = new Vector3(j * 64.0f, 0.0f, i * 64.0f);
                     _tempLevel[i * levelSize + j] = new Tile(texture, position, 32.0f);
                 }
             }
 
             // overwrite stuff with some specific tiles
-            Texture2D text = contentManager.Load<Texture2D>("textures\\GRNROCK");
+            Texture2D topTex = contentManager.Load<Texture2D>("textures\\GRNROCK");
+            Texture2D sideTex = contentManager.Load<Texture2D>("textures\\gothic\\ADEL_S70");
+            TileTextures text = new TileTextures(topTex, sideTex);
             _tempLevel[35] = new Tile(text, new Vector3(5 * 64.0f, 24.0f, 3 * 64.0f), 56.0f);
             _tempLevel[36] = new Tile(text, new Vector3(6 * 64.0f, 48.0f, 3 * 64.0f), 80.0f);
             _tempLevel[45] = new Tile(text, new Vector3(5 * 64.0f, 72.0f, 4 * 64.0f), 104.0f);
