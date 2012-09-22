@@ -149,10 +149,10 @@ namespace DoomTactics
             }
 
             // overwrite stuff with some specific tiles
-            //Texture2D topTex = contentManager.Load<Texture2D>("textures\\GRNROCK");
-            //Texture2D sideTex = contentManager.Load<Texture2D>("textures\\gothic\\ADEL_S70");
-            Texture2D directionTest = contentManager.Load<Texture2D>("directiontest");
-            TileTextures text = new TileTextures(directionTest);
+            Texture2D topTex = contentManager.Load<Texture2D>("textures\\GRNROCK");
+            Texture2D sideTex = contentManager.Load<Texture2D>("textures\\gothic\\ADEL_S70");
+            // Texture2D directionTest = contentManager.Load<Texture2D>("directiontest");
+            TileTextures text = new TileTextures(topTex, sideTex);
             _tempLevel[35] = new Tile(text, new Vector3(5 * 64.0f, 24.0f, 3 * 64.0f), 56.0f);
             _tempLevel[36] = new Tile(text, new Vector3(6 * 64.0f, 48.0f, 3 * 64.0f), 80.0f);
             _tempLevel[45] = new Tile(text, new Vector3(5 * 64.0f, 72.0f, 4 * 64.0f), 104.0f);
