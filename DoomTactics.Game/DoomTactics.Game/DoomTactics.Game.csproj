@@ -119,6 +119,7 @@
     <Compile Include="Controls\DoomDesktop.cs" />
     <Compile Include="Controls\DoomWindow.cs" />
     <Compile Include="Data\HardcodedAnimations.cs" />
+    <Compile Include="Data\HardcodedTestLevel.cs" />
     <Compile Include="Event\AnimationEvent.cs" />
     <Compile Include="Event\CameraEvent.cs" />
     <Compile Include="Event\DoomEvent.cs" />
@@ -191,6 +192,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Global\" />
+    <Folder Include="Map\Data\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

@@ -16,12 +16,12 @@ namespace DoomTactics
         public Camera Camera;
         private DoomTacticsGame _gameInstance;
         private BasicEffect _effect;
-        private Tile[] _tempLevel;
+        private Level _tempLevel;
         private IInputProcessor _processor;
         private SpriteBatch _spriteBatch;
         private BasicEffect _spriteEffect;
         private AlphaTestEffect _alphaTestEffect;
-        private IList<ActorBase> _actors;
+        //private IList<ActorBase> _actors;
         private IState _nextState;
         
         public GameState(DoomTacticsGame gameInstance)
@@ -49,19 +49,6 @@ namespace DoomTactics
             CreateLevelTemp(_gameInstance.Content);
 
             var imptex = _gameInstance.Content.Load<Texture2D>("sheets\\impsheet");
-            _actors = new List<ActorBase>();
-            /*for (int i = 0; i < 10; i++)
-            {
-                for (int j = 0; j < 10; j++)
-                {
-                    var imp = new Imp("imp", new Vector3(32.0f + 64.0f*j, 0, 32.0f + 64.0f*i), imptex);
-                    _actors.Add(imp);
-                }
-            }*/
-            var imp = new Imp("imp", new Vector3(160.0f, 0, 160.0f));
-            var imp2 = new Imp("imp", new Vector3(224.0f, 0.0f, 224.0f));
-            _actors.Add(imp);
-            _actors.Add(imp2);
 
             _spriteBatch = new SpriteBatch(_gameInstance.GraphicsDevice);
             _spriteEffect = new BasicEffect(_gameInstance.GraphicsDevice);
@@ -86,7 +73,7 @@ namespace DoomTactics
             if (_nextState != null)
                 return _nextState;
 
-            foreach (var actor in _actors)
+            foreach (var actor in _tempLevel.Actors)
                 actor.Update(gameTime);
 
             return _nextState;
@@ -108,7 +95,7 @@ namespace DoomTactics
 
             device.DepthStencilState = DepthStencilState.Default;
 
-            foreach (var tile in _tempLevel)
+            foreach (var tile in _tempLevel.Tiles)
             {
                 tile.Render(device, _effect);             
             }
@@ -120,12 +107,12 @@ namespace DoomTactics
             // Pass 1: full alpha
             _alphaTestEffect.AlphaFunction = CompareFunction.Greater;
             _alphaTestEffect.ReferenceAlpha = 128;                
-            foreach (var actor in _actors)
+            foreach (var actor in _tempLevel.Actors)
             {
                 actor.Render(device, _spriteBatch, _alphaTestEffect, Camera, 0);
             }
             // Pass 2: alpha blend
-            foreach (var actor in _actors)
+            foreach (var actor in _tempLevel.Actors)
             {
                 _alphaTestEffect.AlphaFunction = CompareFunction.Less;
                 _alphaTestEffect.ReferenceAlpha = 20;
@@ -137,7 +124,8 @@ namespace DoomTactics
         private void CreateLevelTemp(ContentManager contentManager)
         {
             const int levelSize = 10;
-            _tempLevel = new Tile[levelSize * levelSize];
+            var tempLevelData = HardcodedTestLevel.CreateLevel();
+            _tempLevel = LevelFactory.CreateLevel(contentManager, tempLevelData);
         }
     }
 }

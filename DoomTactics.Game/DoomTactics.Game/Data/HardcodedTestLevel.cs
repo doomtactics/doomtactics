@@ -7,6 +7,8 @@ namespace DoomTactics.Data
 {
     public static class HardcodedTestLevel
     {
+        private static Random _random = new Random();
+
         public static LevelData CreateLevel()
         {
             const int length = 8;
@@ -16,14 +18,15 @@ namespace DoomTactics.Data
             data.TilesWide = width;
             data.TileDatas = new TileData[length*width];
 
-            for (int i = 0; i < data.TilesLong; i++)
+            for (int i = 0; i < data.TilesWide; i++)
             {
-                for (int j = 0; j < data.TilesWide; j++)
+                for (int j = 0; j < data.TilesLong; j++)
                 {
-                    int index = i*length + width;
+                    int index = i*length + j;
                     var tileData = new TileData();
-                    tileData.VisualHeight = (float)(new Random().NextDouble()*32.0f);
-
+                    
+                    tileData.YPosition = (float) (_random.NextDouble()*24.0f);
+                    tileData.VisualHeight = tileData.YPosition;
                     tileData.TopTextureName = GetRandomFloor();
                     tileData.NorthTextureName = GetRandomTexture();
                     tileData.SouthTextureName = GetRandomTexture();
@@ -34,20 +37,29 @@ namespace DoomTactics.Data
                 }
             }
 
-            var impOne = new ActorInfo() {ActorType = ActorType.Imp, DisplayName = "Imp1", Name = "Imp1", TileX = 3, TileY = 0};
-            var impTwo = new ActorInfo() { ActorType = ActorType.Imp, DisplayName = "Imp2", Name = "Imp2", TileX = 5, TileY = 0 };
+            var impOne = new ActorInfo() {ActorType = ActorType.Imp, DisplayName = "Imp1", Name = "Imp1", TileX = 0, TileY = 0};
+            var impTwo = new ActorInfo() { ActorType = ActorType.Imp, DisplayName = "Imp2", Name = "Imp2", TileX = 1, TileY = 0 };
+            var imp3 = new ActorInfo() { ActorType = ActorType.Imp, DisplayName = "Imp3", Name = "Imp3", TileX = 5, TileY = 3 };
+            var imp4 = new ActorInfo() { ActorType = ActorType.Imp, DisplayName = "Imp2", Name = "Imp2", TileX = length - 1, TileY = width - 1 };
+            var imp5 = new ActorInfo() { ActorType = ActorType.Imp, DisplayName = "Imp2", Name = "Imp2", TileX = 2, TileY = 3 };
+            var imp6 = new ActorInfo() { ActorType = ActorType.Imp, DisplayName = "Imp2", Name = "Imp2", TileX = 7, TileY = 2 };
 
-            data.ActorInfos = new ActorInfo[2];
+
+            data.ActorInfos = new ActorInfo[6];
             data.ActorInfos[0] = impOne;
             data.ActorInfos[1] = impTwo;
-            
+            data.ActorInfos[2] = imp3;
+            data.ActorInfos[3] = imp4;
+            data.ActorInfos[4] = imp5;
+            data.ActorInfos[5] = imp6;
+
             return data;
         }
 
         private static string GetRandomFloor()
         {
             string[] possibleFloors = new[] {"textures\\FLAT1_1", "textures\\FLAT5_4", "textures\\FLAT5_5"};
-            int index = new Random().Next(0, possibleFloors.Length);
+            int index = _random.Next(0, possibleFloors.Length);
 
             return possibleFloors[index];
         }
@@ -55,7 +67,7 @@ namespace DoomTactics.Data
         private static string GetRandomTexture()
         {
             string[] possibleTextures = new[] { "textures\\gothic\\ADEL_S70" };
-            int index = new Random().Next(0, possibleTextures.Length);
+            int index = _random.Next(0, possibleTextures.Length);
 
             return possibleTextures[index];
         }
