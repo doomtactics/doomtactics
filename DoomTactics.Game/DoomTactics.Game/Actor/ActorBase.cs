@@ -51,7 +51,7 @@ namespace DoomTactics
 
             if (passNumber == 0)
             {
-                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque, null, DepthStencilState.DepthRead,
+                spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.DepthRead,
                                   RasterizerState.CullNone, spriteEffect);
                 device.DepthStencilState = DepthStencilState.Default;
                 spriteBatch.Draw(SpriteSheet.Texture, new Rectangle(-Width/2, -Height, Width, Height), textureRectangle, Color.White);
@@ -60,7 +60,7 @@ namespace DoomTactics
             else
             {
                 // spritebatch begin ignores depth buffer
-                spriteBatch.Begin(0, null, null, DepthStencilState.DepthRead, RasterizerState.CullNone, spriteEffect);
+                spriteBatch.Begin(0, null, SamplerState.PointClamp, DepthStencilState.DepthRead, RasterizerState.CullNone, spriteEffect);
                 spriteBatch.Draw(SpriteSheet.Texture, new Rectangle(-Width / 2, -Height, Width, Height), textureRectangle, Color.White);
                 spriteBatch.End();
             }
