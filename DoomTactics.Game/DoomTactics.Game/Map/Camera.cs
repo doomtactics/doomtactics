@@ -77,6 +77,5 @@ namespace DoomTactics
         {
             View = Matrix.CreateLookAt(Position, Position + Direction, Up);
         }
-
     }
 }

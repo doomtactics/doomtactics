@@ -30,10 +30,67 @@ namespace DoomTactics
         }
     }
 
+    public struct SpriteRenderDetails
+    {
+        public Rectangle Rectangle;
+        public SpriteEffects SpriteEffects;
+
+        public SpriteRenderDetails(Rectangle rectangle, SpriteEffects spriteEffects)
+        {
+            Rectangle = rectangle;
+            SpriteEffects = spriteEffects;
+        }
+    }
+
+    public enum Angle
+    {
+        Forward,
+        ForwardRight,
+        Right,
+        BackRight,
+        Back,
+        BackLeft,
+        Left,
+        ForwardLeft
+    }
+
+    public struct AngledSprite
+    {
+        public readonly string Name;
+        public readonly Angle Angle;
+
+        public AngledSprite(string name, Angle angle)
+        {
+            Name = name;
+            Angle = angle;
+        }
+
+        public override bool Equals(object obj)
+        {
+            var o = (AngledSprite) obj;
+            return o.Name == this.Name && o.Angle == this.Angle;
+        }
+
+        public override int GetHashCode()
+        {
+            return Name.GetHashCode()*Angle.GetHashCode();
+        }
+
+        public static bool operator ==(AngledSprite a, AngledSprite b)
+        {            
+            return a.Equals(b);
+        }
+
+        public static bool operator !=(AngledSprite a, AngledSprite b)
+        {
+            return !a.Equals(b);
+        }
+    }
+
     public abstract class SpriteSheet
     {
         private readonly Texture2D _texture;
-        protected IDictionary<string, Rectangle> TextureMap;
+        protected IDictionary<AngledSprite, SpriteRenderDetails> TextureMap;
 
         public Texture2D Texture
         {
@@ -43,12 +100,17 @@ namespace DoomTactics
         protected SpriteSheet(Texture2D texture)
         {
             _texture = texture;
-            TextureMap = new Dictionary<string, Rectangle>();
+            TextureMap = new Dictionary<AngledSprite, SpriteRenderDetails>();
         }
         
-        public Rectangle GetRectangle(string name)
+        public SpriteRenderDetails GetRectangle(string name, Angle angle)
         {
-            return TextureMap[name];
+            return GetRectangle(new AngledSprite(name, angle));
+        }
+
+        public SpriteRenderDetails GetRectangle(AngledSprite angledSprite)
+        {
+            return TextureMap[angledSprite];
         }
         
     }
