@@ -15,6 +15,7 @@ namespace DoomTactics
         public int TilesWide;
         public TileData[] TileDatas;
         public ActorInfo[] ActorInfos;
+        public string BackgroundTextureName;
     }
 
     [Serializable]
@@ -80,6 +81,9 @@ namespace DoomTactics
             {
                 level.Actors.Add(MakeActor(info, levelData.TileDatas, levelData.TilesLong));
             }
+
+            level.BackgroundImage = contentManager.Load<Texture2D>(levelData.BackgroundTextureName);
+
             return level;
         }
 
@@ -117,6 +121,17 @@ namespace DoomTactics
             Width = width;
             _tiles = new Tile[length * width];
             Actors = new List<ActorBase>();
-        }        
+        }      
+  
+        public void DrawBackground(GraphicsDevice device, SpriteBatch batch)
+        {
+            if (BackgroundImage != null)
+            {
+                Rectangle target = new Rectangle(0, 0, device.Viewport.Width, device.Viewport.Height);
+                batch.Begin();
+                batch.Draw(BackgroundImage, target, Color.White);
+                batch.End();
+            }
+        }
     }
 }

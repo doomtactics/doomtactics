@@ -116,6 +116,8 @@ namespace DoomTactics
 
         public void Render(GraphicsDevice device)
         {          
+            _level.DrawBackground(device, _spriteBatch);
+
             _effect.World = Matrix.Identity;
             _effect.View = Camera.View;
             _effect.Projection = Camera.Projection;

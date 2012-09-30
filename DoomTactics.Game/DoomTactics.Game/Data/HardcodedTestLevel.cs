@@ -53,6 +53,8 @@ namespace DoomTactics.Data
             data.ActorInfos[4] = imp5;
             data.ActorInfos[5] = imp6;
 
+            data.BackgroundTextureName = "textures\\doom\\sky3";
+
             return data;
         }
 
