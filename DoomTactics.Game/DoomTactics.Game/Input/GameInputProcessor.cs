@@ -81,7 +81,7 @@ namespace DoomTactics.Input
         {
             if (MouseButtonClicked(mouseState.LeftButton, OldMouseState.LeftButton))
             {
-                _gameState.SelectCurrentlyHoveredUnit(new Vector2(mouseState.X, mouseState.Y));
+                _gameState.ShowCurrentlyHoveredUnitStatus(new Vector2(mouseState.X, mouseState.Y));
             }
         }
 

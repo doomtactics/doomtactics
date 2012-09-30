@@ -165,7 +165,26 @@ namespace DoomTactics
             _level = LevelFactory.CreateLevel(contentManager, tempLevelData);
         }
 
-        public void SelectCurrentlyHoveredUnit(Vector2 mousePosition)
+        public void ShowCurrentlyHoveredUnitStatus(Vector2 mousePosition)
+        {
+            var actor = SelectCurrentlyHoveredUnit(mousePosition);            
+            ShowUnitStatus(actor);
+        }
+
+        private void ShowUnitStatus(ActorBase actor)
+        {
+            if (actor != null)
+            {
+                // create status window
+                var actorInfoWindow = new DoomWindow();                
+                actorInfoWindow.TitleBar.Text = actor.ActorID;
+                actorInfoWindow.Size = new Squid.Point(200, 200);
+                actorInfoWindow.Position = new Squid.Point(50, 100);
+                actorInfoWindow.Parent = _desktop;
+            }
+        }
+
+        private ActorBase SelectCurrentlyHoveredUnit(Vector2 mousePosition)
         {            
             Vector3 nearpoint = new Vector3(mousePosition, 0);
             Vector3 farpoint = new Vector3(mousePosition, 1.0f);
@@ -177,15 +196,24 @@ namespace DoomTactics
 
             Vector3 direction = Vector3.Normalize(farpoint - nearpoint);
             Ray ray = new Ray(nearpoint, direction);
+            ActorBase intersected = null;
+            float selectedDistance = float.MaxValue;
 
             foreach (var actor in _level.Actors)
             {
-                if (ray.Intersects(actor.CreateBoundingBox()).HasValue)
+                float? intersectionResult = ray.Intersects(actor.CreateBoundingBox());
+
+                if (intersectionResult.HasValue && selectedDistance > intersectionResult.Value)
                 {
-                    Log.Debug("Intersected with " + actor.ActorID);
+                    selectedDistance = intersectionResult.Value;
+                    intersected = actor;
                 }
             }
-            
+
+            if (intersected != null)            
+                Log.Debug("Intersected with " + intersected.ActorID);
+
+            return intersected;
         }
     }
 }

@@ -9,15 +9,7 @@ namespace DoomTactics.Controls
     public class DoomWindow : Window
     {
         public TitleBar TitleBar { get; private set; }
-        private bool _canClose;
-        
-        public DoomWindow() : this(true) { }
-
-        public DoomWindow(bool canClose)
-        {
-            _canClose = canClose;            
-        }
-
+     
         protected override void Initialize()
         {
             AllowDragOut = true;
@@ -31,8 +23,7 @@ namespace DoomTactics.Controls
             TitleBar.Cursor = Cursors.Move;
             TitleBar.Style = "frame2";
             TitleBar.Margin = new Margin(0, 0, 0, -1);
-            if (_canClose)
-                TitleBar.Button.OnMouseClick += Button_OnMouseClick;
+            TitleBar.Button.OnMouseClick += Button_OnMouseClick;
 
             AllowDragOut = false;
 

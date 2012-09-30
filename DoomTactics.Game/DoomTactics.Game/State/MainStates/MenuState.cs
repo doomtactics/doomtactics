@@ -41,11 +41,11 @@ namespace DoomTactics
 
         private void InitializeControls()
         {
-            _window = new DoomWindow(canClose: false);
+            _window = new DoomWindow();
             _window.Size = new Squid.Point(440, 170);
+            _window.TitleBar.Text = "DOOM TACTICS";
             _window.Position = new Squid.Point(40, 40);
             _window.Style = "frame";
-            _window.TitleBar.Text = "DOOM TACTICS";            
             _window.Parent = _desktop;
 
             _buttons = new Button[ButtonNames.Length];
