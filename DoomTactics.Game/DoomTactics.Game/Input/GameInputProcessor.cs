@@ -22,11 +22,31 @@ namespace DoomTactics.Input
 
         public void ProcessInput(KeyboardState keyState, MouseState mouseState, GameTime gameTime)
         {
+            if (_gameState.CurrentControlScheme == ControlScheme.FreeCamera)
+            {
+                ProcessFreeCameraControls(keyState, mouseState);
+            }
+            else
+            {
+                ProcessHudControls(keyState, mouseState);
+            }
+            
+            if (KeyPressed(Keys.Escape, keyState))
+            {
+                _gameState.ShowMainMenu(); 
+            }
+
+            OldKeyState = keyState;
+            OldMouseState = Mouse.GetState();
+        }
+       
+        private void ProcessFreeCameraControls(KeyboardState keyState, MouseState mouseState)
+        {
             Vector2 mouseMove = new Vector2(mouseState.X - OldMouseState.X, mouseState.Y - OldMouseState.Y);
             if (mouseState.RightButton == ButtonState.Pressed)
-            {                
+            {
                 var cameraEvent = new CameraEvent(DoomEventType.CameraMoveEvent, mouseMove);
-                MessagingSystem.DispatchEvent(cameraEvent);                 
+                MessagingSystem.DispatchEvent(cameraEvent);
             }
             else
             {
@@ -36,20 +56,18 @@ namespace DoomTactics.Input
                 bool left = keyState.IsKeyDown(Keys.A);
                 var cameraEvent = new CameraEvent(DoomEventType.CameraMoveEvent, mouseMove, forward, backward, right,
                                                   left);
-                MessagingSystem.DispatchEvent(cameraEvent);                
-            }
-
-            if (KeyPressed(Keys.Escape, keyState))
-            {
-                _gameState.ShowMainMenu(); 
+                MessagingSystem.DispatchEvent(cameraEvent);
             }
 
             // lock mouse
             Mouse.SetPosition(100, 100);
-            OldKeyState = keyState;
-            OldMouseState = Mouse.GetState();
         }
-       
+
+        private void ProcessHudControls(KeyboardState keyState, MouseState mouseState)
+        {
+            
+        }
+
         private bool KeyPressed(Keys key, KeyboardState newKeyState)
         {
             return (newKeyState.IsKeyDown(key) && !OldKeyState.IsKeyDown(key));

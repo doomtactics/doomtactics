@@ -23,7 +23,8 @@ namespace DoomTactics
         private AlphaTestEffect _alphaTestEffect;
         //private IList<ActorBase> _actors;
         private IState _nextState;
-        
+        public ControlScheme CurrentControlScheme;
+
         public GameState(DoomTacticsGame gameInstance)
         {
             _gameInstance = gameInstance;
@@ -35,6 +36,9 @@ namespace DoomTactics
             // setup
             SpriteSheetFactory.Initialize(_gameInstance.Content);
             HardcodedAnimations.CreateAnimations();
+
+            // control scheme
+            CurrentControlScheme = ControlScheme.FreeCamera;
 
             // camera
             float aspectRatio = (float)_gameInstance.Window.ClientBounds.Width / _gameInstance.Window.ClientBounds.Height;
