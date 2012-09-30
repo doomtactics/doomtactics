@@ -40,9 +40,9 @@ namespace DoomTactics.Data
             var impOne = new ActorInfo() {ActorType = ActorType.Imp, DisplayName = "Imp1", Name = "Imp1", TileX = 0, TileY = 0};
             var impTwo = new ActorInfo() { ActorType = ActorType.Imp, DisplayName = "Imp2", Name = "Imp2", TileX = 1, TileY = 0 };
             var imp3 = new ActorInfo() { ActorType = ActorType.Imp, DisplayName = "Imp3", Name = "Imp3", TileX = 5, TileY = 3 };
-            var imp4 = new ActorInfo() { ActorType = ActorType.Imp, DisplayName = "Imp2", Name = "Imp2", TileX = length - 1, TileY = width - 1 };
-            var imp5 = new ActorInfo() { ActorType = ActorType.Imp, DisplayName = "Imp2", Name = "Imp2", TileX = 2, TileY = 3 };
-            var imp6 = new ActorInfo() { ActorType = ActorType.Imp, DisplayName = "Imp2", Name = "Imp2", TileX = 7, TileY = 2 };
+            var imp4 = new ActorInfo() { ActorType = ActorType.Imp, DisplayName = "Imp4", Name = "Imp4", TileX = length - 1, TileY = width - 1 };
+            var imp5 = new ActorInfo() { ActorType = ActorType.Imp, DisplayName = "Imp5", Name = "Imp5", TileX = 2, TileY = 3 };
+            var imp6 = new ActorInfo() { ActorType = ActorType.Imp, DisplayName = "Imp6", Name = "Imp6", TileX = 7, TileY = 2 };
 
 
             data.ActorInfos = new ActorInfo[6];

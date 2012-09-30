@@ -79,7 +79,20 @@ namespace DoomTactics.Input
 
         private void ProcessHudControls(KeyboardState keyState, MouseState mouseState)
         {
-            
+            if (MouseButtonClicked(mouseState.LeftButton, OldMouseState.LeftButton))
+            {
+                _gameState.SelectCurrentlyHoveredUnit(new Vector2(mouseState.X, mouseState.Y));
+            }
+        }
+
+        private bool MouseButtonClicked(ButtonState newButtonState, ButtonState oldButtonState)
+        {
+            return (oldButtonState != ButtonState.Pressed && newButtonState == ButtonState.Pressed);
+        }
+
+        private bool MouseButtonReleased(ButtonState newButtonState, ButtonState oldButtonState)
+        {
+            return (oldButtonState != ButtonState.Released && newButtonState == ButtonState.Released);
         }
 
         private bool KeyPressed(Keys key, KeyboardState newKeyState)

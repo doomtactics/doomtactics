@@ -9,17 +9,20 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using NLog;
 
 namespace DoomTactics
 {
     public class GameState : IState
     {
+        private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+
         public Camera Camera;
         private DoomTacticsGame _gameInstance;
         private readonly DoomDesktop _desktop;
         private readonly SquidInputManager _squidInputManager;
         private BasicEffect _effect;
-        private Level _tempLevel;
+        private Level _level;
         private IInputProcessor _processor;
         private SpriteBatch _spriteBatch;
         private BasicEffect _spriteEffect;
@@ -88,7 +91,7 @@ namespace DoomTactics
             if (_nextState != null)
                 return _nextState;
 
-            foreach (var actor in _tempLevel.Actors)
+            foreach (var actor in _level.Actors)
                 actor.Update(gameTime);
 
             return _nextState;
@@ -112,13 +115,7 @@ namespace DoomTactics
         }
 
         public void Render(GraphicsDevice device)
-        {
-            if (_desktop.Visible)
-            {
-                _desktop.Size = new Squid.Point(device.Viewport.Width, device.Viewport.Height);
-                _desktop.Draw();
-            }
-
+        {          
             _effect.World = Matrix.Identity;
             _effect.View = Camera.View;
             _effect.Projection = Camera.Projection;
@@ -129,7 +126,7 @@ namespace DoomTactics
             device.RasterizerState = RasterizerState.CullNone;
             device.DepthStencilState = DepthStencilState.Default;
 
-            foreach (var tile in _tempLevel.Tiles)
+            foreach (var tile in _level.Tiles)
             {
                 tile.Render(device, _effect);             
             }
@@ -141,12 +138,12 @@ namespace DoomTactics
             // Pass 1: full alpha
             _alphaTestEffect.AlphaFunction = CompareFunction.Greater;
             _alphaTestEffect.ReferenceAlpha = 128;                
-            foreach (var actor in _tempLevel.Actors)
+            foreach (var actor in _level.Actors)
             {
                 actor.Render(device, _spriteBatch, _alphaTestEffect, Camera, 0);
             }
             // Pass 2: alpha blend
-            foreach (var actor in _tempLevel.Actors)
+            foreach (var actor in _level.Actors)
             {
                 _alphaTestEffect.AlphaFunction = CompareFunction.Less;
                 _alphaTestEffect.ReferenceAlpha = 20;
@@ -154,14 +151,41 @@ namespace DoomTactics
             }
             //_spriteBatch.End();
 
-
+            if (_desktop.Visible)
+            {
+                _desktop.Size = new Squid.Point(device.Viewport.Width, device.Viewport.Height);
+                _desktop.Draw();
+            }
 
         }
 
         private void CreateLevelTemp(ContentManager contentManager)
         {
             var tempLevelData = HardcodedTestLevel.CreateLevel();
-            _tempLevel = LevelFactory.CreateLevel(contentManager, tempLevelData);
+            _level = LevelFactory.CreateLevel(contentManager, tempLevelData);
+        }
+
+        public void SelectCurrentlyHoveredUnit(Vector2 mousePosition)
+        {            
+            Vector3 nearpoint = new Vector3(mousePosition, 0);
+            Vector3 farpoint = new Vector3(mousePosition, 1.0f);
+
+            nearpoint = _gameInstance.GraphicsDevice.Viewport.Unproject(nearpoint, Camera.Projection, Camera.View,
+                                                                        Matrix.Identity);
+            farpoint = _gameInstance.GraphicsDevice.Viewport.Unproject(farpoint, Camera.Projection, Camera.View,
+                                                                        Matrix.Identity);
+
+            Vector3 direction = Vector3.Normalize(farpoint - nearpoint);
+            Ray ray = new Ray(nearpoint, direction);
+
+            foreach (var actor in _level.Actors)
+            {
+                if (ray.Intersects(actor.CreateBoundingBox()).HasValue)
+                {
+                    Log.Debug("Intersected with " + actor.ActorID);
+                }
+            }
+            
         }
     }
 }
