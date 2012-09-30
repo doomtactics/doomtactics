@@ -30,10 +30,24 @@ namespace DoomTactics.Input
             {
                 ProcessHudControls(keyState, mouseState);
             }
-            
+
+            if (KeyPressed(Keys.V, keyState))
+            {
+                if (_gameState.CurrentControlScheme == ControlScheme.FreeCamera)
+                {
+                    _gameState.ShowHud();
+                    _gameState.CurrentControlScheme = ControlScheme.Locked;                    
+                }
+                else
+                {
+                    _gameState.HideHud();
+                    _gameState.CurrentControlScheme = ControlScheme.FreeCamera;
+                }                
+            }
+
             if (KeyPressed(Keys.Escape, keyState))
             {
-                _gameState.ShowMainMenu(); 
+                _gameState.ReturnToMainMenu(); 
             }
 
             OldKeyState = keyState;

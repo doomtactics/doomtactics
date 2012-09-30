@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using DoomTactics.Controls;
 using DoomTactics.Data;
 using DoomTactics.Input;
 using Microsoft.Xna.Framework;
@@ -15,6 +16,8 @@ namespace DoomTactics
     {
         public Camera Camera;
         private DoomTacticsGame _gameInstance;
+        private readonly DoomDesktop _desktop;
+        private readonly SquidInputManager _squidInputManager;
         private BasicEffect _effect;
         private Level _tempLevel;
         private IInputProcessor _processor;
@@ -25,9 +28,11 @@ namespace DoomTactics
         private IState _nextState;
         public ControlScheme CurrentControlScheme;
 
-        public GameState(DoomTacticsGame gameInstance)
+        public GameState(DoomTacticsGame gameInstance, SquidInputManager squidInputManager)
         {
             _gameInstance = gameInstance;
+            _desktop = new DoomDesktop();            
+            _squidInputManager = squidInputManager;
             _nextState = null;
         }
 
@@ -39,6 +44,7 @@ namespace DoomTactics
 
             // control scheme
             CurrentControlScheme = ControlScheme.FreeCamera;
+            _desktop.Visible = false;
 
             // camera
             float aspectRatio = (float)_gameInstance.Window.ClientBounds.Width / _gameInstance.Window.ClientBounds.Height;
@@ -51,8 +57,6 @@ namespace DoomTactics
             _processor = new GameInputProcessor(Keyboard.GetState(), Mouse.GetState(), this);
 
             CreateLevelTemp(_gameInstance.Content);
-
-            var imptex = _gameInstance.Content.Load<Texture2D>("sheets\\impsheet");
 
             _spriteBatch = new SpriteBatch(_gameInstance.GraphicsDevice);
             _spriteEffect = new BasicEffect(_gameInstance.GraphicsDevice);
@@ -72,6 +76,13 @@ namespace DoomTactics
         public IState Update(GameTime gameTime)
         {
             MessagingSystem.ProcessQueued();
+
+            if (CurrentControlScheme == ControlScheme.Locked)
+            {
+                _squidInputManager.Update(gameTime);
+                _desktop.Update();
+            }
+
             _processor.ProcessInput(Keyboard.GetState(), Mouse.GetState(), gameTime);
 
             if (_nextState != null)
@@ -83,20 +94,39 @@ namespace DoomTactics
             return _nextState;
         }
 
-        public void ShowMainMenu()
+        public void ShowHud()
+        {
+            _desktop.Visible = true;
+            _desktop.ShowCursor = true;
+        }
+
+        public void HideHud()
+        {
+            _desktop.Visible = false;
+            _desktop.ShowCursor = false;
+        }
+
+        public void ReturnToMainMenu()
         {
             _nextState = DoomTacticsGame.CreateMenuState(_gameInstance);
         }
 
         public void Render(GraphicsDevice device)
         {
+            if (_desktop.Visible)
+            {
+                _desktop.Size = new Squid.Point(device.Viewport.Width, device.Viewport.Height);
+                _desktop.Draw();
+            }
+
             _effect.World = Matrix.Identity;
             _effect.View = Camera.View;
             _effect.Projection = Camera.Projection;
-
+            
             _effect.TextureEnabled = true;
             _effect.EnableDefaultLighting();
 
+            device.RasterizerState = RasterizerState.CullNone;
             device.DepthStencilState = DepthStencilState.Default;
 
             foreach (var tile in _tempLevel.Tiles)
@@ -123,11 +153,13 @@ namespace DoomTactics
                 actor.Render(device, _spriteBatch, _alphaTestEffect, Camera, 1);
             }
             //_spriteBatch.End();
+
+
+
         }
 
         private void CreateLevelTemp(ContentManager contentManager)
         {
-            const int levelSize = 10;
             var tempLevelData = HardcodedTestLevel.CreateLevel();
             _tempLevel = LevelFactory.CreateLevel(contentManager, tempLevelData);
         }
