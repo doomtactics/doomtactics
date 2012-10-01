@@ -10,6 +10,7 @@ using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using NLog;
+using Squid;
 
 namespace DoomTactics
 {
@@ -30,6 +31,7 @@ namespace DoomTactics
         private AlphaTestEffect _alphaTestEffect;
         //private IList<ActorBase> _actors;
         private IState _nextState;
+        private Control _actorStatusWindow;
         public ControlScheme CurrentControlScheme;
 
         public GameState(DoomTacticsGame gameInstance, SquidInputManager squidInputManager)
@@ -208,12 +210,13 @@ namespace DoomTactics
         {
             if (actor != null)
             {
-                // create status window
-                var actorInfoWindow = new DoomWindow();                
-                actorInfoWindow.TitleBar.Text = actor.ActorID;
-                actorInfoWindow.Size = new Squid.Point(200, 200);
-                actorInfoWindow.Position = new Squid.Point(50, 100);
-                actorInfoWindow.Parent = _desktop;
+                _actorStatusWindow = new DoomWindowBuilder()
+                    .CanClose(true)
+                    .Size(200, 200)
+                    .Position(50, 100)
+                    .Title(actor.ActorID)
+                    .Parent(_desktop)
+                    .Build();
             }
         }
 

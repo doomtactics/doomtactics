@@ -41,7 +41,13 @@ namespace DoomTactics
 
         private void InitializeControls()
         {
-            _window = new DoomWindow();
+            _window = new DoomWindowBuilder()
+                .Title("DOOM TACTICS")
+                .CanClose(false)
+                .Size(440, 170)
+                .Position(40, 40)
+                .Parent(_desktop)
+                .Build();
             _window.Size = new Squid.Point(440, 170);
             _window.TitleBar.Text = "DOOM TACTICS";
             _window.Position = new Squid.Point(40, 40);

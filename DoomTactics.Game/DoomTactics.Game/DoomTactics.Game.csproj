@@ -118,6 +118,7 @@
     <Compile Include="Actor\Imp.cs" />
     <Compile Include="Controls\DoomDesktop.cs" />
     <Compile Include="Controls\DoomWindow.cs" />
+    <Compile Include="Controls\DoomWindowBuilder.cs" />
     <Compile Include="Data\HardcodedAnimations.cs" />
     <Compile Include="Data\HardcodedTestLevel.cs" />
     <Compile Include="Event\AnimationEvent.cs" />

@@ -22,15 +22,14 @@ namespace DoomTactics.Controls
             TitleBar.OnMouseUp += delegate(Control sender, MouseEventArgs args) { StopDrag(); };
             TitleBar.Cursor = Cursors.Move;
             TitleBar.Style = "frame2";
-            TitleBar.Margin = new Margin(0, 0, 0, -1);
-            TitleBar.Button.OnMouseClick += Button_OnMouseClick;
+            TitleBar.Margin = new Margin(0, 0, 0, -1);            
 
             AllowDragOut = false;
 
             Controls.Add(TitleBar);
         }
 
-        void Button_OnMouseClick(Control sender, MouseEventArgs args)
+        public void Button_OnMouseClick(Control sender, MouseEventArgs args)
         {
             Animation.Custom(FadeAndClose());
         }
