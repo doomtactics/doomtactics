@@ -72,7 +72,7 @@ namespace DoomTactics
                     var westTexture = contentManager.Load<Texture2D>(tileData.WestTextureName);
                     var tileTextures = new TileTextures(topTexture, northTexture, southTexture, eastTexture, westTexture);
                     Vector3 tilePosition = new Vector3(j * 64.0f, tileData.YPosition, i * 64.0f);
-                    var tile = new Tile(tileTextures, tilePosition, tileData.YPosition);
+                    var tile = new Tile(tileTextures, tilePosition, tileData.YPosition, j, i);
                     level.Tiles[index] = tile;
                 }
             }

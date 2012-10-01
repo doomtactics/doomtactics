@@ -18,14 +18,17 @@ namespace DoomTactics
         private readonly Texture2D _texture;
         private VertexPositionNormalTexture[] _vertexes;
         private TileTextures _tileTextures;
+        private BoundingBox _box;
 
-        public Tile(TileTextures tileTextures, Vector3 position, float height)
+        public Tile(TileTextures tileTextures, Vector3 position, float height, int xcoord, int ycoord)
         {
             _tileTextures = tileTextures;
             Construct(position, height);
+            XCoord = xcoord;
+            YCoord = ycoord;
         }
 
-        public void Render(GraphicsDevice device, BasicEffect effect, Effect highlightEffect)
+        public void Render(GraphicsDevice device, BasicEffect effect, Effect highlightEffect, bool isHighlighted)
         {
             using (var buffer = new VertexBuffer(
                 device,
@@ -48,7 +51,7 @@ namespace DoomTactics
                     device.DrawPrimitives(PrimitiveType.TriangleList, 0, 2);
                 }
 
-                if (XCoord == 0 & YCoord == 2)
+                if (isHighlighted)
                 {
                     foreach (EffectPass pass in highlightEffect.CurrentTechnique.Passes)
                     {
@@ -156,6 +159,14 @@ namespace DoomTactics
             _vertexes[27] = new VertexPositionNormalTexture(topLeftFront, normalWest, textureTopLeft);
             _vertexes[28] = new VertexPositionNormalTexture(bottomLeftFront, normalWest, textureBottomLeft);
             _vertexes[29] = new VertexPositionNormalTexture(bottomLeftBack, normalWest, textureBottomRight);
+
+            /* TOP PLANE */
+            _box = new BoundingBox(position, new Vector3(position.X + TileLength, position.Y + height, position.Z + TileLength));
+        }
+
+        public BoundingBox CreateBoundingBox()
+        {
+            return _box;
         }
     }
 }

@@ -130,9 +130,11 @@ namespace DoomTactics
             device.RasterizerState = RasterizerState.CullNone;
             device.DepthStencilState = DepthStencilState.Default;
 
+            Tile highlightedTile = FindHighlightedTile();
             foreach (var tile in _level.Tiles)
             {
-                tile.Render(device, _effect, _highlightingEffectContainer.GetEffect());             
+                bool isHighlighted = (tile == highlightedTile);
+                tile.Render(device, _effect, _highlightingEffectContainer.GetEffect(), isHighlighted);
             }
 
             _spriteEffect.TextureEnabled = true;
@@ -143,7 +145,7 @@ namespace DoomTactics
             _alphaTestEffect.AlphaFunction = CompareFunction.Greater;
             _alphaTestEffect.ReferenceAlpha = 128;                
             foreach (var actor in _level.Actors)
-            {
+            {                
                 actor.Render(device, _spriteBatch, _alphaTestEffect, Camera, 0);
             }
             // Pass 2: alpha blend
@@ -161,6 +163,33 @@ namespace DoomTactics
                 _desktop.Draw();
             }
 
+        }
+
+        public Tile FindHighlightedTile()
+        {
+            if (CurrentControlScheme == ControlScheme.Locked)
+            {
+                Vector2 mousePosition = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+                Vector3 nearpoint = new Vector3(mousePosition, 0);
+                Vector3 farpoint = new Vector3(mousePosition, 1.0f);
+
+                nearpoint = _gameInstance.GraphicsDevice.Viewport.Unproject(nearpoint, Camera.Projection, Camera.View,
+                                                                       Matrix.Identity);
+                farpoint = _gameInstance.GraphicsDevice.Viewport.Unproject(farpoint, Camera.Projection, Camera.View,
+                                                                            Matrix.Identity);
+
+                Vector3 direction = Vector3.Normalize(farpoint - nearpoint);
+                Ray ray = new Ray(nearpoint, direction);
+
+                foreach (var tile in _level.Tiles)
+                {
+                    if (ray.Intersects(tile.CreateBoundingBox()).HasValue)
+                    {
+                        return tile;
+                    }
+                }
+            }
+            return null;
         }
 
         private void CreateLevelTemp(ContentManager contentManager)
