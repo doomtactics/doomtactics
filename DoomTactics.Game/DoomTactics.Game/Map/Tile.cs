@@ -25,7 +25,7 @@ namespace DoomTactics
             Construct(position, height);
         }
 
-        public void Render(GraphicsDevice device, BasicEffect effect)
+        public void Render(GraphicsDevice device, BasicEffect effect, Effect highlightEffect)
         {
             using (var buffer = new VertexBuffer(
                 device,
@@ -43,9 +43,18 @@ namespace DoomTactics
                 // top
                 foreach (EffectPass pass in effect.CurrentTechnique.Passes)
                 {
-                    effect.Texture = _tileTextures.Top;
+                    effect.Texture = _tileTextures.Top;                    
                     pass.Apply();
                     device.DrawPrimitives(PrimitiveType.TriangleList, 0, 2);
+                }
+
+                if (XCoord == 0 & YCoord == 2)
+                {
+                    foreach (EffectPass pass in highlightEffect.CurrentTechnique.Passes)
+                    {
+                        pass.Apply();
+                        device.DrawPrimitives(PrimitiveType.TriangleList, 0, 2);
+                    }
                 }
 
                 // north

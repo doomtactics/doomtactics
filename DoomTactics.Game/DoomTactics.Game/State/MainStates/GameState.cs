@@ -26,6 +26,7 @@ namespace DoomTactics
         private IInputProcessor _processor;
         private SpriteBatch _spriteBatch;
         private BasicEffect _spriteEffect;
+        private HighlightEffectContainer _highlightingEffectContainer;
         private AlphaTestEffect _alphaTestEffect;
         //private IList<ActorBase> _actors;
         private IState _nextState;
@@ -63,6 +64,7 @@ namespace DoomTactics
 
             _spriteBatch = new SpriteBatch(_gameInstance.GraphicsDevice);
             _spriteEffect = new BasicEffect(_gameInstance.GraphicsDevice);
+            _highlightingEffectContainer = new HighlightEffectContainer(_gameInstance.Content);            
             _alphaTestEffect = new AlphaTestEffect(_gameInstance.GraphicsDevice);
         }
 
@@ -130,7 +132,7 @@ namespace DoomTactics
 
             foreach (var tile in _level.Tiles)
             {
-                tile.Render(device, _effect);             
+                tile.Render(device, _effect, _highlightingEffectContainer.GetEffect());             
             }
 
             _spriteEffect.TextureEnabled = true;
