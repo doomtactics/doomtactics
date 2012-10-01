@@ -14,6 +14,8 @@ namespace DoomTactics
         public string ActorID;
         public int Height;
         public int Width;
+        public int Speed;
+        public int ChargeTime;
         protected ActorAnimation CurrentAnimation;
 
         public virtual SpriteSheet SpriteSheet
@@ -33,11 +35,13 @@ namespace DoomTactics
         protected ActorBase(string id)
         {
             ActorID = id;
+            ChargeTime = 0;
         }
 
         public virtual void Update(GameTime elapsedTime)
         {
             CurrentAnimation.Update(elapsedTime.ElapsedGameTime);
+            ChargeTime += Speed;
         }
 
         public void Render(GraphicsDevice device, SpriteBatch spriteBatch, AlphaTestEffect spriteEffect, Camera camera, int passNumber)
