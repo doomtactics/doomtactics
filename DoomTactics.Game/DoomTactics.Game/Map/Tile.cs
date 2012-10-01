@@ -161,7 +161,7 @@ namespace DoomTactics
             _vertexes[29] = new VertexPositionNormalTexture(bottomLeftBack, normalWest, textureBottomRight);
 
             /* TOP PLANE */
-            _box = new BoundingBox(position, new Vector3(position.X + TileLength, position.Y + height, position.Z + TileLength));
+            _box = new BoundingBox(new Vector3(position.X, position.Y - height, position.Z), new Vector3(position.X + TileLength, position.Y, position.Z + TileLength));
         }
 
         public BoundingBox CreateBoundingBox()
