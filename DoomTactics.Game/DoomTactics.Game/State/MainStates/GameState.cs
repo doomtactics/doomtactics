@@ -29,15 +29,15 @@ namespace DoomTactics
         private BasicEffect _spriteEffect;
         private HighlightEffectContainer _highlightingEffectContainer;
         private AlphaTestEffect _alphaTestEffect;
-        //private IList<ActorBase> _actors;
         private IState _nextState;
         private Control _actorStatusWindow;
+        private ActorBase _activeUnit;
         public ControlScheme CurrentControlScheme;
 
         public GameState(DoomTacticsGame gameInstance, SquidInputManager squidInputManager)
         {
             _gameInstance = gameInstance;
-            _desktop = new DoomDesktop();            
+            _desktop = new DoomDesktop();
             _squidInputManager = squidInputManager;
             _nextState = null;
         }
@@ -53,10 +53,12 @@ namespace DoomTactics
             _desktop.Visible = false;
 
             // camera
-            float aspectRatio = (float)_gameInstance.Window.ClientBounds.Width / _gameInstance.Window.ClientBounds.Height;
-            Camera = new Camera("camera", new Vector3(-96f, 32f, 32f), new Vector3(32.0f, 32.0f, 32.0f), Vector3.Up, aspectRatio);
+            float aspectRatio = (float) _gameInstance.Window.ClientBounds.Width/_gameInstance.Window.ClientBounds.Height;
+            Camera = new Camera("camera", new Vector3(-96f, 32f, 32f), new Vector3(32.0f, 32.0f, 32.0f), Vector3.Up,
+                                aspectRatio);
             MessagingSystem.Subscribe(Camera.MoveCamera, DoomEventType.CameraMoveEvent, "camera");
-            
+            MessagingSystem.Subscribe(OnChargeTimeReached, DoomEventType.ChargeTimeReached, "gamestate");
+
             _effect = new BasicEffect(_gameInstance.GraphicsDevice);
             //_tile = new Tile(_temptex, Vector3.Zero);
             //_tile2 = new Tile(_temptex, new Vector3(0.0f, 0.0f, 64.0f));
@@ -66,13 +68,14 @@ namespace DoomTactics
 
             _spriteBatch = new SpriteBatch(_gameInstance.GraphicsDevice);
             _spriteEffect = new BasicEffect(_gameInstance.GraphicsDevice);
-            _highlightingEffectContainer = new HighlightEffectContainer(_gameInstance.Content);            
+            _highlightingEffectContainer = new HighlightEffectContainer(_gameInstance.Content);
             _alphaTestEffect = new AlphaTestEffect(_gameInstance.GraphicsDevice);
         }
 
         public void OnExit()
         {
-            
+            MessagingSystem.Unsubscribe("camera");
+            MessagingSystem.Unsubscribe("gamestate");
         }
 
         public bool IsPaused
@@ -95,8 +98,18 @@ namespace DoomTactics
             if (_nextState != null)
                 return _nextState;
 
+            if (_activeUnit == null)
+            {
+                foreach (var actor in _level.Actors)
+                {
+                    actor.IncreaseCT();
+                }
+            }
+
             foreach (var actor in _level.Actors)
+            {
                 actor.Update(gameTime);
+            }
 
             return _nextState;
         }
@@ -119,13 +132,13 @@ namespace DoomTactics
         }
 
         public void Render(GraphicsDevice device)
-        {          
+        {
             _level.DrawBackground(device, _spriteBatch);
 
             _effect.World = Matrix.Identity;
             _effect.View = Camera.View;
             _effect.Projection = Camera.Projection;
-            
+
             _effect.TextureEnabled = true;
             _effect.EnableDefaultLighting();
 
@@ -145,9 +158,9 @@ namespace DoomTactics
             //_spriteBatch.Begin(0, null, null, DepthStencilState.DepthRead, RasterizerState.CullNone, _alphaTestEffect);
             // Pass 1: full alpha
             _alphaTestEffect.AlphaFunction = CompareFunction.Greater;
-            _alphaTestEffect.ReferenceAlpha = 128;                
+            _alphaTestEffect.ReferenceAlpha = 128;
             foreach (var actor in _level.Actors)
-            {                
+            {
                 actor.Render(device, _spriteBatch, _alphaTestEffect, Camera, 0);
             }
             // Pass 2: alpha blend
@@ -176,9 +189,9 @@ namespace DoomTactics
                 Vector3 farpoint = new Vector3(mousePosition, 1.0f);
 
                 nearpoint = _gameInstance.GraphicsDevice.Viewport.Unproject(nearpoint, Camera.Projection, Camera.View,
-                                                                       Matrix.Identity);
-                farpoint = _gameInstance.GraphicsDevice.Viewport.Unproject(farpoint, Camera.Projection, Camera.View,
                                                                             Matrix.Identity);
+                farpoint = _gameInstance.GraphicsDevice.Viewport.Unproject(farpoint, Camera.Projection, Camera.View,
+                                                                           Matrix.Identity);
 
                 Vector3 direction = Vector3.Normalize(farpoint - nearpoint);
                 Ray ray = new Ray(nearpoint, direction);
@@ -202,7 +215,7 @@ namespace DoomTactics
 
         public void ShowCurrentlyHoveredUnitStatus(Vector2 mousePosition)
         {
-            var actor = SelectCurrentlyHoveredUnit(mousePosition);            
+            var actor = SelectCurrentlyHoveredUnit(mousePosition);
             ShowUnitStatus(actor);
         }
 
@@ -221,14 +234,14 @@ namespace DoomTactics
         }
 
         private ActorBase SelectCurrentlyHoveredUnit(Vector2 mousePosition)
-        {            
+        {
             Vector3 nearpoint = new Vector3(mousePosition, 0);
             Vector3 farpoint = new Vector3(mousePosition, 1.0f);
 
             nearpoint = _gameInstance.GraphicsDevice.Viewport.Unproject(nearpoint, Camera.Projection, Camera.View,
                                                                         Matrix.Identity);
             farpoint = _gameInstance.GraphicsDevice.Viewport.Unproject(farpoint, Camera.Projection, Camera.View,
-                                                                        Matrix.Identity);
+                                                                       Matrix.Identity);
 
             Vector3 direction = Vector3.Normalize(farpoint - nearpoint);
             Ray ray = new Ray(nearpoint, direction);
@@ -246,10 +259,34 @@ namespace DoomTactics
                 }
             }
 
-            if (intersected != null)            
+            if (intersected != null)
                 Log.Debug("Intersected with " + intersected.ActorID);
 
             return intersected;
+        }
+
+        private void ShowActionMenu()
+        {
+            
+        }
+
+        private void SetLockedControlScheme()
+        {
+            CurrentControlScheme = ControlScheme.Locked;
+            _desktop.Visible = true;
+            _desktop.ShowCursor = true;
+        }
+
+        public void OnChargeTimeReached(IDoomEvent doomEvent)
+        {
+            if (_activeUnit == null)
+            {
+                var turnEvent = (TurnEvent) doomEvent;
+                _activeUnit = turnEvent.Actor;
+                Camera.MoveTo(_activeUnit.Position + new Vector3(100, _activeUnit.Height + 10, 100));
+                Camera.LookAt(_activeUnit.Position);
+                SetLockedControlScheme();
+            }
         }
     }
 }
