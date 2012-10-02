@@ -127,6 +127,7 @@
     <Compile Include="Event\IDoomEvent.cs" />
     <Compile Include="Event\MessagingHelper.cs" />
     <Compile Include="Event\MessagingSystem.cs" />
+    <Compile Include="Event\TurnEvent.cs" />
     <Compile Include="Input\GameInputProcessor.cs" />
     <Compile Include="Input\IInputProcessor.cs" />
     <Compile Include="Input\SquidInputManager.cs" />

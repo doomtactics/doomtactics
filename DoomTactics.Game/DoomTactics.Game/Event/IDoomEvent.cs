@@ -2,10 +2,15 @@
 {
     public enum DoomEventType
     {
+        // camera
         CameraMoveEvent,
 
+        // animation
         AnimationStart,
-        AnimationEnd
+        AnimationEnd,
+
+        // gameplay -- turn
+        ChargeTimeReached,
     }    
 
     public interface IDoomEvent

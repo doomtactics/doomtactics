@@ -14,6 +14,7 @@ namespace DoomTactics
         {
             Height = 56;
             Width = 40;
+            Speed = 4;
             Position = position;
             CurrentAnimation = ActorAnimationManager.Make("impidle", "testimp");
             SpriteSheet = SpriteSheetFactory.CreateSpriteSheet(ActorType.Imp);

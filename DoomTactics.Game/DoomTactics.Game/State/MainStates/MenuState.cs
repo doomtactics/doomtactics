@@ -76,7 +76,7 @@ namespace DoomTactics
 
         public void OnExit()
         {
-            
+
         }
 
         public bool IsPaused

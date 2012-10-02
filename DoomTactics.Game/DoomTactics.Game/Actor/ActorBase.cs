@@ -41,7 +41,17 @@ namespace DoomTactics
         public virtual void Update(GameTime elapsedTime)
         {
             CurrentAnimation.Update(elapsedTime.ElapsedGameTime);
+        }
+
+        public void IncreaseCT()
+        {
             ChargeTime += Speed;
+            if (ChargeTime >= 100)
+            {
+                ChargeTime = 100;
+                var turnEvent = new TurnEvent(DoomEventType.ChargeTimeReached, this);
+                MessagingSystem.DispatchEvent(turnEvent);
+            }
         }
 
         public void Render(GraphicsDevice device, SpriteBatch spriteBatch, AlphaTestEffect spriteEffect, Camera camera, int passNumber)

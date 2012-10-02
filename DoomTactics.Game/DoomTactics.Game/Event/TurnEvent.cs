@@ -5,16 +5,16 @@ using System.Text;
 
 namespace DoomTactics
 {
-    public struct AnimationEvent : IDoomEvent
+    public struct TurnEvent : IDoomEvent
     {
         private readonly DoomEventType _eventType;
-        private readonly string _entityName;
         private readonly string[] _listenerNames;
+        private readonly ActorBase _actor;
 
-        public AnimationEvent(DoomEventType eventType, string entityName, params string[] listenerNames)
+        public TurnEvent(DoomEventType eventType, ActorBase actor, params string[] listenerNames)
         {
-            _entityName = entityName;
             _eventType = eventType;
+            _actor = actor;
             _listenerNames = listenerNames;
         }
 
@@ -28,9 +28,9 @@ namespace DoomTactics
             get { return _listenerNames; }
         }
 
-        public string EntityName
+        public ActorBase Actor
         {
-            get { return _entityName; }
+            get { return _actor; }
         }
     }
 }

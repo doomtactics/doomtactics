@@ -72,6 +72,18 @@ namespace DoomTactics
             UpdateView();
         }
 
+        public void MoveTo(Vector3 position)
+        {
+            Position = position;
+            UpdateView();
+        }
+
+        public void LookAt(Vector3 targetPosition)
+        {
+            Direction = targetPosition - Position;
+            Direction.Normalize();
+            UpdateView();
+        }
 
         private void UpdateView()
         {

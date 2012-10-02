@@ -15,6 +15,11 @@ namespace DoomTactics
             _helper.Subscribe(callback, eventType, name);
         }
 
+        public static void Unsubscribe(string name)
+        {
+            _helper.Unsubscribe(name);
+        }
+
         public static void DispatchEvent(IDoomEvent evt)
         {
             _queue.Enqueue(evt);
