@@ -26,9 +26,13 @@ namespace DoomTactics.Input
             {
                 ProcessFreeCameraControls(keyState, mouseState);
             }
-            else
+            else if (_gameState.CurrentControlScheme == ControlScheme.TileSelection)
             {
                 ProcessHudControls(keyState, mouseState);
+            }
+            else if (_gameState.CurrentControlScheme == ControlScheme.TileSelection)
+            {
+                ProcessTileSelectionControls(keyState, mouseState);
             }
 
             if (KeyPressed(Keys.V, keyState))
@@ -53,7 +57,15 @@ namespace DoomTactics.Input
             OldKeyState = keyState;
             OldMouseState = Mouse.GetState();
         }
-       
+
+        private void ProcessTileSelectionControls(KeyboardState keyState, MouseState mouseState)
+        {
+            if (MouseButtonClicked(mouseState.LeftButton, OldMouseState.LeftButton))
+            {
+                _gameState.PerformActionOnHoveredTile(new Vector2(mouseState.X, mouseState.Y));
+            }
+        }
+
         private void ProcessFreeCameraControls(KeyboardState keyState, MouseState mouseState)
         {
             Vector2 mouseMove = new Vector2(mouseState.X - OldMouseState.X, mouseState.Y - OldMouseState.Y);
@@ -84,6 +96,8 @@ namespace DoomTactics.Input
                 _gameState.ShowCurrentlyHoveredUnitStatus(new Vector2(mouseState.X, mouseState.Y));
             }
         }
+
+
 
         private bool MouseButtonClicked(ButtonState newButtonState, ButtonState oldButtonState)
         {

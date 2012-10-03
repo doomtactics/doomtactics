@@ -19,6 +19,10 @@ namespace DoomTactics
             CurrentAnimation = ActorAnimationManager.Make("impidle", "testimp");
             SpriteSheet = SpriteSheetFactory.CreateSpriteSheet(ActorType.Imp);
         }
-        
+
+        public void ShootFireball(Tile tile)
+        {
+            
+        }
     }
 }

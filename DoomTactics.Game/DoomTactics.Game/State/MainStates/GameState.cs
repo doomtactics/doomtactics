@@ -88,11 +88,8 @@ namespace DoomTactics
         {
             MessagingSystem.ProcessQueued();
 
-            if (CurrentControlScheme == ControlScheme.Locked)
-            {
                 _squidInputManager.Update(gameTime);
                 _desktop.Update();
-            }
 
             _processor.ProcessInput(Keyboard.GetState(), Mouse.GetState(), gameTime);
 
@@ -183,7 +180,7 @@ namespace DoomTactics
 
         public Tile FindHighlightedTile()
         {
-            if (CurrentControlScheme == ControlScheme.Locked)
+            if (CurrentControlScheme == ControlScheme.Locked || CurrentControlScheme == ControlScheme.TileSelection)
             {
                 Vector2 mousePosition = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
                 Vector3 nearpoint = new Vector3(mousePosition, 0);
@@ -252,7 +249,7 @@ namespace DoomTactics
         private void OpenActionSubmenu(Control control, MouseEventArgs args)
         {
             new ActionMenuBuilder()
-                .Action("Fireball", SelectTargetTile)
+                .Action("Fireball", SwitchToTileSelectionMode)
                 .Action("Eviscerate", null)
                 .Position(250, 120)
                 .Size(200, 150)
@@ -260,9 +257,9 @@ namespace DoomTactics
                 .Build();
         }
 
-        private void SelectTargetTile(Control control, MouseEventArgs args)
+        private void SwitchToTileSelectionMode(Control control, MouseEventArgs args)
         {
-            
+            CurrentControlScheme = ControlScheme.TileSelection;            
         }
 
         private ActorBase SelectCurrentlyHoveredUnit(Vector2 mousePosition)
@@ -315,6 +312,12 @@ namespace DoomTactics
                 SetLockedControlScheme();
                 ShowUnitStatus(_activeUnit);
             }
+        }
+
+        public void PerformActionOnHoveredTile(Vector2 vector2)
+        {
+            var tile = FindHighlightedTile();
+            (_activeUnit as Imp).ShootFireball(tile);
         }
     }
 }
