@@ -310,9 +310,10 @@ namespace DoomTactics
             {
                 var turnEvent = (TurnEvent) doomEvent;
                 _activeUnit = turnEvent.Actor;
-                Camera.MoveTo(_activeUnit.Position + new Vector3(100, _activeUnit.Height + 10, 100));
-                Camera.LookAt(_activeUnit.Position);
+                Camera.MoveTo(_activeUnit.Position + new Vector3(200, _activeUnit.Height + 10, 200));
+                Camera.LookAt(_activeUnit.Position + new Vector3(0, _activeUnit.Height / 2, 0));
                 SetLockedControlScheme();
+                ShowUnitStatus(_activeUnit);
             }
         }
     }
