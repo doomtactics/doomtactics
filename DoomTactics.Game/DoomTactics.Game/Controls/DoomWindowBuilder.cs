@@ -6,13 +6,10 @@ using Squid;
 
 namespace DoomTactics.Controls
 {
-    public class DoomWindowBuilder
+    public class DoomWindowBuilder : ControlBuilder<DoomWindow>
     {
         private string _title;
-        private Squid.Point _size;
-        private Squid.Point _position;
         private bool _canClose;
-        private Control _parentControl;
 
         public DoomWindowBuilder()
         {
@@ -20,24 +17,12 @@ namespace DoomTactics.Controls
             _size = Point.Zero;
             _position = Point.Zero;
             _canClose = false;
-            _parentControl = null;
+            _parent = null;
         }
 
         public DoomWindowBuilder Title(string title)
         {
             _title = title;
-            return this;
-        }
-
-        public DoomWindowBuilder Size(int x, int y)
-        {
-            _size = new Point(x, y);
-            return this;
-        }
-
-        public DoomWindowBuilder Position(int x, int y)
-        {
-            _position = new Point(x, y);
             return this;
         }
 
@@ -47,13 +32,7 @@ namespace DoomTactics.Controls
             return this;
         }
 
-        public DoomWindowBuilder Parent(Control parentControl)
-        {
-            _parentControl = parentControl;
-            return this;
-        }
-
-        public DoomWindow Build()
+        public override DoomWindow Build()
         {
             var window = new DoomWindow();
             window.Position = _position;
@@ -63,7 +42,7 @@ namespace DoomTactics.Controls
             {
                 window.TitleBar.Button.OnMouseClick += window.Button_OnMouseClick;
             }
-            window.Parent = _parentControl;
+            window.Parent = _parent;
 
             return window;
         }

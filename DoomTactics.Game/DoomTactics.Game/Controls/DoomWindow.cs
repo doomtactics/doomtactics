@@ -18,8 +18,8 @@ namespace DoomTactics.Controls
             TitleBar = new TitleBar();
             TitleBar.Dock = DockStyle.Top;
             TitleBar.Size = new Squid.Point(122, 35);
-            TitleBar.OnMouseDown += delegate(Control sender, MouseEventArgs args) { StartDrag(); };
-            TitleBar.OnMouseUp += delegate(Control sender, MouseEventArgs args) { StopDrag(); };
+            TitleBar.OnMouseDown += (ctl, args) => StartDrag(); 
+            TitleBar.OnMouseUp += (ctl, args) => StopDrag(); 
             TitleBar.Cursor = Cursors.Move;
             TitleBar.Style = "frame2";
             TitleBar.Margin = new Margin(0, 0, 0, -1);            
@@ -44,6 +44,7 @@ namespace DoomTactics.Controls
 
             Close();
         }
+
     }
 
     public class TitleBar : Label 
