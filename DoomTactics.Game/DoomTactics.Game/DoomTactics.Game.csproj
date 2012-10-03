@@ -116,6 +116,8 @@
   <ItemGroup>
     <Compile Include="Actor\ActorBase.cs" />
     <Compile Include="Actor\Imp.cs" />
+    <Compile Include="Controls\ActionMenuBuilder.cs" />
+    <Compile Include="Controls\ControlBuilder.cs" />
     <Compile Include="Controls\DoomDesktop.cs" />
     <Compile Include="Controls\DoomWindow.cs" />
     <Compile Include="Controls\DoomWindowBuilder.cs" />

@@ -30,8 +30,9 @@ namespace DoomTactics
         private HighlightEffectContainer _highlightingEffectContainer;
         private AlphaTestEffect _alphaTestEffect;
         private IState _nextState;
-        private Control _actorStatusWindow;
+        private DoomWindow _actorStatusWindow;
         private ActorBase _activeUnit;
+        private DoomWindow _actorActionMenuWindow;        
         public ControlScheme CurrentControlScheme;
 
         public GameState(DoomTacticsGame gameInstance, SquidInputManager squidInputManager)
@@ -223,14 +224,45 @@ namespace DoomTactics
         {
             if (actor != null)
             {
-                _actorStatusWindow = new DoomWindowBuilder()
-                    .CanClose(true)
-                    .Size(200, 200)
-                    .Position(50, 100)
-                    .Title(actor.ActorID)
-                    .Parent(_desktop)
-                    .Build();
+                if (actor != _activeUnit)
+                {
+                    _actorStatusWindow = new DoomWindowBuilder()
+                        .CanClose(true)
+                        .Title(actor.ActorID)
+                        .Size(200, 200)
+                        .Position(50, 100)                        
+                        .Parent(_desktop)
+                        .Build();
+                }
+                else
+                {
+                    _actorActionMenuWindow = new ActionMenuBuilder()                        
+                        .ActorName(actor.ActorID)
+                        .Action("Action", OpenActionSubmenu)
+                        .Action("Wait", null)
+                        .Action("Turn", null)
+                        .Position(50, 100)
+                        .Size(200, 200)
+                        .Parent(_desktop)
+                        .Build();                 
+                }
             }
+        }
+
+        private void OpenActionSubmenu(Control control, MouseEventArgs args)
+        {
+            new ActionMenuBuilder()
+                .Action("Fireball", SelectTargetTile)
+                .Action("Eviscerate", null)
+                .Position(250, 120)
+                .Size(200, 150)
+                .Parent(_desktop)
+                .Build();
+        }
+
+        private void SelectTargetTile(Control control, MouseEventArgs args)
+        {
+            
         }
 
         private ActorBase SelectCurrentlyHoveredUnit(Vector2 mousePosition)
@@ -263,11 +295,6 @@ namespace DoomTactics
                 Log.Debug("Intersected with " + intersected.ActorID);
 
             return intersected;
-        }
-
-        private void ShowActionMenu()
-        {
-            
         }
 
         private void SetLockedControlScheme()
