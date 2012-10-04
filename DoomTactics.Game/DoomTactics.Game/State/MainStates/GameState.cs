@@ -34,6 +34,7 @@ namespace DoomTactics
         private ActorBase _activeUnit;
         private DoomWindow _actorActionMenuWindow;        
         public ControlScheme CurrentControlScheme;
+        private IDictionary<ActorType, Func<Vector3, Vector3, ActorBase>> _spawnMethods; 
 
         public GameState(DoomTacticsGame gameInstance, SquidInputManager squidInputManager)
         {
@@ -41,6 +42,19 @@ namespace DoomTactics
             _desktop = new DoomDesktop();
             _squidInputManager = squidInputManager;
             _nextState = null;
+            _spawnMethods = new Dictionary<ActorType, Func<Vector3, Vector3, ActorBase>>();
+            CreateSpawnMethodsTemp();
+        }
+
+        private void CreateSpawnMethodsTemp()
+        {
+            _spawnMethods.Add(ActorType.ImpFireball, (p, v) =>
+                                                        {
+                                                            var fireball = new ImpFireball("fireball");
+                                                            fireball.Position = p;
+                                                            fireball.Velocity = v;
+                                                            return fireball;
+                                                        });
         }
 
         public void OnEnter()
@@ -319,5 +333,19 @@ namespace DoomTactics
             var tile = FindHighlightedTile();
             (_activeUnit as Imp).ShootFireball(tile);
         }
+
+        public void OnActorSpawn(IDoomEvent evt)
+        {
+            var actorEvent = (SpawnActorEvent) evt;
+            var spawnMethod = _spawnMethods[actorEvent.ActorType];
+            var newActor = spawnMethod.Invoke(actorEvent.SpawnPosition, actorEvent.InitialVelocity);
+            _level.Actors.Add(newActor);
+        }
+
+        public void OnActorDespawn(IDoomEvent evt)
+        {
+            
+        }
+
     }
 }

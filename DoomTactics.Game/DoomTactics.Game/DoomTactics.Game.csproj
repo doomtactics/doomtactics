@@ -124,8 +124,10 @@
     <Compile Include="Controls\DoomWindowBuilder.cs" />
     <Compile Include="Data\HardcodedAnimations.cs" />
     <Compile Include="Data\HardcodedTestLevel.cs" />
+    <Compile Include="Event\ActorEvent.cs" />
     <Compile Include="Event\AnimationEvent.cs" />
     <Compile Include="Event\CameraEvent.cs" />
+    <Compile Include="Event\DespawnActorEvent.cs" />
     <Compile Include="Event\DoomEvent.cs" />
     <Compile Include="Event\IDoomEvent.cs" />
     <Compile Include="Event\MessagingHelper.cs" />
@@ -145,6 +147,7 @@
     <Compile Include="Render\ActorAnimationManager.cs" />
     <Compile Include="Render\Cube.cs" />
     <Compile Include="Render\Effect\HighlightEffectContainer.cs" />
+    <Compile Include="Render\ImpFireballSheet.cs" />
     <Compile Include="Render\ImpSheet.cs" />
     <Compile Include="Render\RendererXna.cs" />
     <Compile Include="Render\SpriteSheet.cs" />

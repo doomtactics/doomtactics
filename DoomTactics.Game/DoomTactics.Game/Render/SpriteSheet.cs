@@ -26,6 +26,7 @@ namespace DoomTactics
             {
                 _sheets = new Dictionary<ActorType, Func<SpriteSheet>>();
                 _sheets[ActorType.Imp] = () => new ImpSheet(contentManager.Load<Texture2D>("sheets\\impsheet"));
+                _sheets[ActorType.ImpFireball] = () => new ImpFireballSheet(contentManager.Load<Texture2D>("sheets\\impfireballsheet"));
             }
         }
     }
@@ -103,6 +104,14 @@ namespace DoomTactics
             TextureMap = new Dictionary<AngledSprite, SpriteRenderDetails>();
         }
         
+        protected void AddUnangledSprite(string spriteName, SpriteRenderDetails details)
+        {
+            foreach (Angle angle in Enum.GetValues(typeof(Angle)))
+            {
+                TextureMap.Add(new AngledSprite(spriteName, angle), details);
+            }
+        }
+
         public SpriteRenderDetails GetRectangle(string name, Angle angle)
         {
             return GetRectangle(new AngledSprite(name, angle));

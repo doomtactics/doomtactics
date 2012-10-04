@@ -46,7 +46,10 @@ namespace DoomTactics
         Marine,
         Imp,
         Caco,
-        Demon
+        Demon,
+
+        // Projectiles
+        ImpFireball,
     }
 
     public static class LevelFactory

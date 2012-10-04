@@ -292,6 +292,11 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="sheets\impfireballsheet.png">
+      <Name>impfireballsheet</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
     <Content Include="squid\SampleMapCoords.xml">
       <Name>SampleMapCoords</Name>
       <Importer>XmlImporter</Importer>

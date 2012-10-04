@@ -11,6 +11,10 @@
 
         // gameplay -- turn
         ChargeTimeReached,
+
+        // gameplay -- actor spawn etc
+        SpawnActor,
+        DespawnActor,
     }    
 
     public interface IDoomEvent
