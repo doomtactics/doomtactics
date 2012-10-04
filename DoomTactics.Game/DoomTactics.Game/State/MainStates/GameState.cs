@@ -73,6 +73,7 @@ namespace DoomTactics
                                 aspectRatio);
             MessagingSystem.Subscribe(Camera.MoveCamera, DoomEventType.CameraMoveEvent, "camera");
             MessagingSystem.Subscribe(OnChargeTimeReached, DoomEventType.ChargeTimeReached, "gamestate");
+            MessagingSystem.Subscribe(OnActorSpawn, DoomEventType.SpawnActor, "gamestate");
 
             _effect = new BasicEffect(_gameInstance.GraphicsDevice);
             //_tile = new Tile(_temptex, Vector3.Zero);

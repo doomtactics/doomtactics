@@ -26,7 +26,7 @@ namespace DoomTactics.Input
             {
                 ProcessFreeCameraControls(keyState, mouseState);
             }
-            else if (_gameState.CurrentControlScheme == ControlScheme.TileSelection)
+            else if (_gameState.CurrentControlScheme == ControlScheme.Locked)
             {
                 ProcessHudControls(keyState, mouseState);
             }

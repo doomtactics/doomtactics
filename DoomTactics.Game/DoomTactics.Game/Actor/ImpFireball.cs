@@ -12,7 +12,9 @@ namespace DoomTactics
 
         public ImpFireball(string id) : base(id + _ballNum++)
         {
-            CurrentAnimation = ActorAnimationManager.Make("impidle", "testimp");
+            Height = 32;
+            Width = 32;
+            CurrentAnimation = ActorAnimationManager.Make("impfireballidle", ActorID);
             SpriteSheet = SpriteSheetFactory.CreateSpriteSheet(ActorType.ImpFireball);
         }
     }
