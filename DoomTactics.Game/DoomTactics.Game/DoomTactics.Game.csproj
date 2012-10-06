@@ -117,11 +117,12 @@
     <Compile Include="Actor\ActorBase.cs" />
     <Compile Include="Actor\Imp.cs" />
     <Compile Include="Actor\ImpFireball.cs" />
-    <Compile Include="Controls\ActionMenuBuilder.cs" />
-    <Compile Include="Controls\ControlBuilder.cs" />
+    <Compile Include="Controls\ActionMenu.cs" />
+    <Compile Include="Controls\Builders\ActionMenuBuilder.cs" />
+    <Compile Include="Controls\Builders\ControlBuilder.cs" />
     <Compile Include="Controls\DoomDesktop.cs" />
     <Compile Include="Controls\DoomWindow.cs" />
-    <Compile Include="Controls\DoomWindowBuilder.cs" />
+    <Compile Include="Controls\Builders\DoomWindowBuilder.cs" />
     <Compile Include="Data\HardcodedAnimations.cs" />
     <Compile Include="Data\HardcodedTestLevel.cs" />
     <Compile Include="Event\ActorEvent.cs" />
@@ -155,6 +156,10 @@
     <Compile Include="State\IState.cs" />
     <Compile Include="State\MainStates\BootstrapState.cs" />
     <Compile Include="State\MainStates\GameState.cs" />
+    <Compile Include="State\MainStates\GameStates\FreeCamera.cs" />
+    <Compile Include="State\MainStates\GameStates\ActionSelection.cs" />
+    <Compile Include="State\MainStates\GameStates\GameStateBase.cs" />
+    <Compile Include="State\MainStates\GameStates\TargetSelection.cs" />
     <Compile Include="State\MainStates\MenuState.cs" />
     <Compile Include="State\MainStates\TeamSelectionState.cs" />
     <Compile Include="State\StateMachine.cs" />

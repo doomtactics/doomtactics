@@ -14,9 +14,10 @@ namespace DoomTactics
         public StateMachine(IState initialState)
         {
             _currentState = initialState;
+            _currentState.OnEnter();
         }
 
-        public IState Currentstate { get { return _currentState; } }
+        public IState CurrentState { get { return _currentState; } }
 
         public void Update(GameTime gameTime)
         {
@@ -33,5 +34,12 @@ namespace DoomTactics
         {
             _currentState.Render(graphicsDevice);
         }
+
+        public void SetState(IState newState)
+        {
+            _currentState.OnExit();
+            _currentState = newState;
+            _currentState.OnEnter();
+        }       
     }
 }

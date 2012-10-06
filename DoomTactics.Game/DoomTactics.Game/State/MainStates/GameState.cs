@@ -19,22 +19,22 @@ namespace DoomTactics
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
 
         public Camera Camera;
-        private DoomTacticsGame _gameInstance;
+        public Level Level;
+
+        private readonly DoomTacticsGame _gameInstance;
         private readonly DoomDesktop _desktop;
         private readonly SquidInputManager _squidInputManager;
         private BasicEffect _effect;
-        private Level _level;
         private IInputProcessor _processor;
         private SpriteBatch _spriteBatch;
         private BasicEffect _spriteEffect;
         private HighlightEffectContainer _highlightingEffectContainer;
         private AlphaTestEffect _alphaTestEffect;
         private IState _nextState;
-        private DoomWindow _actorStatusWindow;
         private ActorBase _activeUnit;
-        private DoomWindow _actorActionMenuWindow;        
-        public ControlScheme CurrentControlScheme;
-        private IDictionary<ActorType, Func<Vector3, Vector3, ActorBase>> _spawnMethods; 
+        private IDictionary<ActorType, Func<Vector3, Vector3, ActorBase>> _spawnMethods;
+        private readonly StateMachine _stateMachine;
+
 
         public GameState(DoomTacticsGame gameInstance, SquidInputManager squidInputManager)
         {
@@ -42,6 +42,7 @@ namespace DoomTactics
             _desktop = new DoomDesktop();
             _squidInputManager = squidInputManager;
             _nextState = null;
+            _stateMachine = new StateMachine(new FreeCamera(_desktop, this));
             _spawnMethods = new Dictionary<ActorType, Func<Vector3, Vector3, ActorBase>>();
             CreateSpawnMethodsTemp();
         }
@@ -61,11 +62,7 @@ namespace DoomTactics
         {
             // setup
             SpriteSheetFactory.Initialize(_gameInstance.Content);
-            HardcodedAnimations.CreateAnimations();
-
-            // control scheme
-            CurrentControlScheme = ControlScheme.FreeCamera;
-            _desktop.Visible = false;
+            HardcodedAnimations.CreateAnimations();            
 
             // camera
             float aspectRatio = (float) _gameInstance.Window.ClientBounds.Width/_gameInstance.Window.ClientBounds.Height;
@@ -76,8 +73,6 @@ namespace DoomTactics
             MessagingSystem.Subscribe(OnActorSpawn, DoomEventType.SpawnActor, "gamestate");
 
             _effect = new BasicEffect(_gameInstance.GraphicsDevice);
-            //_tile = new Tile(_temptex, Vector3.Zero);
-            //_tile2 = new Tile(_temptex, new Vector3(0.0f, 0.0f, 64.0f));
             _processor = new GameInputProcessor(Keyboard.GetState(), Mouse.GetState(), this);
 
             CreateLevelTemp(_gameInstance.Content);
@@ -103,40 +98,12 @@ namespace DoomTactics
         {
             MessagingSystem.ProcessQueued();
 
-                _squidInputManager.Update(gameTime);
-                _desktop.Update();
-
-            _processor.ProcessInput(Keyboard.GetState(), Mouse.GetState(), gameTime);
+            _stateMachine.Update(gameTime);
 
             if (_nextState != null)
                 return _nextState;
 
-            if (_activeUnit == null)
-            {
-                foreach (var actor in _level.Actors)
-                {
-                    actor.IncreaseCT();
-                }
-            }
-
-            foreach (var actor in _level.Actors)
-            {
-                actor.Update(gameTime);
-            }
-
             return _nextState;
-        }
-
-        public void ShowHud()
-        {
-            _desktop.Visible = true;
-            _desktop.ShowCursor = true;
-        }
-
-        public void HideHud()
-        {
-            _desktop.Visible = false;
-            _desktop.ShowCursor = false;
         }
 
         public void ReturnToMainMenu()
@@ -146,7 +113,7 @@ namespace DoomTactics
 
         public void Render(GraphicsDevice device)
         {
-            _level.DrawBackground(device, _spriteBatch);
+            Level.DrawBackground(device, _spriteBatch);
 
             _effect.World = Matrix.Identity;
             _effect.View = Camera.View;
@@ -159,7 +126,7 @@ namespace DoomTactics
             device.DepthStencilState = DepthStencilState.Default;
 
             Tile highlightedTile = FindHighlightedTile();
-            foreach (var tile in _level.Tiles)
+            foreach (var tile in Level.Tiles)
             {
                 bool isHighlighted = (tile == highlightedTile);
                 tile.Render(device, _effect, _highlightingEffectContainer.GetEffect(), isHighlighted);
@@ -172,12 +139,12 @@ namespace DoomTactics
             // Pass 1: full alpha
             _alphaTestEffect.AlphaFunction = CompareFunction.Greater;
             _alphaTestEffect.ReferenceAlpha = 128;
-            foreach (var actor in _level.Actors)
+            foreach (var actor in Level.Actors)
             {
                 actor.Render(device, _spriteBatch, _alphaTestEffect, Camera, 0);
             }
             // Pass 2: alpha blend
-            foreach (var actor in _level.Actors)
+            foreach (var actor in Level.Actors)
             {
                 _alphaTestEffect.AlphaFunction = CompareFunction.Less;
                 _alphaTestEffect.ReferenceAlpha = 20;
@@ -195,7 +162,7 @@ namespace DoomTactics
 
         public Tile FindHighlightedTile()
         {
-            if (CurrentControlScheme == ControlScheme.Locked || CurrentControlScheme == ControlScheme.TileSelection)
+            if ((_stateMachine.CurrentState as GameStateBase).HighlightHoveredTile)
             {
                 Vector2 mousePosition = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
                 Vector3 nearpoint = new Vector3(mousePosition, 0);
@@ -209,7 +176,7 @@ namespace DoomTactics
                 Vector3 direction = Vector3.Normalize(farpoint - nearpoint);
                 Ray ray = new Ray(nearpoint, direction);
 
-                foreach (var tile in _level.Tiles)
+                foreach (var tile in Level.Tiles)
                 {
                     if (ray.Intersects(tile.CreateBoundingBox()).HasValue)
                     {
@@ -223,7 +190,7 @@ namespace DoomTactics
         private void CreateLevelTemp(ContentManager contentManager)
         {
             var tempLevelData = HardcodedTestLevel.CreateLevel();
-            _level = LevelFactory.CreateLevel(contentManager, tempLevelData);
+            Level = LevelFactory.CreateLevel(contentManager, tempLevelData);
         }
 
         public void ShowCurrentlyHoveredUnitStatus(Vector2 mousePosition)
@@ -238,7 +205,7 @@ namespace DoomTactics
             {
                 if (actor != _activeUnit)
                 {
-                    _actorStatusWindow = new DoomWindowBuilder()
+                    new DoomWindowBuilder()
                         .CanClose(true)
                         .Title(actor.ActorID)
                         .Size(200, 200)
@@ -248,7 +215,7 @@ namespace DoomTactics
                 }
                 else
                 {
-                    _actorActionMenuWindow = new ActionMenuBuilder()                        
+                    new ActionMenuBuilder()                        
                         .ActorName(actor.ActorID)
                         .Action("Action", OpenActionSubmenu)
                         .Action("Wait", null)
@@ -272,11 +239,6 @@ namespace DoomTactics
                 .Build();
         }
 
-        private void SwitchToTileSelectionMode(Control control, MouseEventArgs args)
-        {
-            CurrentControlScheme = ControlScheme.TileSelection;            
-        }
-
         private ActorBase SelectCurrentlyHoveredUnit(Vector2 mousePosition)
         {
             Vector3 nearpoint = new Vector3(mousePosition, 0);
@@ -292,7 +254,7 @@ namespace DoomTactics
             ActorBase intersected = null;
             float selectedDistance = float.MaxValue;
 
-            foreach (var actor in _level.Actors)
+            foreach (var actor in Level.Actors)
             {
                 float? intersectionResult = ray.Intersects(actor.CreateBoundingBox());
 
@@ -309,13 +271,6 @@ namespace DoomTactics
             return intersected;
         }
 
-        private void SetLockedControlScheme()
-        {
-            CurrentControlScheme = ControlScheme.Locked;
-            _desktop.Visible = true;
-            _desktop.ShowCursor = true;
-        }
-
         public void OnChargeTimeReached(IDoomEvent doomEvent)
         {
             if (_activeUnit == null)
@@ -324,7 +279,6 @@ namespace DoomTactics
                 _activeUnit = turnEvent.Actor;
                 Camera.MoveTo(_activeUnit.Position + new Vector3(200, _activeUnit.Height + 10, 200));
                 Camera.LookAt(_activeUnit.Position + new Vector3(0, _activeUnit.Height / 2, 0));
-                SetLockedControlScheme();
                 ShowUnitStatus(_activeUnit);
             }
         }
@@ -340,7 +294,7 @@ namespace DoomTactics
             var actorEvent = (SpawnActorEvent) evt;
             var spawnMethod = _spawnMethods[actorEvent.ActorType];
             var newActor = spawnMethod.Invoke(actorEvent.SpawnPosition, actorEvent.InitialVelocity);
-            _level.Actors.Add(newActor);
+            Level.Actors.Add(newActor);
         }
 
         public void OnActorDespawn(IDoomEvent evt)
