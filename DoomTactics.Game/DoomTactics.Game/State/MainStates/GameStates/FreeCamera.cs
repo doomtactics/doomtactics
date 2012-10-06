@@ -10,15 +10,15 @@ namespace DoomTactics
 {
     public class FreeCamera : GameStateBase
     {
-        public FreeCamera(DoomDesktop desktop, GameState gameState)
-            : base(desktop, gameState)
+        public FreeCamera(GameState gameState)
+            : base(gameState)
         {
             HighlightHoveredTile = false;
         }
 
         public override void OnEnter()
         {
-            Desktop.Visible = false;
+            GameState.Desktop.Visible = false;
         }
 
         public override void OnExit()
@@ -33,10 +33,11 @@ namespace DoomTactics
 
         public override IState Update(GameTime gameTime)
         {
-            IState nextState = base.Update(gameTime);
+            IState nextState = base.Update(gameTime);            
             if (nextState != null)
                 return nextState;
 
+            GameState.SquidInputManager.Update(gameTime);
 
             return nextState;
         }
@@ -44,6 +45,11 @@ namespace DoomTactics
         public override void Render(GraphicsDevice device)
         {
             base.Render(device);
+        }
+
+        public void SwitchToHudMode()
+        {
+            throw new NotImplementedException();
         }
     }
 }

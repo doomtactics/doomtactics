@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using DoomTactics.Controls;
 using DoomTactics.Data;
-using DoomTactics.Input;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
@@ -20,10 +19,11 @@ namespace DoomTactics
 
         public Camera Camera;
         public Level Level;
+        public readonly DoomDesktop Desktop;
+        public readonly SquidInputManager SquidInputManager;
+        public ActorBase ActiveUnit;
 
         private readonly DoomTacticsGame _gameInstance;
-        private readonly DoomDesktop _desktop;
-        private readonly SquidInputManager _squidInputManager;
         private BasicEffect _effect;
         private IInputProcessor _processor;
         private SpriteBatch _spriteBatch;
@@ -31,7 +31,6 @@ namespace DoomTactics
         private HighlightEffectContainer _highlightingEffectContainer;
         private AlphaTestEffect _alphaTestEffect;
         private IState _nextState;
-        private ActorBase _activeUnit;
         private IDictionary<ActorType, Func<Vector3, Vector3, ActorBase>> _spawnMethods;
         private readonly StateMachine _stateMachine;
 
@@ -39,10 +38,10 @@ namespace DoomTactics
         public GameState(DoomTacticsGame gameInstance, SquidInputManager squidInputManager)
         {
             _gameInstance = gameInstance;
-            _desktop = new DoomDesktop();
-            _squidInputManager = squidInputManager;
+            Desktop = new DoomDesktop();
+            SquidInputManager = squidInputManager;
             _nextState = null;
-            _stateMachine = new StateMachine(new FreeCamera(_desktop, this));
+            _stateMachine = new StateMachine(new FreeCamera(this));
             _spawnMethods = new Dictionary<ActorType, Func<Vector3, Vector3, ActorBase>>();
             CreateSpawnMethodsTemp();
         }
@@ -72,8 +71,7 @@ namespace DoomTactics
             MessagingSystem.Subscribe(OnChargeTimeReached, DoomEventType.ChargeTimeReached, "gamestate");
             MessagingSystem.Subscribe(OnActorSpawn, DoomEventType.SpawnActor, "gamestate");
 
-            _effect = new BasicEffect(_gameInstance.GraphicsDevice);
-            _processor = new GameInputProcessor(Keyboard.GetState(), Mouse.GetState(), this);
+            _effect = new BasicEffect(_gameInstance.GraphicsDevice);            
 
             CreateLevelTemp(_gameInstance.Content);
 
@@ -152,10 +150,10 @@ namespace DoomTactics
             }
             //_spriteBatch.End();
 
-            if (_desktop.Visible)
+            if (Desktop.Visible)
             {
-                _desktop.Size = new Squid.Point(device.Viewport.Width, device.Viewport.Height);
-                _desktop.Draw();
+                Desktop.Size = new Squid.Point(device.Viewport.Width, device.Viewport.Height);
+                Desktop.Draw();
             }
 
         }
@@ -203,14 +201,14 @@ namespace DoomTactics
         {
             if (actor != null)
             {
-                if (actor != _activeUnit)
+                if (actor != ActiveUnit)
                 {
                     new DoomWindowBuilder()
                         .CanClose(true)
                         .Title(actor.ActorID)
                         .Size(200, 200)
                         .Position(50, 100)                        
-                        .Parent(_desktop)
+                        .Parent(Desktop)
                         .Build();
                 }
                 else
@@ -222,7 +220,7 @@ namespace DoomTactics
                         .Action("Turn", null)
                         .Position(50, 100)
                         .Size(200, 200)
-                        .Parent(_desktop)
+                        .Parent(Desktop)
                         .Build();                 
                 }
             }
@@ -231,11 +229,11 @@ namespace DoomTactics
         private void OpenActionSubmenu(Control control, MouseEventArgs args)
         {
             new ActionMenuBuilder()
-                .Action("Fireball", SwitchToTileSelectionMode)
+                .Action("Fireball", null)//SwitchToTileSelectionMode)
                 .Action("Eviscerate", null)
                 .Position(250, 120)
                 .Size(200, 150)
-                .Parent(_desktop)
+                .Parent(Desktop)
                 .Build();
         }
 
@@ -273,20 +271,20 @@ namespace DoomTactics
 
         public void OnChargeTimeReached(IDoomEvent doomEvent)
         {
-            if (_activeUnit == null)
+            if (ActiveUnit == null)
             {
                 var turnEvent = (TurnEvent) doomEvent;
-                _activeUnit = turnEvent.Actor;
-                Camera.MoveTo(_activeUnit.Position + new Vector3(200, _activeUnit.Height + 10, 200));
-                Camera.LookAt(_activeUnit.Position + new Vector3(0, _activeUnit.Height / 2, 0));
-                ShowUnitStatus(_activeUnit);
+                ActiveUnit = turnEvent.Actor;
+                Camera.MoveTo(ActiveUnit.Position + new Vector3(200, ActiveUnit.Height + 10, 200));
+                Camera.LookAt(ActiveUnit.Position + new Vector3(0, ActiveUnit.Height / 2, 0));
+                ShowUnitStatus(ActiveUnit);
             }
         }
 
         public void PerformActionOnHoveredTile(Vector2 vector2)
         {
             var tile = FindHighlightedTile();
-            (_activeUnit as Imp).ShootFireball(tile);
+            (ActiveUnit as Imp).ShootFireball(tile);
         }
 
         public void OnActorSpawn(IDoomEvent evt)

@@ -9,8 +9,8 @@ namespace DoomTactics
 {
     public class TargetSelection : GameStateBase
     {
-        public TargetSelection(DoomDesktop desktop, GameState gameState)
-            : base(desktop, gameState)
+        public TargetSelection(GameState gameState)
+            : base(gameState)
         {
             HighlightHoveredTile = true;
         }

@@ -10,12 +10,12 @@ namespace DoomTactics
 {
     public abstract class GameStateBase : IState
     {
-        protected readonly DoomDesktop Desktop;
+        protected IInputProcessor InputProcessor;
+
         protected readonly GameState GameState;
 
-        protected GameStateBase(DoomDesktop desktop, GameState gameState)
+        protected GameStateBase(GameState gameState)
         {
-            Desktop = desktop;
             GameState = gameState;
         }
 
@@ -29,6 +29,14 @@ namespace DoomTactics
 
         public virtual IState Update(GameTime gameTime)
         {
+            if (GameState.ActiveUnit == null)
+            {
+                foreach (var actor in GameState.Level.Actors)
+                {
+                    actor.IncreaseCT();
+                }
+            }
+
             foreach (var actor in GameState.Level.Actors)
             {
                 actor.Update(gameTime);
@@ -39,7 +47,18 @@ namespace DoomTactics
 
         public virtual void Render(GraphicsDevice device)
         {
-            
+            RenderTiles();
+            RenderActors();
+        }
+
+        private void RenderActors()
+        {
+            throw new NotImplementedException();
+        }
+
+        private void RenderTiles()
+        {
+            throw new NotImplementedException();
         }
     }
 }
