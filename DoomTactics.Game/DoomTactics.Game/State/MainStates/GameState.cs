@@ -34,6 +34,7 @@ namespace DoomTactics
         private ActorBase _activeUnit;
         private DoomWindow _actorActionMenuWindow;        
         public ControlScheme CurrentControlScheme;
+        private IDictionary<ActorType, Func<Vector3, Vector3, ActorBase>> _spawnMethods; 
 
         public GameState(DoomTacticsGame gameInstance, SquidInputManager squidInputManager)
         {
@@ -41,6 +42,19 @@ namespace DoomTactics
             _desktop = new DoomDesktop();
             _squidInputManager = squidInputManager;
             _nextState = null;
+            _spawnMethods = new Dictionary<ActorType, Func<Vector3, Vector3, ActorBase>>();
+            CreateSpawnMethodsTemp();
+        }
+
+        private void CreateSpawnMethodsTemp()
+        {
+            _spawnMethods.Add(ActorType.ImpFireball, (p, v) =>
+                                                        {
+                                                            var fireball = new ImpFireball("fireball");
+                                                            fireball.Position = p;
+                                                            fireball.Velocity = v;
+                                                            return fireball;
+                                                        });
         }
 
         public void OnEnter()
@@ -59,6 +73,7 @@ namespace DoomTactics
                                 aspectRatio);
             MessagingSystem.Subscribe(Camera.MoveCamera, DoomEventType.CameraMoveEvent, "camera");
             MessagingSystem.Subscribe(OnChargeTimeReached, DoomEventType.ChargeTimeReached, "gamestate");
+            MessagingSystem.Subscribe(OnActorSpawn, DoomEventType.SpawnActor, "gamestate");
 
             _effect = new BasicEffect(_gameInstance.GraphicsDevice);
             //_tile = new Tile(_temptex, Vector3.Zero);
@@ -88,11 +103,8 @@ namespace DoomTactics
         {
             MessagingSystem.ProcessQueued();
 
-            if (CurrentControlScheme == ControlScheme.Locked)
-            {
                 _squidInputManager.Update(gameTime);
                 _desktop.Update();
-            }
 
             _processor.ProcessInput(Keyboard.GetState(), Mouse.GetState(), gameTime);
 
@@ -183,7 +195,7 @@ namespace DoomTactics
 
         public Tile FindHighlightedTile()
         {
-            if (CurrentControlScheme == ControlScheme.Locked)
+            if (CurrentControlScheme == ControlScheme.Locked || CurrentControlScheme == ControlScheme.TileSelection)
             {
                 Vector2 mousePosition = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
                 Vector3 nearpoint = new Vector3(mousePosition, 0);
@@ -252,7 +264,7 @@ namespace DoomTactics
         private void OpenActionSubmenu(Control control, MouseEventArgs args)
         {
             new ActionMenuBuilder()
-                .Action("Fireball", SelectTargetTile)
+                .Action("Fireball", SwitchToTileSelectionMode)
                 .Action("Eviscerate", null)
                 .Position(250, 120)
                 .Size(200, 150)
@@ -260,9 +272,9 @@ namespace DoomTactics
                 .Build();
         }
 
-        private void SelectTargetTile(Control control, MouseEventArgs args)
+        private void SwitchToTileSelectionMode(Control control, MouseEventArgs args)
         {
-            
+            CurrentControlScheme = ControlScheme.TileSelection;            
         }
 
         private ActorBase SelectCurrentlyHoveredUnit(Vector2 mousePosition)
@@ -316,5 +328,25 @@ namespace DoomTactics
                 ShowUnitStatus(_activeUnit);
             }
         }
+
+        public void PerformActionOnHoveredTile(Vector2 vector2)
+        {
+            var tile = FindHighlightedTile();
+            (_activeUnit as Imp).ShootFireball(tile);
+        }
+
+        public void OnActorSpawn(IDoomEvent evt)
+        {
+            var actorEvent = (SpawnActorEvent) evt;
+            var spawnMethod = _spawnMethods[actorEvent.ActorType];
+            var newActor = spawnMethod.Invoke(actorEvent.SpawnPosition, actorEvent.InitialVelocity);
+            _level.Actors.Add(newActor);
+        }
+
+        public void OnActorDespawn(IDoomEvent evt)
+        {
+            
+        }
+
     }
 }

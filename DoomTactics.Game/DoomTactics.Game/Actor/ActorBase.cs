@@ -17,6 +17,8 @@ namespace DoomTactics
         public int Speed;
         public int ChargeTime;
         protected ActorAnimation CurrentAnimation;
+        public Vector3 Position;
+        public Vector3 Velocity;
 
         public virtual SpriteSheet SpriteSheet
         {
@@ -30,17 +32,17 @@ namespace DoomTactics
             protected set;
         }
 
-        public Vector3 Position;
-
         protected ActorBase(string id)
         {
             ActorID = id;
             ChargeTime = 0;
+            Velocity = Vector3.Zero;
         }
 
         public virtual void Update(GameTime elapsedTime)
         {
             CurrentAnimation.Update(elapsedTime.ElapsedGameTime);
+            Position += Velocity;
         }
 
         public void IncreaseCT()

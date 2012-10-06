@@ -8,6 +8,7 @@ namespace DoomTactics
     public enum ControlScheme
     {
         FreeCamera,
-        Locked
+        Locked,
+        TileSelection
     }
 }
