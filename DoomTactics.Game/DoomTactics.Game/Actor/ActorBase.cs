@@ -133,7 +133,6 @@ namespace DoomTactics
             return angleEnum;
         }
 
-
         public BoundingBox CreateBoundingBox()
         {
             var bb = new BoundingBox(new Vector3(Position.X - Width/2, Position.Y, Position.Z - Width/2),
