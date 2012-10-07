@@ -24,12 +24,12 @@ namespace DoomTactics
         public ActorBase ActiveUnit;
 
         private readonly DoomTacticsGame _gameInstance;
-        private BasicEffect _effect;
+        public BasicEffect Effect;
         private IInputProcessor _processor;
-        private SpriteBatch _spriteBatch;
-        private BasicEffect _spriteEffect;
-        private HighlightEffectContainer _highlightingEffectContainer;
-        private AlphaTestEffect _alphaTestEffect;
+        public SpriteBatch SpriteBatch;
+        public BasicEffect SpriteEffect;
+        public HighlightEffectContainer HighlightingEffectContainer;
+        public AlphaTestEffect AlphaTestEffect;
         private IState _nextState;
         private IDictionary<ActorType, Func<Vector3, Vector3, ActorBase>> _spawnMethods;
         private readonly StateMachine _stateMachine;
@@ -71,14 +71,14 @@ namespace DoomTactics
             MessagingSystem.Subscribe(OnChargeTimeReached, DoomEventType.ChargeTimeReached, "gamestate");
             MessagingSystem.Subscribe(OnActorSpawn, DoomEventType.SpawnActor, "gamestate");
 
-            _effect = new BasicEffect(_gameInstance.GraphicsDevice);            
+            Effect = new BasicEffect(_gameInstance.GraphicsDevice);            
 
             CreateLevelTemp(_gameInstance.Content);
 
-            _spriteBatch = new SpriteBatch(_gameInstance.GraphicsDevice);
-            _spriteEffect = new BasicEffect(_gameInstance.GraphicsDevice);
-            _highlightingEffectContainer = new HighlightEffectContainer(_gameInstance.Content);
-            _alphaTestEffect = new AlphaTestEffect(_gameInstance.GraphicsDevice);
+            SpriteBatch = new SpriteBatch(_gameInstance.GraphicsDevice);
+            SpriteEffect = new BasicEffect(_gameInstance.GraphicsDevice);
+            HighlightingEffectContainer = new HighlightEffectContainer(_gameInstance.Content);
+            AlphaTestEffect = new AlphaTestEffect(_gameInstance.GraphicsDevice);
         }
 
         public void OnExit()
@@ -111,51 +111,7 @@ namespace DoomTactics
 
         public void Render(GraphicsDevice device)
         {
-            Level.DrawBackground(device, _spriteBatch);
-
-            _effect.World = Matrix.Identity;
-            _effect.View = Camera.View;
-            _effect.Projection = Camera.Projection;
-
-            _effect.TextureEnabled = true;
-            _effect.EnableDefaultLighting();
-
-            device.RasterizerState = RasterizerState.CullNone;
-            device.DepthStencilState = DepthStencilState.Default;
-
-            Tile highlightedTile = FindHighlightedTile();
-            foreach (var tile in Level.Tiles)
-            {
-                bool isHighlighted = (tile == highlightedTile);
-                tile.Render(device, _effect, _highlightingEffectContainer.GetEffect(), isHighlighted);
-            }
-
-            _spriteEffect.TextureEnabled = true;
-            _spriteEffect.VertexColorEnabled = true;
-
-            //_spriteBatch.Begin(0, null, null, DepthStencilState.DepthRead, RasterizerState.CullNone, _alphaTestEffect);
-            // Pass 1: full alpha
-            _alphaTestEffect.AlphaFunction = CompareFunction.Greater;
-            _alphaTestEffect.ReferenceAlpha = 128;
-            foreach (var actor in Level.Actors)
-            {
-                actor.Render(device, _spriteBatch, _alphaTestEffect, Camera, 0);
-            }
-            // Pass 2: alpha blend
-            foreach (var actor in Level.Actors)
-            {
-                _alphaTestEffect.AlphaFunction = CompareFunction.Less;
-                _alphaTestEffect.ReferenceAlpha = 20;
-                actor.Render(device, _spriteBatch, _alphaTestEffect, Camera, 1);
-            }
-            //_spriteBatch.End();
-
-            if (Desktop.Visible)
-            {
-                Desktop.Size = new Squid.Point(device.Viewport.Width, device.Viewport.Height);
-                Desktop.Draw();
-            }
-
+            _stateMachine.Render(device);
         }
 
         public Tile FindHighlightedTile()
@@ -173,14 +129,18 @@ namespace DoomTactics
 
                 Vector3 direction = Vector3.Normalize(farpoint - nearpoint);
                 Ray ray = new Ray(nearpoint, direction);
-
+                Tile intersected = null;
+                float? minDistance = float.MaxValue;
                 foreach (var tile in Level.Tiles)
                 {
-                    if (ray.Intersects(tile.CreateBoundingBox()).HasValue)
+                    float? distance = ray.Intersects(tile.CreateBoundingBox());
+                    if (distance.HasValue && distance < minDistance)
                     {
-                        return tile;
+                        intersected = tile;
+                        minDistance = distance;
                     }
                 }
+                return intersected;
             }
             return null;
         }
