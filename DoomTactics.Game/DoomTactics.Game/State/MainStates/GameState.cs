@@ -30,7 +30,7 @@ namespace DoomTactics
         public BasicEffect SpriteEffect;
         public HighlightEffectContainer HighlightingEffectContainer;
         public AlphaTestEffect AlphaTestEffect;
-        private IState _nextState;
+        private StateTransition _nextState;
         private IDictionary<ActorType, Func<Vector3, Vector3, ActorBase>> _spawnMethods;
         private readonly StateMachine _stateMachine;
 
@@ -61,17 +61,17 @@ namespace DoomTactics
         {
             // setup
             SpriteSheetFactory.Initialize(_gameInstance.Content);
-            HardcodedAnimations.CreateAnimations();            
+            HardcodedAnimations.CreateAnimations();
 
             // camera
-            float aspectRatio = (float) _gameInstance.Window.ClientBounds.Width/_gameInstance.Window.ClientBounds.Height;
+            float aspectRatio = (float)_gameInstance.Window.ClientBounds.Width / _gameInstance.Window.ClientBounds.Height;
             Camera = new Camera("camera", new Vector3(-96f, 32f, 32f), new Vector3(32.0f, 32.0f, 32.0f), Vector3.Up,
                                 aspectRatio);
             MessagingSystem.Subscribe(Camera.MoveCamera, DoomEventType.CameraMoveEvent, "camera");
             MessagingSystem.Subscribe(OnChargeTimeReached, DoomEventType.ChargeTimeReached, "gamestate");
             MessagingSystem.Subscribe(OnActorSpawn, DoomEventType.SpawnActor, "gamestate");
 
-            Effect = new BasicEffect(_gameInstance.GraphicsDevice);            
+            Effect = new BasicEffect(_gameInstance.GraphicsDevice);
 
             CreateLevelTemp(_gameInstance.Content);
 
@@ -92,7 +92,7 @@ namespace DoomTactics
             get { return false; }
         }
 
-        public IState Update(GameTime gameTime)
+        public StateTransition Update(GameTime gameTime)
         {
             MessagingSystem.ProcessQueued();
 
@@ -106,7 +106,7 @@ namespace DoomTactics
 
         public void ReturnToMainMenu()
         {
-            _nextState = DoomTacticsGame.CreateMenuState(_gameInstance);
+            _nextState = new StateTransition(DoomTacticsGame.CreateMenuState(_gameInstance));
         }
 
         public void Render(GraphicsDevice device)
@@ -116,33 +116,29 @@ namespace DoomTactics
 
         public Tile FindHighlightedTile()
         {
-            if ((_stateMachine.CurrentState as GameStateBase).HighlightHoveredTile)
+            Vector2 mousePosition = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
+            Vector3 nearpoint = new Vector3(mousePosition, 0);
+            Vector3 farpoint = new Vector3(mousePosition, 1.0f);
+
+            nearpoint = _gameInstance.GraphicsDevice.Viewport.Unproject(nearpoint, Camera.Projection, Camera.View,
+                                                                        Matrix.Identity);
+            farpoint = _gameInstance.GraphicsDevice.Viewport.Unproject(farpoint, Camera.Projection, Camera.View,
+                                                                       Matrix.Identity);
+
+            Vector3 direction = Vector3.Normalize(farpoint - nearpoint);
+            Ray ray = new Ray(nearpoint, direction);
+            Tile intersected = null;
+            float? minDistance = float.MaxValue;
+            foreach (var tile in Level.Tiles)
             {
-                Vector2 mousePosition = new Vector2(Mouse.GetState().X, Mouse.GetState().Y);
-                Vector3 nearpoint = new Vector3(mousePosition, 0);
-                Vector3 farpoint = new Vector3(mousePosition, 1.0f);
-
-                nearpoint = _gameInstance.GraphicsDevice.Viewport.Unproject(nearpoint, Camera.Projection, Camera.View,
-                                                                            Matrix.Identity);
-                farpoint = _gameInstance.GraphicsDevice.Viewport.Unproject(farpoint, Camera.Projection, Camera.View,
-                                                                           Matrix.Identity);
-
-                Vector3 direction = Vector3.Normalize(farpoint - nearpoint);
-                Ray ray = new Ray(nearpoint, direction);
-                Tile intersected = null;
-                float? minDistance = float.MaxValue;
-                foreach (var tile in Level.Tiles)
+                float? distance = ray.Intersects(tile.CreateBoundingBox());
+                if (distance.HasValue && distance < minDistance)
                 {
-                    float? distance = ray.Intersects(tile.CreateBoundingBox());
-                    if (distance.HasValue && distance < minDistance)
-                    {
-                        intersected = tile;
-                        minDistance = distance;
-                    }
+                    intersected = tile;
+                    minDistance = distance;
                 }
-                return intersected;
             }
-            return null;
+            return intersected;
         }
 
         private void CreateLevelTemp(ContentManager contentManager)
@@ -159,42 +155,31 @@ namespace DoomTactics
 
         private void ShowUnitStatus(ActorBase actor)
         {
-            if (actor != null)
-            {
-                if (actor != ActiveUnit)
-                {
-                    new DoomWindowBuilder()
-                        .CanClose(true)
-                        .Title(actor.ActorID)
-                        .Size(200, 200)
-                        .Position(50, 100)                        
-                        .Parent(Desktop)
-                        .Build();
-                }
-                else
-                {
-                    new ActionMenuBuilder()                        
-                        .ActorName(actor.ActorID)
-                        .Action("Action", OpenActionSubmenu)
-                        .Action("Wait", null)
-                        .Action("Turn", null)
-                        .Position(50, 100)
-                        .Size(200, 200)
-                        .Parent(Desktop)
-                        .Build();                 
-                }
-            }
-        }
-
-        private void OpenActionSubmenu(Control control, MouseEventArgs args)
-        {
-            new ActionMenuBuilder()
-                .Action("Fireball", null)//SwitchToTileSelectionMode)
-                .Action("Eviscerate", null)
-                .Position(250, 120)
-                .Size(200, 150)
-                .Parent(Desktop)
-                .Build();
+            //if (actor != null)
+            //{
+            //    if (actor != ActiveUnit)
+            //    {
+            //        new DoomWindowBuilder()
+            //            .CanClose(true)
+            //            .Title(actor.ActorID)
+            //            .Size(200, 200)
+            //            .Position(50, 100)
+            //            .Parent(Desktop)
+            //            .Build();
+            //    }
+            //    else
+            //    {
+            //        new ActionMenuBuilder()
+            //            .ActorName(actor.ActorID)
+            //            .Action("Action", OpenActionSubmenu)
+            //            .Action("Wait", null)
+            //            .Action("Turn", null)
+            //            .Position(50, 100)
+            //            .Size(200, 200)
+            //            .Parent(Desktop)
+            //            .Build();
+            //    }
+            //}
         }
 
         private ActorBase SelectCurrentlyHoveredUnit(Vector2 mousePosition)
@@ -233,24 +218,18 @@ namespace DoomTactics
         {
             if (ActiveUnit == null)
             {
-                var turnEvent = (TurnEvent) doomEvent;
+                var turnEvent = (TurnEvent)doomEvent;
                 ActiveUnit = turnEvent.Actor;
-                Camera.MoveTo(ActiveUnit.Position + new Vector3(200, ActiveUnit.Height + 10, 200));
-                Camera.LookAt(ActiveUnit.Position + new Vector3(0, ActiveUnit.Height / 2, 0));
-                _stateMachine.SetState(new ActionSelection(this));
+                //Camera.MoveTo(ActiveUnit.Position + new Vector3(200, ActiveUnit.Height + 10, 200));
+                //Camera.LookAt(ActiveUnit.Position + new Vector3(0, ActiveUnit.Height / 2, 0));
+                _stateMachine.SetState(new ActionSelection(this, ActiveUnit));
                 //ShowUnitStatus(ActiveUnit);
             }
         }
-        /*
-        public void PerformActionOnHoveredTile(Vector2 vector2)
-        {
-            var tile = FindHighlightedTile();
-            (ActiveUnit as Imp).ShootFireball(tile);
-        }
-        */
+
         public void OnActorSpawn(IDoomEvent evt)
         {
-            var actorEvent = (SpawnActorEvent) evt;
+            var actorEvent = (SpawnActorEvent)evt;
             var spawnMethod = _spawnMethods[actorEvent.ActorType];
             var newActor = spawnMethod.Invoke(actorEvent.SpawnPosition, actorEvent.InitialVelocity);
             Level.Actors.Add(newActor);
@@ -258,7 +237,7 @@ namespace DoomTactics
 
         public void OnActorDespawn(IDoomEvent evt)
         {
-            
+
         }
 
     }

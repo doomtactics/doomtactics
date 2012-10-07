@@ -34,13 +34,10 @@ namespace DoomTactics
             get { return false; }
         }
 
-        public override IState Update(GameTime gameTime)
+        public override StateTransition Update(GameTime gameTime)
         {
-            IState nextState = base.Update(gameTime);            
-            if (nextState != null)
-                return nextState;            
-
-            return nextState;
+            base.Update(gameTime);
+            return NextState;
         }
 
         public override void Render(GraphicsDevice device)
@@ -50,7 +47,7 @@ namespace DoomTactics
 
         public void SwitchToHudMode()
         {
-            NextState = new ActionSelection(GameState);
+            NextState = new StateTransition(null, true);
         }
     }
 }

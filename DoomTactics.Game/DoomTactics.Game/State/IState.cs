@@ -13,7 +13,7 @@ namespace DoomTactics
         void OnEnter();
         void OnExit();
         bool IsPaused { get; }
-        IState Update(GameTime gameTime);
+        StateTransition Update(GameTime gameTime);
         void Render(GraphicsDevice device);        
     }
 }

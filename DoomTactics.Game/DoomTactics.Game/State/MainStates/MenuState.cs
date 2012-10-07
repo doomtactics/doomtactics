@@ -18,7 +18,7 @@ namespace DoomTactics
         private DoomWindow _window;
         private Button[] _buttons;
         private static readonly string[] ButtonNames = new[] {"New Game", "Multiplayer", "Options", "Quit"};
-        private IState _nextState;
+        private StateTransition _nextState;
 
         private enum MainMenuOptions
         {
@@ -84,7 +84,7 @@ namespace DoomTactics
             get { return false; }
         }
 
-        public IState Update(GameTime gameTime)
+        public StateTransition Update(GameTime gameTime)
         {
             _squidInputManager.Update(gameTime);
             _desktop.Update();
@@ -100,7 +100,7 @@ namespace DoomTactics
 
         private void NewGameClicked(Control sender, MouseEventArgs args)
         {
-            _nextState = new GameState(_game, _squidInputManager);
+            _nextState = new StateTransition(new GameState(_game, _squidInputManager));
         }
 
         private void ExitGameClicked(Control sender, MouseEventArgs args)

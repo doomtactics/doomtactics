@@ -12,7 +12,7 @@ namespace DoomTactics
     public abstract class GameStateBase : IState
     {
         protected IInputProcessor InputProcessor;
-        protected IState NextState;
+        protected StateTransition NextState;
 
         protected readonly GameState GameState;
 
@@ -29,7 +29,7 @@ namespace DoomTactics
 
         public abstract bool IsPaused { get; }
 
-        public virtual IState Update(GameTime gameTime)
+        public virtual StateTransition Update(GameTime gameTime)
         {            
             if (GameState.ActiveUnit == null)
             {

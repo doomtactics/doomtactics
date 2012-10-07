@@ -158,15 +158,14 @@
     <Compile Include="Render\SpriteSheet.cs" />
     <Compile Include="State\ControlScheme.cs" />
     <Compile Include="State\IState.cs" />
-    <Compile Include="State\MainStates\BootstrapState.cs" />
     <Compile Include="State\MainStates\GameState.cs" />
     <Compile Include="State\MainStates\GameStates\FreeCamera.cs" />
     <Compile Include="State\MainStates\GameStates\ActionSelection.cs" />
     <Compile Include="State\MainStates\GameStates\GameStateBase.cs" />
     <Compile Include="State\MainStates\GameStates\TargetSelection.cs" />
     <Compile Include="State\MainStates\MenuState.cs" />
-    <Compile Include="State\MainStates\TeamSelectionState.cs" />
     <Compile Include="State\StateMachine.cs" />
+    <Compile Include="State\StateTransition.cs" />
     <Compile Include="Util\MathUtils.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -9,37 +9,51 @@ namespace DoomTactics
 {
     public class StateMachine
     {
-        private IState _currentState;
+        private readonly Stack<IState> _stateStack;         
 
         public StateMachine(IState initialState)
         {
-            _currentState = initialState;
-            _currentState.OnEnter();
+            _stateStack = new Stack<IState>();
+            _stateStack.Push(initialState);
+            CurrentState.OnEnter();
         }
 
-        public IState CurrentState { get { return _currentState; } }
+        public IState CurrentState { get { return _stateStack.Peek(); } }
 
         public void Update(GameTime gameTime)
         {
-            var nextState = _currentState.Update(gameTime);
-            if (nextState != null)
+            var stateTransition = CurrentState.Update(gameTime);
+            if (stateTransition != null)
             {
-                _currentState.OnExit();
-                _currentState = nextState;
-                _currentState.OnEnter();
+                if (stateTransition.ReturnToPreviousState)
+                {
+                    CurrentState.OnExit();
+                    _stateStack.Pop();
+                    CurrentState.OnEnter();
+                }
+                else
+                {
+                    TransitionTo(stateTransition.NextState);
+                }
             }
         }
 
         public void Render(GraphicsDevice graphicsDevice)
         {
-            _currentState.Render(graphicsDevice);
+            CurrentState.Render(graphicsDevice);
         }
 
         public void SetState(IState newState)
         {
-            _currentState.OnExit();
-            _currentState = newState;
-            _currentState.OnEnter();
-        }       
+            TransitionTo(newState);
+        }    
+   
+        private void TransitionTo(IState nextState)
+        {
+            var oldState = _stateStack.Pop();
+            oldState.OnExit();
+            nextState.OnEnter();
+            _stateStack.Push(nextState);
+        }
     }
 }

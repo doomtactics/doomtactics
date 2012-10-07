@@ -12,6 +12,7 @@ namespace DoomTactics.Controls
         private IList<ActionMenuEntry> _buttonDatas;
         private string _actorName;
         private int _currentIndex;
+        private bool _isSubMenu;
 
         public ActionMenuBuilder()
         {
@@ -26,7 +27,13 @@ namespace DoomTactics.Controls
             return this;
         }
 
-        public ActionMenuBuilder SubMenu(string buttonName, ActionMenu actionMenu)
+        public ActionMenuBuilder AsSubMenu()
+        {
+            _isSubMenu = true;
+            return this;
+        }
+
+        public ActionMenuBuilder WithSubMenu(string buttonName, ActionMenu actionMenu)
         {
             var ame = new ActionMenuEntry(buttonName, _currentIndex++, actionMenu);
             _buttonDatas.Add(ame);
@@ -46,6 +53,10 @@ namespace DoomTactics.Controls
             window.Size = _size;
             window.TitleBar.Text = _actorName;
             window.TitleBar.Button.OnMouseClick += window.Button_OnMouseClick;
+
+            if (_isSubMenu)
+                window.TitleBar.Visible = false;
+
             var sortedButtonData = _buttonDatas.OrderBy(x => x.ActionOrder);
 
             foreach (var buttonData in sortedButtonData)
