@@ -237,16 +237,17 @@ namespace DoomTactics
                 ActiveUnit = turnEvent.Actor;
                 Camera.MoveTo(ActiveUnit.Position + new Vector3(200, ActiveUnit.Height + 10, 200));
                 Camera.LookAt(ActiveUnit.Position + new Vector3(0, ActiveUnit.Height / 2, 0));
-                ShowUnitStatus(ActiveUnit);
+                _stateMachine.SetState(new ActionSelection(this));
+                //ShowUnitStatus(ActiveUnit);
             }
         }
-
+        /*
         public void PerformActionOnHoveredTile(Vector2 vector2)
         {
             var tile = FindHighlightedTile();
             (ActiveUnit as Imp).ShootFireball(tile);
         }
-
+        */
         public void OnActorSpawn(IDoomEvent evt)
         {
             var actorEvent = (SpawnActorEvent) evt;

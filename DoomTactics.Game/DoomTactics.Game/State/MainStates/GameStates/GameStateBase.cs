@@ -5,12 +5,14 @@ using System.Text;
 using DoomTactics.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace DoomTactics
 {
     public abstract class GameStateBase : IState
     {
         protected IInputProcessor InputProcessor;
+        protected IState NextState;
 
         protected readonly GameState GameState;
 
@@ -28,7 +30,7 @@ namespace DoomTactics
         public abstract bool IsPaused { get; }
 
         public virtual IState Update(GameTime gameTime)
-        {
+        {            
             if (GameState.ActiveUnit == null)
             {
                 foreach (var actor in GameState.Level.Actors)
@@ -42,7 +44,8 @@ namespace DoomTactics
                 actor.Update(gameTime);
             }
 
-            return null;
+            InputProcessor.ProcessInput(Keyboard.GetState(), Mouse.GetState(), gameTime);                        
+            return NextState;
         }
 
         public virtual void Render(GraphicsDevice device)
@@ -95,14 +98,15 @@ namespace DoomTactics
 
         private void RenderTiles(GraphicsDevice device)
         {
+            Tile highlightedTile = null;
             if (HighlightHoveredTile)
             {
-                Tile highlightedTile = GameState.FindHighlightedTile();
-                foreach (var tile in GameState.Level.Tiles)
-                {
-                    bool isHighlighted = (tile == highlightedTile);
-                    tile.Render(device, GameState.Effect, GameState.HighlightingEffectContainer.GetEffect(), isHighlighted);
-                }
+                highlightedTile = GameState.FindHighlightedTile();
+            }
+            foreach (var tile in GameState.Level.Tiles)
+            {
+                bool isHighlighted = (tile == highlightedTile);                
+                tile.Render(device, GameState.Effect, GameState.HighlightingEffectContainer.GetEffect(), isHighlighted);
             }
         }
     }

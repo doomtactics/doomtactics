@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using DoomTactics.Controls;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace DoomTactics
 {
@@ -13,25 +15,34 @@ namespace DoomTactics
             : base(gameState)
         {
             HighlightHoveredTile = true;
+            InputProcessor = new TargetSelectionProcessor(Keyboard.GetState(), Mouse.GetState(), gameState, this);
         }
 
         public override void OnEnter()
         {
-
+            GameState.Desktop.Visible = true;
+            GameState.Desktop.ShowCursor = true;
         }
 
         public override IState Update(GameTime gameTime)
         {
-            IState nextState = base.Update(gameTime);
-            if (nextState != null)
-                return nextState;
+            base.Update(gameTime);
+            GameState.SquidInputManager.Update(gameTime);
+            GameState.Desktop.Update();
 
-            return nextState;
+            return NextState;
         }
 
         public override void OnExit()
         {
             
+        }
+
+        public override void Render(GraphicsDevice device)
+        {
+            base.Render(device);
+            GameState.Desktop.Size = new Squid.Point(device.Viewport.Width, device.Viewport.Height);
+            GameState.Desktop.Draw();
         }
 
         public override bool IsPaused

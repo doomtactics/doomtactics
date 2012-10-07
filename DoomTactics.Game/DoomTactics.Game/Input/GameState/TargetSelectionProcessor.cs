@@ -18,7 +18,7 @@ namespace DoomTactics
         {
             if (MouseButtonClicked(mouseState.LeftButton, OldMouseState.LeftButton))
             {
-                GameState.PerformActionOnHoveredTile(new Vector2(mouseState.X, mouseState.Y));
+                // GameState.PerformActionOnHoveredTile(new Vector2(mouseState.X, mouseState.Y));
             }
 
             base.ProcessInput(keyState, mouseState, gameTime);

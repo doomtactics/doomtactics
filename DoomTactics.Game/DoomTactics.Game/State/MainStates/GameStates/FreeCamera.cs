@@ -5,6 +5,7 @@ using System.Text;
 using DoomTactics.Controls;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace DoomTactics
 {
@@ -14,11 +15,13 @@ namespace DoomTactics
             : base(gameState)
         {
             HighlightHoveredTile = false;
+            InputProcessor = new FreeCameraInputProcessor(Keyboard.GetState(), Mouse.GetState(), gameState, this);
         }
 
         public override void OnEnter()
         {
             GameState.Desktop.Visible = false;
+            GameState.Desktop.ShowCursor = false;
         }
 
         public override void OnExit()
@@ -35,9 +38,7 @@ namespace DoomTactics
         {
             IState nextState = base.Update(gameTime);            
             if (nextState != null)
-                return nextState;
-
-            GameState.SquidInputManager.Update(gameTime);
+                return nextState;            
 
             return nextState;
         }
@@ -49,7 +50,7 @@ namespace DoomTactics
 
         public void SwitchToHudMode()
         {
-            throw new NotImplementedException();
+            NextState = new ActionSelection(GameState);
         }
     }
 }
