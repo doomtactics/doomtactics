@@ -140,6 +140,7 @@
     <Compile Include="Input\GameState\GameStateBaseInputProcessor.cs" />
     <Compile Include="Input\IInputProcessor.cs" />
     <Compile Include="Input\InputProcessor.cs" />
+    <Compile Include="Input\NoInputProcessor.cs" />
     <Compile Include="Input\Squid\SquidInputManager.cs" />
     <Compile Include="Input\GameState\TargetSelectionProcessor.cs" />
     <Compile Include="Map\Camera.cs" />
@@ -164,6 +165,7 @@
     <Compile Include="State\MainStates\GameStates\FreeCamera.cs" />
     <Compile Include="State\MainStates\GameStates\ActionSelection.cs" />
     <Compile Include="State\MainStates\GameStates\GameStateBase.cs" />
+    <Compile Include="State\MainStates\GameStates\PerformingAction.cs" />
     <Compile Include="State\MainStates\GameStates\TargetSelection.cs" />
     <Compile Include="State\MainStates\MenuState.cs" />
     <Compile Include="State\StateMachine.cs" />
