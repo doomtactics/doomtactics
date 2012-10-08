@@ -157,6 +157,7 @@
     <Compile Include="Render\ImpSheet.cs" />
     <Compile Include="Render\RendererXna.cs" />
     <Compile Include="Render\SpriteSheet.cs" />
+    <Compile Include="Render\SpriteSheetFactory.cs" />
     <Compile Include="State\ControlScheme.cs" />
     <Compile Include="State\IState.cs" />
     <Compile Include="State\MainStates\GameState.cs" />
