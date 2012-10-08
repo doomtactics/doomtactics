@@ -11,6 +11,7 @@ namespace DoomTactics
         private IList<ScriptSegment> _scriptSegments;
         private readonly string _name;
         private int _currentIndex;
+        private bool _receivedEvent;
 
         public string Name { get { return _name; } }
 
@@ -23,29 +24,50 @@ namespace DoomTactics
 
         public void Start()
         {
-            _scriptSegments[_currentIndex].OnStart.Invoke();
-            MessagingSystem.DispatchEvent(new AnimationScriptEvent(DoomEventType.AnimationScriptStart, _name));
+            if (_scriptSegments[_currentIndex].OnStart != null)
+            {
+                _scriptSegments[_currentIndex].OnStart.Invoke();
+            }
+            MessagingSystem.DispatchEvent(new AnimationScriptEvent(DoomEventType.AnimationScriptStart, _name), _name);
         }
 
         public void Update()
         {
             if (_scriptSegments[_currentIndex].EndCondition.Invoke())
             {
-                _scriptSegments[_currentIndex].OnComplete.Invoke();
+                if (_scriptSegments[_currentIndex].OnComplete != null)
+                {
+                    _scriptSegments[_currentIndex].OnComplete.Invoke();
+                }
                 Next();
             }
         }
 
+        private void ReceivedEvent()
+        {
+            _receivedEvent = true;
+        }
+
         public void Next()
         {
+            _receivedEvent = false;
             _currentIndex++;
+            MessagingSystem.Unsubscribe(_name);
             if (_currentIndex < _scriptSegments.Count)
             {
-                _scriptSegments[_currentIndex].OnStart.Invoke();
+                if (_scriptSegments[_currentIndex].EndOnEventSender != null)
+                {
+                    MessagingSystem.Subscribe((evt) => ReceivedEvent(), _scriptSegments[_currentIndex].EndOnEventType, _name, _scriptSegments[_currentIndex].EndOnEventSender);
+                    _scriptSegments[_currentIndex].EndCondition = () => _receivedEvent;
+                }
+                if (_scriptSegments[_currentIndex].OnStart != null)
+                {
+                    _scriptSegments[_currentIndex].OnStart.Invoke();
+                }
             }
             else
             {
-                MessagingSystem.DispatchEvent(new AnimationScriptEvent(DoomEventType.AnimationScriptComplete, _name));
+                MessagingSystem.DispatchEvent(new AnimationScriptEvent(DoomEventType.AnimationScriptComplete, _name), _name);
             }
         }
     }

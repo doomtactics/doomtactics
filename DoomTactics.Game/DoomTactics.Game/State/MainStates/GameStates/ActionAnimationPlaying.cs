@@ -24,7 +24,8 @@ namespace DoomTactics
 
         public override void OnEnter()
         {
-            MessagingSystem.Subscribe((evt) => ScriptCompletion(evt, _script.Name), DoomEventType.AnimationScriptComplete, _stateName);
+            MessagingSystem.Subscribe((evt) => ScriptCompletion(evt, _script.Name), DoomEventType.AnimationScriptComplete, _stateName, null);
+            _script.Start();
         }
 
         public override StateTransition Update(GameTime gameTime)
@@ -40,7 +41,7 @@ namespace DoomTactics
 
         public override void OnExit()
         {
-            
+            MessagingSystem.Unsubscribe(_stateName);
         }
 
         public override bool IsPaused

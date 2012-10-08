@@ -52,7 +52,7 @@ namespace DoomTactics
             {
                 ChargeTime = 100;
                 var turnEvent = new TurnEvent(DoomEventType.ChargeTimeReached, this);
-                MessagingSystem.DispatchEvent(turnEvent);
+                MessagingSystem.DispatchEvent(turnEvent, ActorID);
             }
         }
 
@@ -138,6 +138,11 @@ namespace DoomTactics
             var bb = new BoundingBox(new Vector3(Position.X - Width/2, Position.Y, Position.Z - Width/2),
                                    new Vector3(Position.X + Width/2, Position.Y + Height, Position.Z + Width/2));
             return bb;
+        }
+
+        public virtual void Die()
+        {
+            
         }
     }
 }

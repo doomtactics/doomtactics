@@ -53,8 +53,8 @@ namespace DoomTactics
                 }
                 else
                 {
-                    var evt = new DoomEvent(DoomEventType.AnimationEnd, _entityName);
-                    MessagingSystem.DispatchEvent(evt);
+                    var evt = new DoomEvent(DoomEventType.AnimationEnd);
+                    MessagingSystem.DispatchEvent(evt, _entityName);
                 }
             }
         }

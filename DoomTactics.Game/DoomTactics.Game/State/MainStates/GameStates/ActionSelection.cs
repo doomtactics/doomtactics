@@ -34,7 +34,7 @@ namespace DoomTactics
             {
                 _actionSubMenu = new ActionMenuBuilder()
                     .AsSubMenu()
-                    .Action("Fireball", (ctl, e) => SwitchToTargetSelection((tile) => (_actionActor as Imp).ShootFireball(tile)))
+                    .Action("Fireball", (ctl, e) => SwitchToTargetSelection((tile) => (_actionActor as Imp).ShootFireball(tile, null)))
                     .Action("Eviscerate", null)
                     .Size(200, 200)
                     .Build();
@@ -85,9 +85,9 @@ namespace DoomTactics
             NextState = new StateTransition(new FreeCamera(GameState, this));
         }
 
-        public void SwitchToTargetSelection(Action<Tile> actionCallback)
+        public void SwitchToTargetSelection(Func<Tile, ActionAnimationScript> scriptGenerator)
         {
-            NextState = new StateTransition(new TargetSelection(GameState, this, actionCallback));
+            NextState = new StateTransition(new TargetSelection(GameState, this, scriptGenerator));
         }
 
         public override bool IsPaused

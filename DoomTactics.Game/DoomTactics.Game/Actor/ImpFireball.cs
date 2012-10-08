@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.Xna.Framework;
 
 namespace DoomTactics
 {
@@ -16,5 +17,11 @@ namespace DoomTactics
             CurrentAnimation = ActorAnimationManager.Make("impfireballidle", ActorID);
             SpriteSheet = SpriteSheetFactory.CreateSpriteSheet(ActorType.ImpFireball);
         }
+
+        public override void Die()
+        {
+            CurrentAnimation = ActorAnimationManager.Make("impfireballdeath", ActorID);
+            Velocity = Vector3.Zero;
+        }        
     }
 }

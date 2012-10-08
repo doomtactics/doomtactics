@@ -29,7 +29,7 @@ namespace DoomTactics
                 if (mouseState.RightButton == ButtonState.Pressed)
                 {
                     var cameraEvent = new CameraEvent(DoomEventType.CameraMoveEvent, mouseMove);
-                    MessagingSystem.DispatchEvent(cameraEvent);
+                    MessagingSystem.DispatchEvent(cameraEvent, "InputProcessor");
                 }
                 else
                 {
@@ -39,7 +39,7 @@ namespace DoomTactics
                     bool left = keyState.IsKeyDown(Keys.A);
                     var cameraEvent = new CameraEvent(DoomEventType.CameraMoveEvent, mouseMove, forward, backward, right,
                                                       left);
-                    MessagingSystem.DispatchEvent(cameraEvent);
+                    MessagingSystem.DispatchEvent(cameraEvent, "InputProcessor");
                 }
 
                 // lock mouse

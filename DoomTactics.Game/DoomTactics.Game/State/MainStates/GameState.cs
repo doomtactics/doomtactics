@@ -53,9 +53,10 @@ namespace DoomTactics
             float aspectRatio = (float)_gameInstance.Window.ClientBounds.Width / _gameInstance.Window.ClientBounds.Height;
             Camera = new Camera("camera", new Vector3(-96f, 32f, 32f), new Vector3(32.0f, 32.0f, 32.0f), Vector3.Up,
                                 aspectRatio);
-            MessagingSystem.Subscribe(Camera.MoveCamera, DoomEventType.CameraMoveEvent, "camera");
-            MessagingSystem.Subscribe(OnChargeTimeReached, DoomEventType.ChargeTimeReached, "gamestate");
-            MessagingSystem.Subscribe(OnActorSpawn, DoomEventType.SpawnActor, "gamestate");
+            MessagingSystem.Subscribe(Camera.MoveCamera, DoomEventType.CameraMoveEvent, "camera", null);
+            MessagingSystem.Subscribe(OnChargeTimeReached, DoomEventType.ChargeTimeReached, "gamestate", null);
+            MessagingSystem.Subscribe(OnActorSpawn, DoomEventType.SpawnActor, "gamestate", null);
+            MessagingSystem.Subscribe(OnActorDespawn, DoomEventType.DespawnActor, "gamestate", null);
 
             Effect = new BasicEffect(_gameInstance.GraphicsDevice);
 
@@ -216,14 +217,13 @@ namespace DoomTactics
         public void OnActorSpawn(IDoomEvent evt)
         {
             var actorEvent = (SpawnActorEvent)evt;
-            var spawnMethod = ActorSpawnMethods.GetSpawnMethod(ActorType.ImpFireball);
-            var newActor = spawnMethod.Invoke(actorEvent.SpawnPosition, actorEvent.InitialVelocity);
-            Level.Actors.Add(newActor);
+            Level.Actors.Add(actorEvent.Actor);
         }
 
         public void OnActorDespawn(IDoomEvent evt)
         {
-
+            var actorEvent = (DespawnActorEvent) evt;
+            Level.Actors.Remove(actorEvent.DespawnTarget);
         }
 
     }

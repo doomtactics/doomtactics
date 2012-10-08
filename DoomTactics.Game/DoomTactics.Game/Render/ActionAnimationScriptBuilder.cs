@@ -27,6 +27,7 @@ namespace DoomTactics
         public ActionAnimationScriptBuilder Segment()
         {
             _currentIndex++;
+            _scriptSegments.Add(new ScriptSegment());
             return this;
         }
 
@@ -35,17 +36,17 @@ namespace DoomTactics
             _scriptSegments[_currentIndex].OnStart = onStart;
             return this;
         }
-
-        //public ActionAnimationScriptBuilder TriggeredByEvent(DoomEventType eventType, string actorName)
-        //{
-        //    _scriptSegments[_currentIndex].TriggeringEvent = eventType;
-        //    _scriptSegments[_currentIndex].TriggeringActor = actorName;
-        //    return this;
-        //}
-
+       
         public ActionAnimationScriptBuilder EndCondition(Func<bool> checkCondition)
         {
             _scriptSegments[_currentIndex].EndCondition = checkCondition;
+            return this;
+        }
+
+        public ActionAnimationScriptBuilder EndOnEvent(DoomEventType eventType, string sender)
+        {
+            _scriptSegments[_currentIndex].EndOnEventType = eventType;
+            _scriptSegments[_currentIndex].EndOnEventSender = sender;
             return this;
         }
 
@@ -64,7 +65,7 @@ namespace DoomTactics
         public ActionAnimationScript Build()
         {
             var aas = new ActionAnimationScript(_scriptSegments, _name);
-            MessagingSystem.Subscribe((evt) => OnFinish(evt, _onScriptFinish), DoomEventType.AnimationScriptComplete, "AnimationScript");
+            MessagingSystem.Subscribe((evt) => OnFinish(evt, _onScriptFinish), DoomEventType.AnimationScriptComplete, _name, null);
             return aas;
         }
 
@@ -77,12 +78,4 @@ namespace DoomTactics
             }
         }
     }
-
-    /*
-     * var animationScript = new AnimationScript()
-     *     .Segment().Start(spawnActor).EndCondition(targetIsHit).OnComplete(fireball.Die())
-     *     .Segemnt().TriggedByEvent(despawnActor).StartOnEvent(eventType).EndCondition(animationComplete).Finish();
-     * 
-     *
-     */
 }
