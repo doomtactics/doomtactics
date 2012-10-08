@@ -128,6 +128,7 @@
     <Compile Include="Data\HardcodedTestLevel.cs" />
     <Compile Include="Event\ActorEvent.cs" />
     <Compile Include="Event\AnimationEvent.cs" />
+    <Compile Include="Event\AnimationScriptEvent.cs" />
     <Compile Include="Event\CameraEvent.cs" />
     <Compile Include="Event\DespawnActorEvent.cs" />
     <Compile Include="Event\DoomEvent.cs" />
@@ -150,6 +151,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="DoomTacticsGame.cs" />
+    <Compile Include="Render\ActionAnimationScript.cs" />
+    <Compile Include="Render\ActionAnimationScriptBuilder.cs" />
     <Compile Include="Render\ActorAnimation.cs" />
     <Compile Include="Render\ActorAnimationManager.cs" />
     <Compile Include="Render\Cube.cs" />
@@ -157,6 +160,7 @@
     <Compile Include="Render\ImpFireballSheet.cs" />
     <Compile Include="Render\ImpSheet.cs" />
     <Compile Include="Render\RendererXna.cs" />
+    <Compile Include="Render\ScriptSegment.cs" />
     <Compile Include="Render\SpriteSheet.cs" />
     <Compile Include="Render\SpriteSheetFactory.cs" />
     <Compile Include="State\ControlScheme.cs" />
@@ -165,7 +169,7 @@
     <Compile Include="State\MainStates\GameStates\FreeCamera.cs" />
     <Compile Include="State\MainStates\GameStates\ActionSelection.cs" />
     <Compile Include="State\MainStates\GameStates\GameStateBase.cs" />
-    <Compile Include="State\MainStates\GameStates\PerformingAction.cs" />
+    <Compile Include="State\MainStates\GameStates\ActionAnimationPlaying.cs" />
     <Compile Include="State\MainStates\GameStates\TargetSelection.cs" />
     <Compile Include="State\MainStates\MenuState.cs" />
     <Compile Include="State\StateMachine.cs" />

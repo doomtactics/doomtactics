@@ -15,6 +15,10 @@
         // gameplay -- actor spawn etc
         SpawnActor,
         DespawnActor,
+
+        // scripting
+        AnimationScriptStart,
+        AnimationScriptComplete,
     }    
 
     public interface IDoomEvent

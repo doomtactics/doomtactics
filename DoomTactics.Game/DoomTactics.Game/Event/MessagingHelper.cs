@@ -21,9 +21,9 @@ namespace DoomTactics
             callbacks = new List<CallbackWithType>();
         }
       
-        public void Subscribe(Action<IDoomEvent> callback, DoomEventType type, string name)
+        public void Subscribe(Action<IDoomEvent> callback, DoomEventType type, string subscriberName)
         {
-            callbacks.Add(new CallbackWithType() { callback = callback, type = type, ListenerName = name });
+            callbacks.Add(new CallbackWithType() { callback = callback, type = type, ListenerName = subscriberName });
         }
 
         public void Unsubscribe(string name)

@@ -10,9 +10,9 @@ namespace DoomTactics
         private static MessagingHelper _helper = new MessagingHelper();
         private static Queue<IDoomEvent> _queue = new Queue<IDoomEvent>();
 
-        public static void Subscribe(Action<IDoomEvent> callback, DoomEventType eventType, string name)
+        public static void Subscribe(Action<IDoomEvent> callback, DoomEventType eventType, string subscriberName)
         {
-            _helper.Subscribe(callback, eventType, name);
+            _helper.Subscribe(callback, eventType, subscriberName);
         }
 
         public static void Unsubscribe(string name)
