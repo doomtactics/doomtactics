@@ -13,6 +13,7 @@ namespace DoomTactics
     public class ActionSelection : GameStateBase
     {
         private ActionMenu _actionMenu;
+        private ActionMenu _actionSubMenu;
         private ActorBase _actionActor;
 
         public ActionSelection(GameState gameState, ActorBase actionActor)
@@ -28,9 +29,16 @@ namespace DoomTactics
             base.OnEnter();
             GameState.Desktop.Visible = true;
             GameState.Desktop.ShowCursor = true;
+
+            _actionSubMenu = new ActionMenuBuilder()
+                .AsSubMenu()
+                .Action("Fireball", null)
+                .Action("Eviscerate", null) 
+                .Size(200, 200)               
+                .Build();
             _actionMenu = new ActionMenuBuilder()
                             .ActorName(_actionActor.ActorID)
-                            .Action("Action", null)
+                            .Action("Action", (ctl, e) => _actionMenu.ShowSubMenu(_actionSubMenu))
                             .Action("Wait", null)
                             .Action("Turn", null)
                             .Position(50, 100)
@@ -42,7 +50,9 @@ namespace DoomTactics
         public override void OnExit()
         {
             GameState.Desktop.Controls.Remove(_actionMenu);
+            GameState.Desktop.Controls.Remove(_actionSubMenu);
             _actionMenu = null;
+            _actionSubMenu = null;
         }
 
         public override StateTransition Update(GameTime gameTime)

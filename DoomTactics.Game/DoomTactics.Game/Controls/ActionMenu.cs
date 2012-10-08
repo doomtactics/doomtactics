@@ -10,6 +10,7 @@ namespace DoomTactics.Controls
         public void ShowSubMenu(ActionMenu subMenu)
         {
             subMenu.Position = new Squid.Point(this.Position.x + this.Size.x, this.Position.y + 20);
+            subMenu.Visible = true;
             subMenu.Parent = this.Parent;
             subMenu.TitleBar.Button.OnMouseClick += (c, e) =>
                                                         {
