@@ -11,9 +11,14 @@ namespace DoomTactics
 {
     public class TargetSelection : GameStateBase
     {
-        public TargetSelection(GameState gameState)
+        private readonly IState _previousState;
+        private readonly Action<Tile> _callback;
+
+        public TargetSelection(GameState gameState, IState previousState, Action<Tile> callback)
             : base(gameState)
         {
+            _previousState = previousState;
+            _callback = callback;
             HighlightHoveredTile = true;
             InputProcessor = new TargetSelectionProcessor(Keyboard.GetState(), Mouse.GetState(), gameState, this);
         }
@@ -27,6 +32,9 @@ namespace DoomTactics
 
         public override StateTransition Update(GameTime gameTime)
         {
+            if (NextState != null)
+                return NextState;
+
             base.Update(gameTime);
             GameState.SquidInputManager.Update(gameTime);
             GameState.Desktop.Update();
@@ -49,6 +57,20 @@ namespace DoomTactics
         public override bool IsPaused
         {
             get { return false; }
+        }
+
+        public void ReturnToPrevious()
+        {
+            NextState = new StateTransition(_previousState);
+        }
+
+        public void PerformAction()
+        {
+            Tile targeted = GameState.FindHighlightedTile();
+            if (targeted != null)
+            {
+                _callback.Invoke(targeted);
+            }
         }
     }
 }

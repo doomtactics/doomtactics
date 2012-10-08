@@ -30,29 +30,35 @@ namespace DoomTactics
             GameState.Desktop.Visible = true;
             GameState.Desktop.ShowCursor = true;
 
-            _actionSubMenu = new ActionMenuBuilder()
-                .AsSubMenu()
-                .Action("Fireball", null)
-                .Action("Eviscerate", null) 
-                .Size(200, 200)               
-                .Build();
-            _actionMenu = new ActionMenuBuilder()
-                            .ActorName(_actionActor.ActorID)
-                            .Action("Action", (ctl, e) => _actionMenu.ShowSubMenu(_actionSubMenu))
-                            .Action("Wait", null)
-                            .Action("Turn", null)
-                            .Position(50, 100)
-                            .Size(200, 200)
-                            .Parent(GameState.Desktop)
-                            .Build();
+            if (_actionSubMenu == null)
+            {
+                _actionSubMenu = new ActionMenuBuilder()
+                    .AsSubMenu()
+                    .Action("Fireball", (ctl, e) => SwitchToTargetSelection((tile) => (_actionActor as Imp).ShootFireball(tile)))
+                    .Action("Eviscerate", null)
+                    .Size(200, 200)
+                    .Build();
+            }
+            if (_actionMenu == null)
+            {
+                _actionMenu = new ActionMenuBuilder()
+                    .ActorName(_actionActor.ActorID)
+                    .Action("Action", (ctl, e) => _actionMenu.ShowSubMenu(_actionSubMenu))
+                    .Action("Wait", null)
+                    .Action("Turn", null)
+                    .Position(50, 100)
+                    .Size(200, 200)
+                    .Parent(GameState.Desktop)
+                    .Build();
+            }
+            _actionMenu.Visible = true;
+            _actionSubMenu.Visible = true;
         }
 
         public override void OnExit()
         {
-            GameState.Desktop.Controls.Remove(_actionMenu);
-            GameState.Desktop.Controls.Remove(_actionSubMenu);
-            _actionMenu = null;
-            _actionSubMenu = null;
+            _actionMenu.Visible = false;
+            _actionSubMenu.Visible = false;
         }
 
         public override StateTransition Update(GameTime gameTime)
@@ -77,6 +83,11 @@ namespace DoomTactics
         public void SwitchToFreeCamera()
         {
             NextState = new StateTransition(new FreeCamera(GameState, this));
+        }
+
+        public void SwitchToTargetSelection(Action<Tile> actionCallback)
+        {
+            NextState = new StateTransition(new TargetSelection(GameState, this, actionCallback));
         }
 
         public override bool IsPaused

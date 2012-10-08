@@ -28,7 +28,7 @@ namespace DoomTactics
             Vector3 target = new Vector3(average.X, tilebox.Max.Y + Height/2.0f, average.Z);
             Vector3 source = new Vector3(Position.X, Position.Y + Height/2.0f, Position.Z);
             var direction = target - source;
-            var velocity = Vector3.Normalize(direction)*2.0f;
+            var velocity = Vector3.Normalize(direction)*5.0f;
             var evt = new SpawnActorEvent(DoomEventType.SpawnActor, ActorType.ImpFireball, Position, velocity);
             MessagingSystem.DispatchEvent(evt);
         }
