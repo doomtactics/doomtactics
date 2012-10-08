@@ -11,15 +11,19 @@ namespace DoomTactics
 {
     public class FreeCamera : GameStateBase
     {
-        public FreeCamera(GameState gameState)
+        private readonly IState _previousState;
+
+        public FreeCamera(GameState gameState, IState previousState)
             : base(gameState)
         {
+            _previousState = previousState;
             HighlightHoveredTile = false;
             InputProcessor = new FreeCameraInputProcessor(Keyboard.GetState(), Mouse.GetState(), gameState, this);
         }
 
         public override void OnEnter()
         {
+            base.OnEnter();
             GameState.Desktop.Visible = false;
             GameState.Desktop.ShowCursor = false;
         }
@@ -36,6 +40,8 @@ namespace DoomTactics
 
         public override StateTransition Update(GameTime gameTime)
         {
+            if (NextState != null)
+                return NextState;
             base.Update(gameTime);
             return NextState;
         }
@@ -47,7 +53,14 @@ namespace DoomTactics
 
         public void SwitchToHudMode()
         {
-            NextState = new StateTransition(null, true);
+            if (_previousState != null)
+            {
+                NextState = new StateTransition(_previousState);
+            }
+            else
+            {
+                NextState = new StateTransition(new ActionSelection(GameState, GameState.ActiveUnit));
+            }         
         }
     }
 }

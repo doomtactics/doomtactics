@@ -23,7 +23,10 @@ namespace DoomTactics
 
         public virtual bool HighlightHoveredTile { get; protected set; }
 
-        public abstract void OnEnter();
+        public virtual void OnEnter()
+        {
+            NextState = null;
+        }
 
         public abstract void OnExit();
 

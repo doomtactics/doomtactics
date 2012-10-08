@@ -20,6 +20,7 @@ namespace DoomTactics
 
         public override void OnEnter()
         {
+            base.OnEnter();
             GameState.Desktop.Visible = true;
             GameState.Desktop.ShowCursor = true;
         }

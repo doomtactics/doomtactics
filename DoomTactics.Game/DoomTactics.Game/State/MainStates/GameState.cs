@@ -41,7 +41,7 @@ namespace DoomTactics
             Desktop = new DoomDesktop();
             SquidInputManager = squidInputManager;
             _nextState = null;
-            _stateMachine = new StateMachine(new FreeCamera(this));
+            _stateMachine = new StateMachine(new FreeCamera(this, null));
             _spawnMethods = new Dictionary<ActorType, Func<Vector3, Vector3, ActorBase>>();
             CreateSpawnMethodsTemp();
         }
