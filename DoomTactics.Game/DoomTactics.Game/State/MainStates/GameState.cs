@@ -30,8 +30,7 @@ namespace DoomTactics
         public BasicEffect SpriteEffect;
         public HighlightEffectContainer HighlightingEffectContainer;
         public AlphaTestEffect AlphaTestEffect;
-        private StateTransition _nextState;
-        private IDictionary<ActorType, Func<Vector3, Vector3, ActorBase>> _spawnMethods;
+        private StateTransition _nextState;        
         private readonly StateMachine _stateMachine;
 
 
@@ -42,19 +41,6 @@ namespace DoomTactics
             SquidInputManager = squidInputManager;
             _nextState = null;
             _stateMachine = new StateMachine(new FreeCamera(this, null));
-            _spawnMethods = new Dictionary<ActorType, Func<Vector3, Vector3, ActorBase>>();
-            CreateSpawnMethodsTemp();
-        }
-
-        private void CreateSpawnMethodsTemp()
-        {
-            _spawnMethods.Add(ActorType.ImpFireball, (p, v) =>
-                                                        {
-                                                            var fireball = new ImpFireball("fireball");
-                                                            fireball.Position = p;
-                                                            fireball.Velocity = v;
-                                                            return fireball;
-                                                        });
         }
 
         public void OnEnter()
@@ -230,7 +216,7 @@ namespace DoomTactics
         public void OnActorSpawn(IDoomEvent evt)
         {
             var actorEvent = (SpawnActorEvent)evt;
-            var spawnMethod = _spawnMethods[actorEvent.ActorType];
+            var spawnMethod = ActorSpawnMethods.GetSpawnMethod(ActorType.ImpFireball);
             var newActor = spawnMethod.Invoke(actorEvent.SpawnPosition, actorEvent.InitialVelocity);
             Level.Actors.Add(newActor);
         }
