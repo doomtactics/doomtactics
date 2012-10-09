@@ -9,7 +9,7 @@ namespace DoomTactics
 {
     public class StateMachine
     {
-        private readonly Stack<IState> _stateStack;         
+        private readonly Stack<IState> _stateStack;
 
         public StateMachine(IState initialState)
         {
@@ -22,19 +22,10 @@ namespace DoomTactics
 
         public void Update(GameTime gameTime)
         {
-            var stateTransition = CurrentState.Update(gameTime);
-            if (stateTransition != null)
+            CurrentState.Update(gameTime);
+            if (CurrentState.NextState != null)
             {
-                if (stateTransition.ReturnToPreviousState)
-                {
-                    CurrentState.OnExit();
-                    _stateStack.Pop();
-                    CurrentState.OnEnter();
-                }
-                else
-                {
-                    TransitionTo(stateTransition.NextState);
-                }
+                TransitionTo(CurrentState.NextState.NextState);
             }
         }
 
@@ -46,8 +37,8 @@ namespace DoomTactics
         public void SetState(IState newState)
         {
             TransitionTo(newState);
-        }    
-   
+        }
+
         private void TransitionTo(IState nextState)
         {
             var oldState = _stateStack.Pop();

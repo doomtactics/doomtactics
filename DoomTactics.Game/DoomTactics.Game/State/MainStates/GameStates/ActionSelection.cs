@@ -61,20 +61,15 @@ namespace DoomTactics
             _actionSubMenu.Visible = false;
         }
 
-        public override StateTransition Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
-            if (NextState != null)
-                return NextState;
             base.Update(gameTime);
             GameState.SquidInputManager.Update(gameTime);
             GameState.Desktop.Update();
-
-            return NextState;
         }
 
         public override void Render(GraphicsDevice device)
         {
-
             base.Render(device);
             GameState.Desktop.Size = new Squid.Point(device.Viewport.Width, device.Viewport.Height);
             GameState.Desktop.Draw();

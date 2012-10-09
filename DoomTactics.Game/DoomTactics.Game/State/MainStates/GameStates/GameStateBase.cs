@@ -12,7 +12,7 @@ namespace DoomTactics
     public abstract class GameStateBase : IState
     {
         protected IInputProcessor InputProcessor;
-        protected StateTransition NextState;
+        public StateTransition NextState { get; protected set; }
 
         protected readonly GameState GameState;
 
@@ -32,7 +32,7 @@ namespace DoomTactics
 
         public abstract bool IsPaused { get; }
 
-        public virtual StateTransition Update(GameTime gameTime)
+        public virtual void Update(GameTime gameTime)
         {            
             if (GameState.ActiveUnit == null)
             {
@@ -48,7 +48,6 @@ namespace DoomTactics
             }
 
             InputProcessor.ProcessInput(Keyboard.GetState(), Mouse.GetState(), gameTime);                        
-            return NextState;
         }
 
         public virtual void Render(GraphicsDevice device)

@@ -10,10 +10,12 @@ namespace DoomTactics
 {
     public interface IState
     {
+        StateTransition NextState { get; }
+
         void OnEnter();
         void OnExit();
         bool IsPaused { get; }
-        StateTransition Update(GameTime gameTime);
+        void Update(GameTime gameTime);
         void Render(GraphicsDevice device);        
     }
 }

@@ -33,13 +33,16 @@ namespace DoomTactics
 
         public void Update()
         {
-            if (_scriptSegments[_currentIndex].EndCondition.Invoke())
+            if (_currentIndex < _scriptSegments.Count)
             {
-                if (_scriptSegments[_currentIndex].OnComplete != null)
+                if (_scriptSegments[_currentIndex].EndCondition.Invoke())
                 {
-                    _scriptSegments[_currentIndex].OnComplete.Invoke();
+                    if (_scriptSegments[_currentIndex].OnComplete != null)
+                    {
+                        _scriptSegments[_currentIndex].OnComplete.Invoke();
+                    }
+                    Next();
                 }
-                Next();
             }
         }
 

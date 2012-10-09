@@ -30,16 +30,11 @@ namespace DoomTactics
             GameState.Desktop.ShowCursor = true;
         }
 
-        public override StateTransition Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
-            if (NextState != null)
-                return NextState;
-
             base.Update(gameTime);
             GameState.SquidInputManager.Update(gameTime);
             GameState.Desktop.Update();
-
-            return NextState;
         }
 
         public override void OnExit()

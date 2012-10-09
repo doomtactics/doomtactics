@@ -38,12 +38,9 @@ namespace DoomTactics
             get { return false; }
         }
 
-        public override StateTransition Update(GameTime gameTime)
+        public override void Update(GameTime gameTime)
         {
-            if (NextState != null)
-                return NextState;
             base.Update(gameTime);
-            return NextState;
         }
 
         public override void Render(GraphicsDevice device)

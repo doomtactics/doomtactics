@@ -21,7 +21,7 @@ namespace DoomTactics
         {
             if (MouseButtonClicked(mouseState.LeftButton, OldMouseState.LeftButton))
             {
-                GameState.ShowCurrentlyHoveredUnitStatus(new Vector2(mouseState.X, mouseState.Y));
+                // GameState.ShowCurrentlyHoveredUnitStatus(new Vector2(mouseState.X, mouseState.Y));
             }
             if (KeyPressed(Keys.V, keyState))
             {

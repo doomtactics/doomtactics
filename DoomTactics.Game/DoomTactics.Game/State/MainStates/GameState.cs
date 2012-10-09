@@ -22,6 +22,7 @@ namespace DoomTactics
         public readonly DoomDesktop Desktop;
         public readonly SquidInputManager SquidInputManager;
         public ActorBase ActiveUnit;
+        public StateTransition NextState { get; private set; }
 
         private readonly DoomTacticsGame _gameInstance;
         public BasicEffect Effect;
@@ -30,7 +31,6 @@ namespace DoomTactics
         public BasicEffect SpriteEffect;
         public HighlightEffectContainer HighlightingEffectContainer;
         public AlphaTestEffect AlphaTestEffect;
-        private StateTransition _nextState;        
         private readonly StateMachine _stateMachine;
 
 
@@ -39,7 +39,6 @@ namespace DoomTactics
             _gameInstance = gameInstance;
             Desktop = new DoomDesktop();
             SquidInputManager = squidInputManager;
-            _nextState = null;
             _stateMachine = new StateMachine(new FreeCamera(this, null));
         }
 
@@ -79,21 +78,16 @@ namespace DoomTactics
             get { return false; }
         }
 
-        public StateTransition Update(GameTime gameTime)
+        public void Update(GameTime gameTime)
         {
             MessagingSystem.ProcessQueued();
 
             _stateMachine.Update(gameTime);
-
-            if (_nextState != null)
-                return _nextState;
-
-            return _nextState;
         }
 
         public void ReturnToMainMenu()
         {
-            _nextState = new StateTransition(DoomTacticsGame.CreateMenuState(_gameInstance));
+            NextState = new StateTransition(DoomTacticsGame.CreateMenuState(_gameInstance));
         }
 
         public void Render(GraphicsDevice device)
@@ -132,41 +126,6 @@ namespace DoomTactics
         {
             var tempLevelData = HardcodedTestLevel.CreateLevel();
             Level = LevelFactory.CreateLevel(contentManager, tempLevelData);
-        }
-
-        public void ShowCurrentlyHoveredUnitStatus(Vector2 mousePosition)
-        {
-            var actor = SelectCurrentlyHoveredUnit(mousePosition);
-            ShowUnitStatus(actor);
-        }
-
-        private void ShowUnitStatus(ActorBase actor)
-        {
-            //if (actor != null)
-            //{
-            //    if (actor != ActiveUnit)
-            //    {
-            //        new DoomWindowBuilder()
-            //            .CanClose(true)
-            //            .Title(actor.ActorID)
-            //            .Size(200, 200)
-            //            .Position(50, 100)
-            //            .Parent(Desktop)
-            //            .Build();
-            //    }
-            //    else
-            //    {
-            //        new ActionMenuBuilder()
-            //            .ActorName(actor.ActorID)
-            //            .Action("Action", OpenActionSubmenu)
-            //            .Action("Wait", null)
-            //            .Action("Turn", null)
-            //            .Position(50, 100)
-            //            .Size(200, 200)
-            //            .Parent(Desktop)
-            //            .Build();
-            //    }
-            //}
         }
 
         private ActorBase SelectCurrentlyHoveredUnit(Vector2 mousePosition)
