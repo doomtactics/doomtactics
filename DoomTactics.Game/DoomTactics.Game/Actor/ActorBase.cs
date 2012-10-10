@@ -19,6 +19,7 @@ namespace DoomTactics
         protected ActorAnimation CurrentAnimation;
         public Vector3 Position;
         public Vector3 Velocity;
+        public Vector3 FacingDirection;
 
         public virtual SpriteSheet SpriteSheet
         {
@@ -37,6 +38,7 @@ namespace DoomTactics
             ActorID = id;
             ChargeTime = 0;
             Velocity = Vector3.Zero;
+            FacingDirection = Vector3.Forward;
         }
 
         public virtual void Update(GameTime elapsedTime)
@@ -87,7 +89,7 @@ namespace DoomTactics
         private Angle GetAngle(Camera camera)
         {
             Vector3 vectorBetween = camera.Position - Position;
-            float angle = MathHelper.ToDegrees(MathUtils.SignedAngleOnXzPlane(vectorBetween, Vector3.Forward));
+            float angle = MathHelper.ToDegrees(MathUtils.SignedAngleOnXzPlane(vectorBetween, FacingDirection));
             Angle angleEnum;
 
             if (angle > -22.5 && angle <= 22.5)
@@ -138,6 +140,12 @@ namespace DoomTactics
             var bb = new BoundingBox(new Vector3(Position.X - Width/2, Position.Y, Position.Z - Width/2),
                                    new Vector3(Position.X + Width/2, Position.Y + Height, Position.Z + Width/2));
             return bb;
+        }
+
+        public void FacePoint(Vector3 targetPosition)
+        {            
+            FacingDirection = Vector3.Normalize(new Vector3(targetPosition.X, 0, targetPosition.Z) - new Vector3(Position.X, 0, Position.Z));
+            Logger.Debug("Target Position: " + targetPosition + ", My position: " + Position + ", facing direction: " + FacingDirection);
         }
 
         public virtual void Die()

@@ -130,16 +130,7 @@ namespace DoomTactics
 
         private ActorBase SelectCurrentlyHoveredUnit(Vector2 mousePosition)
         {
-            Vector3 nearpoint = new Vector3(mousePosition, 0);
-            Vector3 farpoint = new Vector3(mousePosition, 1.0f);
-
-            nearpoint = _gameInstance.GraphicsDevice.Viewport.Unproject(nearpoint, Camera.Projection, Camera.View,
-                                                                        Matrix.Identity);
-            farpoint = _gameInstance.GraphicsDevice.Viewport.Unproject(farpoint, Camera.Projection, Camera.View,
-                                                                       Matrix.Identity);
-
-            Vector3 direction = Vector3.Normalize(farpoint - nearpoint);
-            Ray ray = new Ray(nearpoint, direction);
+            Ray ray = CreateRayFromMouseCursorPosition(mousePosition);
             ActorBase intersected = null;
             float selectedDistance = float.MaxValue;
 
@@ -188,6 +179,21 @@ namespace DoomTactics
         public ActorBase GetNextActiveUnit()
         {
             return Level.Actors.FirstOrDefault(x => x.ChargeTime == 100 && x != ActiveUnit);
+        }
+
+        public Ray CreateRayFromMouseCursorPosition(Vector2 mousePosition)
+        {
+            Vector3 nearpoint = new Vector3(mousePosition, 0);
+            Vector3 farpoint = new Vector3(mousePosition, 1.0f);
+
+            nearpoint = _gameInstance.GraphicsDevice.Viewport.Unproject(nearpoint, Camera.Projection, Camera.View,
+                                                                        Matrix.Identity);
+            farpoint = _gameInstance.GraphicsDevice.Viewport.Unproject(farpoint, Camera.Projection, Camera.View,
+                                                                       Matrix.Identity);
+
+            Vector3 direction = Vector3.Normalize(farpoint - nearpoint);
+
+            return new Ray(nearpoint, direction);
         }
     }
 }
