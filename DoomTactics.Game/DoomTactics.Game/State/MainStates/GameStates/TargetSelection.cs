@@ -64,7 +64,7 @@ namespace DoomTactics
             Tile targeted = GameState.FindHighlightedTile();
             if (targeted != null)
             {
-                var animationState = new ActionAnimationPlaying(GameState, new FreeCamera(GameState, null),
+                var animationState = new ActionAnimationPlaying(GameState, new SelectWaitDirection(GameState), 
                                                                 _scriptGenerator.Invoke(targeted));
                 NextState = new StateTransition(animationState);
             }

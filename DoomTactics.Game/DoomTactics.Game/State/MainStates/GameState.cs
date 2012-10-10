@@ -185,5 +185,9 @@ namespace DoomTactics
             Level.Actors.Remove(actorEvent.DespawnTarget);
         }
 
+        public ActorBase GetNextActiveUnit()
+        {
+            return Level.Actors.FirstOrDefault(x => x.ChargeTime == 100 && x != ActiveUnit);
+        }
     }
 }
