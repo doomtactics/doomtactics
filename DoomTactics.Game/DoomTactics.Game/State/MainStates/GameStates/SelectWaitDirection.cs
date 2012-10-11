@@ -9,9 +9,10 @@ namespace DoomTactics
 {
     public class SelectWaitDirection : GameStateBase
     {
-        public SelectWaitDirection(GameState gameState) : base(gameState)
+        public SelectWaitDirection(GameState gameState)
+            : base(gameState)
         {
-            InputProcessor = new GameStateBaseInputProcessor(Keyboard.GetState(), Mouse.GetState(), GameState);
+            InputProcessor = new SelectWaitDirectionProcessor(Keyboard.GetState(), Mouse.GetState(), GameState, this);
         }
 
         public override void OnEnter()
@@ -23,11 +24,20 @@ namespace DoomTactics
 
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
             GameState.SquidInputManager.Update(gameTime);
             GameState.Desktop.Update();
             SetWaitDirection(new Vector2(Mouse.GetState().X, Mouse.GetState().Y));
-            /*
+            base.Update(gameTime);          
+        }
+
+        public void SetWaitDirection(Vector2 mousePosition)
+        {
+            SetActorWaitDirection(mousePosition);
+        }
+
+        public void FinalizeWaitDirection(Vector2 mousePosition)
+        {
+            SetActorWaitDirection(mousePosition);
             ActorBase nextActiveUnit = GameState.GetNextActiveUnit();
             if (nextActiveUnit == null)
             {
@@ -36,10 +46,10 @@ namespace DoomTactics
             else
             {
                 NextState = new StateTransition(new ActionSelection(GameState, nextActiveUnit));
-            }*/
+            }
         }
 
-        public void SetWaitDirection(Vector2 mousePosition)
+        private void SetActorWaitDirection(Vector2 mousePosition)
         {
             Ray ray = GameState.CreateRayFromMouseCursorPosition(mousePosition);
 
@@ -47,15 +57,14 @@ namespace DoomTactics
             float? distance = ray.Intersects(plane);
             if (distance != null)
             {
-                Vector3 targetPoint = ray.Position + ray.Direction*distance.Value;
+                Vector3 targetPoint = ray.Position + ray.Direction * distance.Value;
                 GameState.ActiveUnit.FacePoint(targetPoint);
             }
         }
 
-
         public override void OnExit()
         {
-            GameState.ActiveUnit.ChargeTime = 0;            
+            GameState.ActiveUnit.ChargeTime = 0;
             GameState.ActiveUnit = GameState.GetNextActiveUnit();
         }
 

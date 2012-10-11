@@ -127,8 +127,8 @@ namespace DoomTactics
             
             if (ActorID == "Imp1")
             {
-                Logger.Trace("Camera: " + camera.Position + ", my pos: " + Position + "Between: " + vectorBetween +
-                             ", facing: " + FacingDirection + ", angle: " + angle);
+                //Logger.Trace("Camera: " + camera.Position + ", my pos: " + Position + "Between: " + vectorBetween +
+                //             ", facing: " + FacingDirection + ", angle: " + angle);
                 //Logger.Trace("Angle: " + angleEnum.ToString());
             }
             
