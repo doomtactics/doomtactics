@@ -38,7 +38,7 @@ namespace DoomTactics
             ActorID = id;
             ChargeTime = 0;
             Velocity = Vector3.Zero;
-            FacingDirection = Vector3.Normalize(new Vector3(-1, 0, -1));
+            FacingDirection = Vector3.Forward;
         }
 
         public virtual void Update(GameTime elapsedTime)
@@ -94,35 +94,35 @@ namespace DoomTactics
 
             if (180 <= angle && angle <= 202.5 || 0 <= angle && angle <= 22.5)
             {
-                angleEnum = Angle.Right;
+                angleEnum = Angle.Forward;
             }
             else if (angle > 22.5 && angle <= 67.5)
             {
-                angleEnum = Angle.ForwardRight;
+                angleEnum = Angle.ForwardLeft;
             }
             else if (angle > 67.5 && angle <= 112.5)
             {
-                angleEnum = Angle.Forward;
+                angleEnum = Angle.Left;
             }
             else if (angle > 112.5 && angle <= 157.5)
             {
-                angleEnum = Angle.ForwardLeft;
+                angleEnum = Angle.BackLeft;
             }
             else if (360 >= angle && angle > 337.5 || angle > 157.5 && angle <= 202.5)
             {
-                angleEnum = Angle.Left;
+                angleEnum = Angle.Back;
             }
             else if (angle > 202.5 && angle <= 247.5)
             {
-                angleEnum = Angle.BackRight;
+                angleEnum = Angle.ForwardRight;
             }
             else if (angle > 247.5 && angle <= 292.5)
             {
-                angleEnum = Angle.Back;
+                angleEnum = Angle.Right;
             }
             else // if (angle > 292.5 && angle <= 337.5)
             {
-                angleEnum = Angle.BackLeft;
+                angleEnum = Angle.BackRight;
             }
             
             if (ActorID == "Imp1")
