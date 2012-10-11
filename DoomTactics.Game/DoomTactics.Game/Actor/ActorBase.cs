@@ -38,7 +38,7 @@ namespace DoomTactics
             ActorID = id;
             ChargeTime = 0;
             Velocity = Vector3.Zero;
-            FacingDirection = Vector3.Normalize(new Vector3(1, 0, 1));
+            FacingDirection = Vector3.Normalize(new Vector3(-1, 0, -1));
         }
 
         public virtual void Update(GameTime elapsedTime)
@@ -92,7 +92,7 @@ namespace DoomTactics
             float angle = MathHelper.ToDegrees(MathUtils.SignedAngleOnXzPlane(vectorBetween, FacingDirection));
             Angle angleEnum;
 
-            if (angle > -22.5 && angle <= 22.5)
+            if (180 <= angle && angle <= 202.5 || 0 <= angle && angle <= 22.5)
             {
                 angleEnum = Angle.Right;
             }
@@ -108,27 +108,27 @@ namespace DoomTactics
             {
                 angleEnum = Angle.ForwardLeft;
             }
-            else if (angle > 157.5 || angle <= -157.5)
+            else if (360 >= angle && angle > 337.5 || angle > 157.5 && angle <= 202.5)
             {
                 angleEnum = Angle.Left;
             }
-            else if (angle > -157.5 && angle <= -112.5)
+            else if (angle > 202.5 && angle <= 247.5)
             {
-                angleEnum = Angle.BackLeft;
+                angleEnum = Angle.BackRight;
             }
-            else if (angle > -112.5 && angle <= -67.5)
+            else if (angle > 247.5 && angle <= 292.5)
             {
                 angleEnum = Angle.Back;
             }
-            else
+            else // if (angle > 292.5 && angle <= 337.5)
             {
-                angleEnum = Angle.BackRight;
+                angleEnum = Angle.BackLeft;
             }
             
             if (ActorID == "Imp1")
             {
                 Logger.Trace("Camera: " + camera.Position + ", my pos: " + Position + "Between: " + vectorBetween +
-                             ", angle: " + angle);
+                             ", facing: " + FacingDirection + ", angle: " + angle);
                 //Logger.Trace("Angle: " + angleEnum.ToString());
             }
             
