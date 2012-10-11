@@ -139,6 +139,7 @@
     <Compile Include="Input\GameState\ActionSelectionProcessor.cs" />
     <Compile Include="Input\GameState\FreeCameraInputProcessor.cs" />
     <Compile Include="Input\GameState\GameStateBaseInputProcessor.cs" />
+    <Compile Include="Input\GameState\SelectWaitDirectionProcessor.cs" />
     <Compile Include="Input\IInputProcessor.cs" />
     <Compile Include="Input\InputProcessor.cs" />
     <Compile Include="Input\NoInputProcessor.cs" />
@@ -170,6 +171,7 @@
     <Compile Include="State\MainStates\GameStates\ActionSelection.cs" />
     <Compile Include="State\MainStates\GameStates\GameStateBase.cs" />
     <Compile Include="State\MainStates\GameStates\ActionAnimationPlaying.cs" />
+    <Compile Include="State\MainStates\GameStates\SelectWaitDirection.cs" />
     <Compile Include="State\MainStates\GameStates\TargetSelection.cs" />
     <Compile Include="State\MainStates\MenuState.cs" />
     <Compile Include="State\StateMachine.cs" />

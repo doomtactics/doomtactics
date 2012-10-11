@@ -19,6 +19,7 @@ namespace DoomTactics
         protected ActorAnimation CurrentAnimation;
         public Vector3 Position;
         public Vector3 Velocity;
+        public Vector3 FacingDirection;
 
         public virtual SpriteSheet SpriteSheet
         {
@@ -37,6 +38,7 @@ namespace DoomTactics
             ActorID = id;
             ChargeTime = 0;
             Velocity = Vector3.Zero;
+            FacingDirection = Vector3.Forward;
         }
 
         public virtual void Update(GameTime elapsedTime)
@@ -86,50 +88,50 @@ namespace DoomTactics
 
         private Angle GetAngle(Camera camera)
         {
-            Vector3 vectorBetween = camera.Position - Position;
-            float angle = MathHelper.ToDegrees(MathUtils.SignedAngleOnXzPlane(vectorBetween, Vector3.Forward));
+            Vector3 vectorBetween = Vector3.Normalize(camera.Position - Position);
+            float angle = MathHelper.ToDegrees(MathUtils.SignedAngleOnXzPlane(vectorBetween, FacingDirection));
             Angle angleEnum;
 
-            if (angle > -22.5 && angle <= 22.5)
-            {
-                angleEnum = Angle.Right;
-            }
-            else if (angle > 22.5 && angle <= 67.5)
-            {
-                angleEnum = Angle.ForwardRight;
-            }
-            else if (angle > 67.5 && angle <= 112.5)
+            if (180 <= angle && angle <= 202.5 || 0 <= angle && angle <= 22.5)
             {
                 angleEnum = Angle.Forward;
             }
-            else if (angle > 112.5 && angle <= 157.5)
+            else if (angle > 22.5 && angle <= 67.5)
             {
                 angleEnum = Angle.ForwardLeft;
             }
-            else if (angle > 157.5 || angle <= -157.5)
+            else if (angle > 67.5 && angle <= 112.5)
             {
                 angleEnum = Angle.Left;
             }
-            else if (angle > -157.5 && angle <= -112.5)
+            else if (angle > 112.5 && angle <= 157.5)
             {
                 angleEnum = Angle.BackLeft;
             }
-            else if (angle > -112.5 && angle <= -67.5)
+            else if (360 >= angle && angle > 337.5 || angle > 157.5 && angle <= 202.5)
             {
                 angleEnum = Angle.Back;
             }
-            else
+            else if (angle > 202.5 && angle <= 247.5)
+            {
+                angleEnum = Angle.ForwardRight;
+            }
+            else if (angle > 247.5 && angle <= 292.5)
+            {
+                angleEnum = Angle.Right;
+            }
+            else // if (angle > 292.5 && angle <= 337.5)
             {
                 angleEnum = Angle.BackRight;
             }
-            /*
+            
             if (ActorID == "Imp1")
             {
-                Logger.Trace("Camera: " + camera.Position + ", my pos: " + Position + "Between: " + vectorBetween +
-                             ", angle: " + angle);
-                Logger.Trace("Angle: " + angleEnum.ToString());
+                //Logger.Trace("Camera: " + camera.Position + ", my pos: " + Position + "Between: " + vectorBetween +
+                //             ", facing: " + FacingDirection + ", angle: " + angle);
+                //Logger.Trace("Angle: " + angleEnum.ToString());
             }
-             */
+            
             return angleEnum;
         }
 
@@ -138,6 +140,12 @@ namespace DoomTactics
             var bb = new BoundingBox(new Vector3(Position.X - Width/2, Position.Y, Position.Z - Width/2),
                                    new Vector3(Position.X + Width/2, Position.Y + Height, Position.Z + Width/2));
             return bb;
+        }
+
+        public void FacePoint(Vector3 targetPosition)
+        {            
+            FacingDirection = new Vector3(targetPosition.X, 0, targetPosition.Z) - new Vector3(Position.X, 0, Position.Z);
+            // Logger.Debug("Target Position: " + targetPosition + ", My position: " + Position + ", facing direction: " + FacingDirection);
         }
 
         public virtual void Die()
