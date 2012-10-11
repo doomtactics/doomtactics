@@ -13,19 +13,19 @@ namespace DoomTactics
 
         public static float SignedAngleOnXzPlane(Vector3 vec1, Vector3 vec2)
         {
-            var v1 = new Vector2(-vec1.X, -vec1.Z);
+            var v1 = new Vector2(vec1.X, vec1.Z);
             var v2 = new Vector2(vec2.X, vec2.Z);
             v1.Normalize();
             v2.Normalize();
             float angle = (float)Math.Acos(Vector2.Dot(v2, v1));
-            Logger.Trace(v1 + ", " + v2 + ", " + angle);
+            //Logger.Trace(v1 + ", " + v2 + ", " + angle);
             if (Vector3.Cross(vec1, vec2).Y < 0.0f)
             {
                 return angle;
             }
             else
             {
-                return -angle;
+                return angle + MathHelper.Pi;
             }
         }
     }

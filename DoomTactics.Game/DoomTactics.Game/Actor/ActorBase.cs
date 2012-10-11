@@ -38,7 +38,7 @@ namespace DoomTactics
             ActorID = id;
             ChargeTime = 0;
             Velocity = Vector3.Zero;
-            FacingDirection = Vector3.Forward;
+            FacingDirection = Vector3.Normalize(new Vector3(1, 0, 1));
         }
 
         public virtual void Update(GameTime elapsedTime)
@@ -129,7 +129,7 @@ namespace DoomTactics
             {
                 Logger.Trace("Camera: " + camera.Position + ", my pos: " + Position + "Between: " + vectorBetween +
                              ", angle: " + angle);
-                Logger.Trace("Angle: " + angleEnum.ToString());
+                //Logger.Trace("Angle: " + angleEnum.ToString());
             }
             
             return angleEnum;
@@ -145,7 +145,7 @@ namespace DoomTactics
         public void FacePoint(Vector3 targetPosition)
         {            
             FacingDirection = new Vector3(targetPosition.X, 0, targetPosition.Z) - new Vector3(Position.X, 0, Position.Z);
-            Logger.Debug("Target Position: " + targetPosition + ", My position: " + Position + ", facing direction: " + FacingDirection);
+            // Logger.Debug("Target Position: " + targetPosition + ", My position: " + Position + ", facing direction: " + FacingDirection);
         }
 
         public virtual void Die()
