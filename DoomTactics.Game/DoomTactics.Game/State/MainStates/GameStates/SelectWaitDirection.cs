@@ -43,7 +43,7 @@ namespace DoomTactics
         {
             Ray ray = GameState.CreateRayFromMouseCursorPosition(mousePosition);
 
-            var plane = new Plane(Vector3.Up, GameState.ActiveUnit.Height);
+            var plane = new Plane(Vector3.Down, 0);
             float? distance = ray.Intersects(plane);
             if (distance != null)
             {

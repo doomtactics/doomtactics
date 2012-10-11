@@ -88,7 +88,7 @@ namespace DoomTactics
 
         private Angle GetAngle(Camera camera)
         {
-            Vector3 vectorBetween = camera.Position - Position;
+            Vector3 vectorBetween = Vector3.Normalize(camera.Position - Position);
             float angle = MathHelper.ToDegrees(MathUtils.SignedAngleOnXzPlane(vectorBetween, FacingDirection));
             Angle angleEnum;
 
@@ -124,14 +124,14 @@ namespace DoomTactics
             {
                 angleEnum = Angle.BackRight;
             }
-            /*
+            
             if (ActorID == "Imp1")
             {
                 Logger.Trace("Camera: " + camera.Position + ", my pos: " + Position + "Between: " + vectorBetween +
                              ", angle: " + angle);
                 Logger.Trace("Angle: " + angleEnum.ToString());
             }
-             */
+            
             return angleEnum;
         }
 
@@ -144,7 +144,7 @@ namespace DoomTactics
 
         public void FacePoint(Vector3 targetPosition)
         {            
-            FacingDirection = Vector3.Normalize(new Vector3(targetPosition.X, 0, targetPosition.Z) - new Vector3(Position.X, 0, Position.Z));
+            FacingDirection = new Vector3(targetPosition.X, 0, targetPosition.Z) - new Vector3(Position.X, 0, Position.Z);
             Logger.Debug("Target Position: " + targetPosition + ", My position: " + Position + ", facing direction: " + FacingDirection);
         }
 
