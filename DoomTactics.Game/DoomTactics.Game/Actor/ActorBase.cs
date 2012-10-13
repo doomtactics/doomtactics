@@ -152,5 +152,28 @@ namespace DoomTactics
         {
             
         }
+
+        private void SnapToTile(Tile tile)
+        {
+            this.Position = new Vector3(tile.XCoord * 64.0f + 32.0f, tile.CreateBoundingBox().Max.Y, tile.YCoord * 64.0f + 32.0f);
+        }
+        
+        public virtual ActionAnimationScript MoveToTile(Tile tile, Action onScriptFinish)
+        {
+            var tilePosition = new Vector3(tile.XCoord * 64.0f + 32.0f, tile.CreateBoundingBox().Max.Y, tile.YCoord * 64.0f + 32.0f);
+            var directionToMove = tilePosition - Position;
+            directionToMove.Normalize();
+
+            BoundingBox checkBox = new BoundingBox(tilePosition - new Vector3(5.0f), tilePosition + new Vector3(5.0f));
+
+            var script = new ActionAnimationScriptBuilder().Name(ActorID + "move")
+                .Segment()
+                    .OnStart(() => Velocity = Speed*directionToMove)
+                    .EndCondition(() => (checkBox.Contains(Position) == ContainmentType.Contains))
+                    .OnComplete(() => { Velocity = Vector3.Zero; SnapToTile(tile); })
+                .Build();
+
+            return script;
+        }
     }
 }
