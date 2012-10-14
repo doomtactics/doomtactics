@@ -20,20 +20,15 @@ namespace DoomTactics
             SpriteSheet = SpriteSheetFactory.CreateSpriteSheet(ActorType.Imp);
         }
 
-        //public void ShootFireball(Tile tile)
-        //{
-        //    // get distance between target tile and me
-        //    var tilebox = tile.CreateBoundingBox();
-        //    var average = tilebox.Min + (tilebox.Max - tilebox.Min)/2.0f;
-        //    Vector3 target = new Vector3(average.X, tilebox.Max.Y + Height/2.0f, average.Z);
-        //    Vector3 source = new Vector3(Position.X, Position.Y + Height/2.0f, Position.Z);
-        //    var direction = target - source;
-        //    var velocity = Vector3.Normalize(direction)*5.0f;
-        //    var evt = new SpawnActorEvent(DoomEventType.SpawnActor, ActorType.ImpFireball, Position, velocity);
-        //    MessagingSystem.DispatchEvent(evt);
-        //}
+        public ActionInformation ShootFireball(Level level)
+        {
+            Func<Tile, ActionAnimationScript> actionScriptGenerator = ShootFireballAction;
+            TileSelector selector = TileSelectorHelper.OccupiedTileSelector(level, this);
 
-        public ActionAnimationScript ShootFireball(Tile tile, Action onScriptFinish)
+            return new ActionInformation(actionScriptGenerator, selector);
+        }
+
+        private ActionAnimationScript ShootFireballAction(Tile tile)
         {
             var tilebox = tile.CreateBoundingBox();
             var average = tilebox.Min + (tilebox.Max - tilebox.Min)/2.0f;
@@ -53,8 +48,7 @@ namespace DoomTactics
                 .Segment()
                     .EndOnEvent(DoomEventType.AnimationEnd, impFireball.ActorID)
                     .OnComplete(() => MessagingSystem.DispatchEvent(new DespawnActorEvent(DoomEventType.DespawnActor, impFireball), ActorID))
-                //.Finish(onScriptFinish)
-                .Build();
+                .Build();                        
 
             return script;
         }

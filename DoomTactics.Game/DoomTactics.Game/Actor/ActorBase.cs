@@ -151,14 +151,21 @@ namespace DoomTactics
         public virtual void Die()
         {
             
-        }
+        }        
 
         private void SnapToTile(Tile tile)
         {
             this.Position = new Vector3(tile.XCoord * 64.0f + 32.0f, tile.CreateBoundingBox().Max.Y, tile.YCoord * 64.0f + 32.0f);
         }
         
-        public virtual ActionAnimationScript MoveToTile(Tile tile, Action onScriptFinish)
+        public ActionInformation MoveToTile(Level level)
+        {
+            Func<Tile, ActionAnimationScript> scriptGenerator = MoveToTileAction;
+            TileSelector selector = TileSelectorHelper.UnoccupiedTileSelector(level);
+            return new ActionInformation(scriptGenerator, selector);
+        }
+
+        protected virtual ActionAnimationScript MoveToTileAction(Tile tile)
         {
             var tilePosition = new Vector3(tile.XCoord * 64.0f + 32.0f, tile.CreateBoundingBox().Max.Y, tile.YCoord * 64.0f + 32.0f);
             var directionToMove = tilePosition - Position;
