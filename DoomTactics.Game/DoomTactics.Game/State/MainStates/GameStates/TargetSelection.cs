@@ -12,13 +12,13 @@ namespace DoomTactics
     public class TargetSelection : GameStateBase
     {
         private readonly IState _previousState;
-        private readonly Func<Tile, ActionAnimationScript> _scriptGenerator;
+        private readonly ActionInformation _actionInformation;
 
-        public TargetSelection(GameState gameState, IState previousState, Func<Tile, ActionAnimationScript> scriptGenerator)
+        public TargetSelection(GameState gameState, IState previousState, ActionInformation actionInformation)
             : base(gameState)
         {
             _previousState = previousState;
-            _scriptGenerator = scriptGenerator;
+            _actionInformation = actionInformation;
             HighlightHoveredTile = true;
             InputProcessor = new TargetSelectionProcessor(Keyboard.GetState(), Mouse.GetState(), gameState, this);
         }
@@ -62,10 +62,10 @@ namespace DoomTactics
         public void PerformAction()
         {
             Tile targeted = GameState.FindHighlightedTile();
-            if (targeted != null)
+            if (targeted != null && _actionInformation.Selector.IsTileValid(targeted))
             {
                 var animationState = new ActionAnimationPlaying(GameState, new SelectWaitDirection(GameState), 
-                                                                _scriptGenerator.Invoke(targeted));
+                                                                _actionInformation.Script.Invoke(targeted));
                 NextState = new StateTransition(animationState);
             }
         }
