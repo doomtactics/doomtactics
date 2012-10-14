@@ -62,7 +62,7 @@ namespace DoomTactics
         public void PerformAction()
         {
             Tile targeted = GameState.FindHighlightedTile();
-            if (targeted != null)
+            if (targeted != null && _actionInformation.Selector.IsTileValid(targeted))
             {
                 var animationState = new ActionAnimationPlaying(GameState, new SelectWaitDirection(GameState), 
                                                                 _actionInformation.Script.Invoke(targeted));
