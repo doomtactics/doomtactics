@@ -76,13 +76,16 @@ namespace DoomTactics
                     var tileTextures = new TileTextures(topTexture, northTexture, southTexture, eastTexture, westTexture);
                     Vector3 tilePosition = new Vector3(j * 64.0f, tileData.YPosition, i * 64.0f);
                     var tile = new Tile(tileTextures, tilePosition, tileData.YPosition, j, i, (int)Math.Floor(tileData.VisualHeight));
-                    level.Tiles[index] = tile;
+                    level.Tiles[index] = tile;                    
                 }
             }
 
             foreach (var info in levelData.ActorInfos)
             {
-                level.Actors.Add(MakeActor(info, levelData.TileDatas, levelData.TilesLong));
+                var actor = MakeActor(info, levelData.TileDatas, levelData.TilesLong);
+                level.Actors.Add(actor);
+                var tile = level.Tiles.Single(t => t.XCoord == info.TileX && t.YCoord == info.TileY);
+                tile.SetActor(actor);
             }
 
             level.BackgroundImage = contentManager.Load<Texture2D>(levelData.BackgroundTextureName);
@@ -105,7 +108,7 @@ namespace DoomTactics
             int index = info.TileY*levelLength + info.TileX;
             float height = tiledatas[index].VisualHeight;
             Vector3 position = new Vector3(info.TileX * 64.0f + 32.0f, height, info.TileY * 64.0f + 32.0f);
-            return actorCreators[ActorType.Imp].Invoke(info.Name, position);
+            return actorCreators[info.ActorType].Invoke(info.Name, position);
         }
     }
 
