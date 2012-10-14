@@ -7,94 +7,21 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DoomTactics
 {
-    public class Tile
+    public class TileModel
     {
         private const float TileLength = 64.0f;
         private const int NumVertexes = 30;
-
-        public int XCoord;
-        public int YCoord;
-        public decimal Height;
-        private readonly Texture2D _texture;
         private VertexPositionNormalTexture[] _vertexes;
         private TileTextures _tileTextures;
         private BoundingBox _box;
 
-        public Tile(TileTextures tileTextures, Vector3 position, float height, int xcoord, int ycoord)
+        public TileModel(TileTextures tileTextures, Vector3 position, float height)
         {
             _tileTextures = tileTextures;
             Construct(position, height);
-            XCoord = xcoord;
-            YCoord = ycoord;
         }
 
-        public void Render(GraphicsDevice device, BasicEffect effect, Effect highlightEffect, bool isHighlighted)
-        {
-            using (var buffer = new VertexBuffer(
-                device,
-                VertexPositionNormalTexture.VertexDeclaration,
-                NumVertexes,
-                BufferUsage.WriteOnly))
-            {
-
-                // Load the buffer
-                buffer.SetData(_vertexes);
-
-                // Send the vertex buffer to the device
-                device.SetVertexBuffer(buffer);
-
-                // top
-                foreach (EffectPass pass in effect.CurrentTechnique.Passes)
-                {
-                    effect.Texture = _tileTextures.Top;                    
-                    pass.Apply();
-                    device.DrawPrimitives(PrimitiveType.TriangleList, 0, 2);
-                }
-
-                if (isHighlighted)
-                {
-                    foreach (EffectPass pass in highlightEffect.CurrentTechnique.Passes)
-                    {
-                        pass.Apply();
-                        device.DrawPrimitives(PrimitiveType.TriangleList, 0, 2);
-                    }
-                }
-
-                // north
-                foreach (EffectPass pass in effect.CurrentTechnique.Passes)
-                {
-                    effect.Texture = _tileTextures.North;
-                    pass.Apply();
-                    device.DrawPrimitives(PrimitiveType.TriangleList, 6, 2);
-                }
-                
-                // south
-                foreach (EffectPass pass in effect.CurrentTechnique.Passes)
-                {
-                    effect.Texture = _tileTextures.South;
-                    pass.Apply();
-                    device.DrawPrimitives(PrimitiveType.TriangleList, 12, 2);
-                }
-                
-                // east
-                foreach (EffectPass pass in effect.CurrentTechnique.Passes)
-                {
-                    effect.Texture = _tileTextures.East;
-                    pass.Apply();
-                    device.DrawPrimitives(PrimitiveType.TriangleList, 18, 2);
-                }
-
-                // west
-                foreach (EffectPass pass in effect.CurrentTechnique.Passes)
-                {
-                    effect.Texture = _tileTextures.West;
-                    pass.Apply();
-                    device.DrawPrimitives(PrimitiveType.TriangleList, 24, 2);
-                }
-            }
-        }
-
-        private void Construct(Vector3 position, float height)
+        private void Construct(Vector3 position, float visualHeight)
         {
             _vertexes = new VertexPositionNormalTexture[NumVertexes];
             Vector3 normalTop = Vector3.Up;
@@ -102,10 +29,6 @@ namespace DoomTactics
             Vector3 normalSouth = Vector3.Backward;
             Vector3 normalEast = Vector3.Right;
             Vector3 normalWest = Vector3.Left;
-            /*Vector3 topLeftFront = position;
-            Vector3 topRightFront = position + Vector3.Backward + Vector3.Right;
-            Vector3 topRightBack = position + Vector3.Right;
-            Vector3 topLeftBack = position + Vector3.Backward;*/
             Vector3 topLeftFront = position + new Vector3(0.0f, 0.0f, 0.0f);
             Vector3 topLeftBack = position + new Vector3(0.0f, 0.0f, TileLength);
             Vector3 topRightFront = position + new Vector3(TileLength, 0.0f, 0.0f);
@@ -115,10 +38,10 @@ namespace DoomTactics
             Vector2 textureBottomRight = new Vector2(1.0f, 1.0f);
             Vector2 textureBottomLeft = new Vector2(0.0f, 1.0f);
 
-            Vector3 bottomLeftFront = position + new Vector3(0.0f, -height, 0.0f);
-            Vector3 bottomRightFront = position + new Vector3(TileLength, -height, 0.0f);
-            Vector3 bottomLeftBack = position + new Vector3(0.0f, -height, TileLength);
-            Vector3 bottomRightBack = position + new Vector3(TileLength, -height, TileLength);
+            Vector3 bottomLeftFront = position + new Vector3(0.0f, -visualHeight, 0.0f);
+            Vector3 bottomRightFront = position + new Vector3(TileLength, -visualHeight, 0.0f);
+            Vector3 bottomLeftBack = position + new Vector3(0.0f, -visualHeight, TileLength);
+            Vector3 bottomRightBack = position + new Vector3(TileLength, -visualHeight, TileLength);
 
             /* TOP FACE */
             _vertexes[0] = new VertexPositionNormalTexture(topLeftFront, normalTop, textureTopLeft);
@@ -160,13 +83,111 @@ namespace DoomTactics
             _vertexes[28] = new VertexPositionNormalTexture(bottomLeftFront, normalWest, textureBottomLeft);
             _vertexes[29] = new VertexPositionNormalTexture(bottomLeftBack, normalWest, textureBottomRight);
 
-            /* TOP PLANE */
-            _box = new BoundingBox(new Vector3(position.X, position.Y - height, position.Z), new Vector3(position.X + TileLength, position.Y, position.Z + TileLength));
+            
+            _box = new BoundingBox(new Vector3(position.X, position.Y - visualHeight, position.Z), new Vector3(position.X + TileLength, position.Y, position.Z + TileLength));
+        }
+
+        public void Render(GraphicsDevice device, BasicEffect effect, Effect highlightEffect, bool isHighlighted)
+        {
+            using (var buffer = new VertexBuffer(
+                device,
+                VertexPositionNormalTexture.VertexDeclaration,
+                NumVertexes,
+                BufferUsage.WriteOnly))
+            {
+
+                // Load the buffer
+                buffer.SetData(_vertexes);
+
+                // Send the vertex buffer to the device
+                device.SetVertexBuffer(buffer);
+
+                // top
+                foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+                {
+                    effect.Texture = _tileTextures.Top;
+                    pass.Apply();
+                    device.DrawPrimitives(PrimitiveType.TriangleList, 0, 2);
+                }
+
+                if (isHighlighted)
+                {
+                    foreach (EffectPass pass in highlightEffect.CurrentTechnique.Passes)
+                    {
+                        pass.Apply();
+                        device.DrawPrimitives(PrimitiveType.TriangleList, 0, 2);
+                    }
+                }
+
+                // north
+                foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+                {
+                    effect.Texture = _tileTextures.North;
+                    pass.Apply();
+                    device.DrawPrimitives(PrimitiveType.TriangleList, 6, 2);
+                }
+
+                // south
+                foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+                {
+                    effect.Texture = _tileTextures.South;
+                    pass.Apply();
+                    device.DrawPrimitives(PrimitiveType.TriangleList, 12, 2);
+                }
+
+                // east
+                foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+                {
+                    effect.Texture = _tileTextures.East;
+                    pass.Apply();
+                    device.DrawPrimitives(PrimitiveType.TriangleList, 18, 2);
+                }
+
+                // west
+                foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+                {
+                    effect.Texture = _tileTextures.West;
+                    pass.Apply();
+                    device.DrawPrimitives(PrimitiveType.TriangleList, 24, 2);
+                }
+            }
         }
 
         public BoundingBox CreateBoundingBox()
         {
             return _box;
         }
+    }
+
+    public class Tile
+    {
+        public int XCoord;
+        public int YCoord;
+        private readonly TileModel _model;
+        public ActorBase ActorInTile { get; private set; }
+        public decimal GameHeight { get; private set; }
+
+        public Tile(TileTextures tileTextures, Vector3 position, float visualHeight, int xcoord, int ycoord, decimal gameHeight)
+        {
+            _model = new TileModel(tileTextures, position, visualHeight);
+            XCoord = xcoord;
+            YCoord = ycoord;
+        }
+
+        public void SetActor(ActorBase actorBase)
+        {
+            ActorInTile = actorBase;
+        }
+
+        public void Render(GraphicsDevice device, BasicEffect effect, Effect highlightEffect, bool isHighlighted)
+        {
+            _model.Render(device, effect, highlightEffect, isHighlighted);         
+        }
+
+        public BoundingBox CreateBoundingBox()
+        {
+            return _model.CreateBoundingBox();
+        }
+
     }
 }
