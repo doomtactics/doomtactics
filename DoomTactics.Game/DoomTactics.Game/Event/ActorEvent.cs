@@ -6,16 +6,16 @@ using Microsoft.Xna.Framework;
 
 namespace DoomTactics
 {
-    public struct SpawnActorEvent : IDoomEvent
+    public struct ActorEvent : IDoomEvent
     {
         private readonly DoomEventType _eventType;
         private readonly ActorBase _actor;
         private readonly string[] _listenerNames;
 
-        public SpawnActorEvent(DoomEventType eventType, ActorBase actorToSpawn, params string[] listenerNames)
+        public ActorEvent(DoomEventType eventType, ActorBase actor, params string[] listenerNames)
         {
             _eventType = eventType;
-            _actor = actorToSpawn;
+            _actor = actor;
             _listenerNames = listenerNames;
         }
 

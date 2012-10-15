@@ -38,7 +38,7 @@ namespace DoomTactics
             var direction = target - source;
             var velocity = Vector3.Normalize(direction)*5.0f;
             var impFireball = ActorSpawnMethods.GetSpawnMethod(ActorType.ImpFireball).Invoke(source, velocity);
-            var spawnEvent = new SpawnActorEvent(DoomEventType.SpawnActor, impFireball);
+            var spawnEvent = new ActorEvent(DoomEventType.SpawnActor, impFireball);
 
             var script = new ActionAnimationScriptBuilder().Name(ActorId + "shootFireball")
                 .Segment()

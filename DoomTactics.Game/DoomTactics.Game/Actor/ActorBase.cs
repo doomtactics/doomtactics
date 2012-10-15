@@ -19,7 +19,7 @@ namespace DoomTactics
         protected ActorAnimation CurrentAnimation;
         public Vector3 Position;
         public Vector3 Velocity;
-        public Vector3 FacingDirection;
+        public Vector3 FacingDirection;        
 
         public virtual SpriteSheet SpriteSheet
         {
@@ -200,12 +200,22 @@ namespace DoomTactics
             directionToMove.Normalize();
 
             BoundingBox checkBox = new BoundingBox(tilePosition - new Vector3(5.0f), tilePosition + new Vector3(5.0f));
+            var removeFromTileEvent = new ActorEvent(DoomEventType.RemoveFromCurrentTile, this);
 
             var script = new ActionAnimationScriptBuilder().Name(ActorId + "move")
                 .Segment()
-                    .OnStart(() => Velocity = Speed*directionToMove)
+                    .OnStart(() =>
+                                 {              
+                                     MessagingSystem.DispatchEvent(removeFromTileEvent, ActorId);
+                                     Velocity = Speed*directionToMove;
+                                 })
                     .EndCondition(() => (checkBox.Contains(Position) == ContainmentType.Contains))
-                    .OnComplete(() => { Velocity = Vector3.Zero; SnapToTile(tile); })
+                    .OnComplete(() =>
+                                    {
+                                        Velocity = Vector3.Zero; 
+                                        SnapToTile(tile);
+                                        tile.SetActor(this);
+                                    })
                 .Build();
 
             return script;

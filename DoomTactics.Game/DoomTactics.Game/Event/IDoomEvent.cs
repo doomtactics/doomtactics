@@ -15,6 +15,7 @@
         // gameplay -- actor spawn etc
         SpawnActor,
         DespawnActor,
+        RemoveFromCurrentTile,
 
         // scripting
         AnimationScriptStart,
