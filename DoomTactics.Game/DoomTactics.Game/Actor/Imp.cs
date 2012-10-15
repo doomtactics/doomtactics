@@ -42,7 +42,11 @@ namespace DoomTactics
 
             var script = new ActionAnimationScriptBuilder().Name(ActorId + "shootFireball")
                 .Segment()
-                    .OnStart(() => MessagingSystem.DispatchEvent(spawnEvent, ActorId))
+                    .OnStart(() =>
+                                 {
+                                     FacePoint(tile.GetTopCenter(), false);
+                                     MessagingSystem.DispatchEvent(spawnEvent, ActorId);
+                                 })
                     .EndCondition(() => targetBoundingBox.Contains(impFireball.Position) == ContainmentType.Contains)
                     .OnComplete(impFireball.Die)
                 .Segment()

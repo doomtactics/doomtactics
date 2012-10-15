@@ -9,7 +9,7 @@ namespace DoomTactics
 {
     public static class MathUtils
     {
-        public static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+        public static readonly Logger Logger = LogManager.GetCurrentClassLogger();        
 
         public static float SignedAngleOnXzPlane(Vector3 vec1, Vector3 vec2)
         {
