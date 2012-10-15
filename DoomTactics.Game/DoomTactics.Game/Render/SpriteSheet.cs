@@ -9,13 +9,16 @@ namespace DoomTactics
 {
     public struct SpriteRenderDetails
     {
-        public Rectangle Rectangle;
+        public Rectangle SourceRectangle;
+        public Rectangle TargetRectangle;
         public SpriteEffects SpriteEffects;
 
-        public SpriteRenderDetails(Rectangle rectangle, SpriteEffects spriteEffects)
+        public SpriteRenderDetails(Rectangle sourceRectangle, Vector2 offsets, SpriteEffects spriteEffects)
         {
-            Rectangle = rectangle;
+            // For now offsets.Y is not used.  Not sure if it's needed for this 3D rendering.
+            SourceRectangle = sourceRectangle;
             SpriteEffects = spriteEffects;
+            TargetRectangle = new Rectangle(-(int)offsets.X, -sourceRectangle.Height, sourceRectangle.Width, sourceRectangle.Height);
         }
     }
 
@@ -88,12 +91,12 @@ namespace DoomTactics
             }
         }
 
-        public SpriteRenderDetails GetRectangle(string name, Angle angle)
+        public SpriteRenderDetails GetRenderDetails(string name, Angle angle)
         {
-            return GetRectangle(new AngledSprite(name, angle));
+            return GetRenderDetails(new AngledSprite(name, angle));
         }
 
-        public SpriteRenderDetails GetRectangle(AngledSprite angledSprite)
+        public SpriteRenderDetails GetRenderDetails(AngledSprite angledSprite)
         {
             return TextureMap[angledSprite];
         }
