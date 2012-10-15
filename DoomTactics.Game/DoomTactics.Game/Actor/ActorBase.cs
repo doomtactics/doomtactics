@@ -11,7 +11,7 @@ namespace DoomTactics
     public abstract class ActorBase
     {
         protected static readonly Logger Logger = LogManager.GetCurrentClassLogger();
-        public string ActorID;
+        public string ActorId;
         public int Height;
         public int Width;
         public int Speed;
@@ -35,7 +35,7 @@ namespace DoomTactics
 
         protected ActorBase(string id)
         {
-            ActorID = id;
+            ActorId = id;
             ChargeTime = 0;
             Velocity = Vector3.Zero;
             FacingDirection = Vector3.Forward;
@@ -54,7 +54,7 @@ namespace DoomTactics
             {
                 ChargeTime = 100;
                 var turnEvent = new TurnEvent(DoomEventType.ChargeTimeReached, this);
-                MessagingSystem.DispatchEvent(turnEvent, ActorID);
+                MessagingSystem.DispatchEvent(turnEvent, ActorId);
             }
         }
 
@@ -67,7 +67,7 @@ namespace DoomTactics
             spriteEffect.View = camera.View;
             spriteEffect.Projection = camera.Projection;
 
-            SpriteRenderDetails details = SpriteSheet.GetRenderDetails(CurrentAnimation.CurrentImageName(), GetAngle(camera));
+            SpriteRenderDetails details = SpriteSheet.GetRenderDetails(CurrentAnimation.CurrentImageName(), GetAngleToCamera(camera));
 
             if (passNumber == 0)
             {
@@ -86,9 +86,14 @@ namespace DoomTactics
             }
         }
 
-        private Angle GetAngle(Camera camera)
+        private Angle GetAngleToCamera(Camera camera)
         {
-            Vector3 vectorBetween = Vector3.Normalize(camera.Position - Position);
+            return GetAngle(camera.Position);
+        }
+
+        public Angle GetAngle(Vector3 sourcePosition)
+        {
+            Vector3 vectorBetween = Vector3.Normalize(sourcePosition - Position);
             float angle = MathHelper.ToDegrees(MathUtils.SignedAngleOnXzPlane(vectorBetween, FacingDirection));
             Angle angleEnum;
 
@@ -124,14 +129,14 @@ namespace DoomTactics
             {
                 angleEnum = Angle.BackRight;
             }
-            
-            if (ActorID == "Imp1")
+
+            if (ActorId == "Imp1")
             {
                 //Logger.Trace("Camera: " + camera.Position + ", my pos: " + Position + "Between: " + vectorBetween +
                 //             ", facing: " + FacingDirection + ", angle: " + angle);
                 //Logger.Trace("Angle: " + angleEnum.ToString());
             }
-            
+
             return angleEnum;
         }
 
@@ -142,9 +147,32 @@ namespace DoomTactics
             return bb;
         }
 
-        public void FacePoint(Vector3 targetPosition)
+        public void FacePoint(Vector3 targetPosition, bool snapToEightDirections)
         {            
             FacingDirection = new Vector3(targetPosition.X, 0, targetPosition.Z) - new Vector3(Position.X, 0, Position.Z);
+            if (snapToEightDirections)
+            {
+                // Get the enumerated render angle as if the camera were at the origin, and turn that into a Vector3.
+                Angle angle = GetAngle(Vector3.Zero);
+                if (angle == Angle.Forward)
+                    FacingDirection = new Vector3(-1, 0, 0);
+                if (angle == Angle.ForwardLeft)
+                    FacingDirection = new Vector3(-1, 0, -1);
+                if (angle == Angle.Left)
+                    FacingDirection = new Vector3(0, 0, -1);
+                if (angle == Angle.BackLeft)
+                    FacingDirection = new Vector3(1, 0, -1);
+                if (angle == Angle.Back)
+                    FacingDirection = new Vector3(1, 0, 0);
+                if (angle == Angle.BackRight)
+                    FacingDirection = new Vector3(1, 0, 1);
+                if (angle == Angle.Right)
+                    FacingDirection = new Vector3(0, 0, 1);
+                if (angle == Angle.ForwardRight)
+                    FacingDirection = new Vector3(-1, 0, 1);
+            }
+
+            FacingDirection.Normalize();
             // Logger.Debug("Target Position: " + targetPosition + ", My position: " + Position + ", facing direction: " + FacingDirection);
         }
 
@@ -173,7 +201,7 @@ namespace DoomTactics
 
             BoundingBox checkBox = new BoundingBox(tilePosition - new Vector3(5.0f), tilePosition + new Vector3(5.0f));
 
-            var script = new ActionAnimationScriptBuilder().Name(ActorID + "move")
+            var script = new ActionAnimationScriptBuilder().Name(ActorId + "move")
                 .Segment()
                     .OnStart(() => Velocity = Speed*directionToMove)
                     .EndCondition(() => (checkBox.Contains(Position) == ContainmentType.Contains))

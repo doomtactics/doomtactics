@@ -42,7 +42,7 @@ namespace DoomTactics
             if (_actionMenu == null)
             {
                 _actionMenu = new ActionMenuBuilder()
-                    .ActorName(_actionActor.ActorID)
+                    .ActorName(_actionActor.ActorId)
                     .Action("Action", (ctl, e) => _actionMenu.ShowSubMenu(_actionSubMenu))
                     .Action("Move", (ctl, e) => SwitchToTargetSelection(_actionActor.MoveToTile(GameState.Level)))
                     .Action("Wait", null)

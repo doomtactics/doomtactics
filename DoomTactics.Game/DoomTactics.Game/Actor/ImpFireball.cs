@@ -14,13 +14,13 @@ namespace DoomTactics
         {
             Height = 32;
             Width = 32;
-            CurrentAnimation = ActorAnimationManager.Make("impfireballidle", ActorID);
+            CurrentAnimation = ActorAnimationManager.Make("impfireballidle", ActorId);
             SpriteSheet = SpriteSheetFactory.CreateSpriteSheet(ActorType.ImpFireball);
         }
 
         public override void Die()
         {
-            CurrentAnimation = ActorAnimationManager.Make("impfireballdeath", ActorID);
+            CurrentAnimation = ActorAnimationManager.Make("impfireballdeath", ActorId);
             Velocity = Vector3.Zero;
         }        
     }

@@ -58,7 +58,7 @@ namespace DoomTactics
             if (distance != null)
             {
                 Vector3 targetPoint = ray.Position + ray.Direction * distance.Value;
-                GameState.ActiveUnit.FacePoint(targetPoint);
+                GameState.ActiveUnit.FacePoint(targetPoint, true);
             }
         }
 
