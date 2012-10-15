@@ -157,6 +157,11 @@ namespace DoomTactics
         {
             return _box;
         }
+
+        public Vector3 GetTopCenter()
+        {
+            return new Vector3(_box.Min.X + TileLength / 2.0f, _box.Max.Y, _box.Min.Z + TileLength / 2.0f);
+        }
     }
 
     public class Tile
@@ -172,6 +177,11 @@ namespace DoomTactics
             _model = new TileModel(tileTextures, position, visualHeight);
             XCoord = xcoord;
             YCoord = ycoord;
+        }
+
+        public Vector3 GetTopCenter()
+        {
+            return _model.GetTopCenter();
         }
 
         public void SetActor(ActorBase actorBase)
