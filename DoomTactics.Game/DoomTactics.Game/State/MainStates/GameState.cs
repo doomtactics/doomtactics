@@ -153,7 +153,7 @@ namespace DoomTactics
         public void OnRemoveActorFromTile(IDoomEvent evt)
         {
             var actorEvent = (ActorEvent) evt;
-            var tile = Level.Tiles.FirstOrDefault(x => x.ActorInTile == actorEvent.Actor);
+            var tile = Level.GetTileOfActor(actorEvent.Actor);
             if (tile != null)
             {
                 tile.SetActor(null);

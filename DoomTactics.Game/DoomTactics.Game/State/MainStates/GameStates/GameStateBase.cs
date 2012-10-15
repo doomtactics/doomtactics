@@ -38,7 +38,8 @@ namespace DoomTactics
             {
                 foreach (var actor in GameState.Level.Actors)
                 {
-                    actor.IncreaseCT();
+                    if (actor.IncreaseChargeTime)
+                        actor.IncreaseCT();
                 }
             }
 

@@ -18,5 +18,27 @@ namespace DoomTactics
             var tileList = level.Tiles.Where(x => x.ActorInTile == null).ToList();
             return new TileSelector(tileList);
         }
+
+        public static TileSelector StandardMovementTileSelector(Level level, Tile currentTile, int movementRange)
+        {
+            var selector = new TileSelector();
+
+            for (int i = -movementRange; i <= movementRange; i++)
+            {
+                for (int j = -movementRange; j <= movementRange; j++)
+                {                    
+                    if (Math.Abs(i) + Math.Abs(j) < movementRange)
+                    {
+                        Tile t = level.GetTileAt(currentTile.XCoord + j, currentTile.YCoord + i);
+                        if (t != null && t.ActorInTile == null)
+                        {
+                            selector.AddValidTile(t);
+                        }
+                    }
+                }
+            }
+
+            return selector;
+        }        
     }
 }

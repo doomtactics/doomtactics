@@ -16,6 +16,7 @@ namespace DoomTactics
             Width = 32;
             CurrentAnimation = ActorAnimationManager.Make("impfireballidle", ActorId);
             SpriteSheet = SpriteSheetFactory.CreateSpriteSheet(ActorType.ImpFireball);
+            IncreaseChargeTime = false;
         }
 
         public override void Die()
