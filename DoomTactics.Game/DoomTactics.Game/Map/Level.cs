@@ -129,6 +129,20 @@ namespace DoomTactics
             Actors = new List<ActorBase>();
         }      
   
+        public Tile GetTileAt(int x, int y)
+        {
+            int index = (y*Length + x);
+            if (index < 0 || index >= _tiles.Length)
+                return null;
+
+            return _tiles[y*Length + x];
+        }
+
+        public Tile GetTileOfActor(ActorBase actor)
+        {
+            return _tiles.FirstOrDefault(t => t.ActorInTile == actor);
+        }
+
         public void DrawBackground(GraphicsDevice device, SpriteBatch batch)
         {
             if (BackgroundImage != null)

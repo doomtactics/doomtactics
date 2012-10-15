@@ -16,6 +16,8 @@ namespace DoomTactics
         public int Width;
         public int Speed;
         public int ChargeTime;
+        public bool IncreaseChargeTime;
+        public int MovementRange;
         protected ActorAnimation CurrentAnimation;
         public Vector3 Position;
         public Vector3 Velocity;
@@ -37,6 +39,7 @@ namespace DoomTactics
         {
             ActorId = id;
             ChargeTime = 0;
+            IncreaseChargeTime = true;
             Velocity = Vector3.Zero;
             FacingDirection = Vector3.Forward;
         }
@@ -189,7 +192,7 @@ namespace DoomTactics
         public ActionInformation MoveToTile(Level level)
         {
             Func<Tile, ActionAnimationScript> scriptGenerator = MoveToTileAction;
-            TileSelector selector = TileSelectorHelper.UnoccupiedTileSelector(level);
+            TileSelector selector = TileSelectorHelper.StandardMovementTileSelector(level, level.GetTileOfActor(this), MovementRange);
             return new ActionInformation(scriptGenerator, selector);
         }
 
