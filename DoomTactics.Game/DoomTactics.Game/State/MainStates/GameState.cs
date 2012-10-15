@@ -146,7 +146,7 @@ namespace DoomTactics
             }
 
             if (intersected != null)
-                Log.Debug("Intersected with " + intersected.ActorID);
+                Log.Debug("Intersected with " + intersected.ActorId);
 
             return intersected;
         }

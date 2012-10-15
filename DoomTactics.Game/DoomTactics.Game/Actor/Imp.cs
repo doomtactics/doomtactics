@@ -40,14 +40,14 @@ namespace DoomTactics
             var impFireball = ActorSpawnMethods.GetSpawnMethod(ActorType.ImpFireball).Invoke(source, velocity);
             var spawnEvent = new SpawnActorEvent(DoomEventType.SpawnActor, impFireball);
 
-            var script = new ActionAnimationScriptBuilder().Name(ActorID + "shootFireball")
+            var script = new ActionAnimationScriptBuilder().Name(ActorId + "shootFireball")
                 .Segment()
-                    .OnStart(() => MessagingSystem.DispatchEvent(spawnEvent, ActorID))
+                    .OnStart(() => MessagingSystem.DispatchEvent(spawnEvent, ActorId))
                     .EndCondition(() => targetBoundingBox.Contains(impFireball.Position) == ContainmentType.Contains)
                     .OnComplete(impFireball.Die)
                 .Segment()
-                    .EndOnEvent(DoomEventType.AnimationEnd, impFireball.ActorID)
-                    .OnComplete(() => MessagingSystem.DispatchEvent(new DespawnActorEvent(DoomEventType.DespawnActor, impFireball), ActorID))
+                    .EndOnEvent(DoomEventType.AnimationEnd, impFireball.ActorId)
+                    .OnComplete(() => MessagingSystem.DispatchEvent(new DespawnActorEvent(DoomEventType.DespawnActor, impFireball), ActorId))
                 .Build();                        
 
             return script;

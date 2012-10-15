@@ -45,7 +45,7 @@ namespace DoomTactics
                 select l;
             foreach (var intListener in interestedListeners)
             {
-                _log.Debug("Found interested listener " + intListener.ListenerName + " for event " + evt);
+                //_log.Debug("Found interested listener " + intListener.ListenerName + " for event " + evt);
                 intListener.callback(evt);
             }
         }

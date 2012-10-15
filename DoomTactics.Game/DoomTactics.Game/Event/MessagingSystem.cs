@@ -31,7 +31,7 @@ namespace DoomTactics
 
         public static void Subscribe(Action<IDoomEvent> callback, DoomEventType eventType, string subscriberName, string senderName)
         {
-            _log.Debug("Subscription from " + subscriberName + " to events " + Enum.GetName(typeof(DoomEventType), eventType) + " by " + senderName);
+            //_log.Debug("Subscription from " + subscriberName + " to events " + Enum.GetName(typeof(DoomEventType), eventType) + " by " + senderName);
             _helper.Subscribe(callback, eventType, subscriberName, senderName);
         }
 
@@ -50,7 +50,7 @@ namespace DoomTactics
             while (_queue.Count > 0)
             {                
                 var evt = _queue.Dequeue();
-                _log.Debug(evt);
+                //_log.Debug(evt);
                 _helper.DispatchEvent(evt.DoomEvent, evt.SenderName);
             }
         }
