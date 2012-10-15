@@ -67,21 +67,21 @@ namespace DoomTactics
             spriteEffect.View = camera.View;
             spriteEffect.Projection = camera.Projection;
 
-            SpriteRenderDetails details = SpriteSheet.GetRectangle(CurrentAnimation.CurrentImageName(), GetAngle(camera));
+            SpriteRenderDetails details = SpriteSheet.GetRenderDetails(CurrentAnimation.CurrentImageName(), GetAngle(camera));
 
             if (passNumber == 0)
             {
                 spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.DepthRead,
                                   RasterizerState.CullNone, spriteEffect);
                 device.DepthStencilState = DepthStencilState.Default;
-                spriteBatch.Draw(SpriteSheet.Texture, new Rectangle(-Width / 2, -Height, Width, Height), details.Rectangle, Color.White, 0.0f, Vector2.Zero, details.SpriteEffects, 0);
+                spriteBatch.Draw(SpriteSheet.Texture, details.TargetRectangle, details.SourceRectangle, Color.White, 0.0f, Vector2.Zero, details.SpriteEffects, 0);
                 spriteBatch.End();
             }
             else
             {
                 // spritebatch begin ignores depth buffer
                 spriteBatch.Begin(0, null, SamplerState.PointClamp, DepthStencilState.DepthRead, RasterizerState.CullNone, spriteEffect);
-                spriteBatch.Draw(SpriteSheet.Texture, new Rectangle(-Width / 2, -Height, Width, Height), details.Rectangle, Color.White, 0.0f, Vector2.Zero, details.SpriteEffects, 0);
+                spriteBatch.Draw(SpriteSheet.Texture, details.TargetRectangle, details.SourceRectangle, Color.White, 0.0f, Vector2.Zero, details.SpriteEffects, 0);
                 spriteBatch.End();
             }
         }
