@@ -109,7 +109,7 @@ namespace DoomTactics
             foreach (var tile in GameState.Level.Tiles)
             {
                 bool isHighlighted = (tile == highlightedTile);                
-                tile.Render(device, GameState.Effect, GameState.HighlightingEffectContainer.GetEffect(), isHighlighted);
+                tile.Render(device, GameState.Effect, GameState.HighlightingEffectContainer, isHighlighted);
             }
         }
     }

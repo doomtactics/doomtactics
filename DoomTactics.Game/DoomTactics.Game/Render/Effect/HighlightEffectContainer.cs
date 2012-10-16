@@ -11,15 +11,22 @@ namespace DoomTactics
     public class HighlightEffectContainer
     {
         private Effect _effect;
+        private EffectParameter _tintColor;
 
         public HighlightEffectContainer(ContentManager contentManager)
         {
-            _effect = contentManager.Load<Effect>("shaders\\highlight");            
+            _effect = contentManager.Load<Effect>("shaders\\highlight");
+            _tintColor = _effect.Parameters["tint"];
         }        
       
         public Effect GetEffect()
         {
             return _effect;
+        }
+
+        public void SetTint(Vector4 tintColor)
+        {
+            _tintColor.SetValue(tintColor);   
         }
 
     }
