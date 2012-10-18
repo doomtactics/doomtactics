@@ -11,9 +11,12 @@ namespace DoomTactics
 {
     public class TargetSelection : GameStateBase
     {
+        private static readonly Vector4 MoveSelectionHoveredTint = new Vector4(2.5f, 2.5f, 10.0f, 1.0f);
         private static readonly Vector4 MoveSelectionTint = new Vector4(0.75f, 0.75f, 10.0f, 1.0f);
         private static readonly Vector4 AttackSelectionTint = new Vector4(10.0f, 0.75f, 0.75f, 1.0f);
+        private static readonly Vector4 AttackSelectionHoveredTint = new Vector4(10.0f, 2.5f, 2.5f, 1.0f);
         private static readonly Vector4 DefaultTint = new Vector4(1.0f);
+        private Tile _hoveredTile;
         private readonly IState _previousState;
         private readonly ActionInformation _actionInformation;
 
@@ -32,13 +35,28 @@ namespace DoomTactics
             GameState.Desktop.ShowCursor = true;
             foreach (var tile in _actionInformation.Selector.ValidTiles())
             {
-                tile.Tint = GetTint(_actionInformation.ActionType);
+                tile.Tint = GetTint(_actionInformation.ActionType, false);
             }
         }
 
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);
+            base.Update(gameTime);           
+            Tile hoveredTile = GameState.FindHighlightedTile();
+            if (hoveredTile != _hoveredTile)
+            {
+                if (_hoveredTile != null)
+                {
+                    _hoveredTile.Tint = _actionInformation.Selector.IsTileValid(_hoveredTile)
+                                            ? GetTint(_actionInformation.ActionType, false)
+                                            : DefaultTint;
+                }
+                _hoveredTile = hoveredTile;
+                if (_hoveredTile != null)
+                {
+                    _hoveredTile.Tint = GetTint(_actionInformation.ActionType, true);
+                }
+            }
             GameState.SquidInputManager.Update(gameTime);
             GameState.Desktop.Update();
         }
@@ -48,6 +66,10 @@ namespace DoomTactics
             foreach (var tile in _actionInformation.Selector.ValidTiles())
             {
                 tile.Tint = DefaultTint;
+            }
+            if (_hoveredTile != null)
+            {
+                _hoveredTile.Tint = DefaultTint;
             }
         }
 
@@ -79,10 +101,14 @@ namespace DoomTactics
             }
         }
 
-        private static Vector4 GetTint(ActionType actionType)
+        private static Vector4 GetTint(ActionType actionType, bool hovered)
         {
-            if (actionType == ActionType.Attack)
+            if (actionType == ActionType.Attack && hovered)
+                return AttackSelectionHoveredTint;
+            if (actionType == ActionType.Attack && !hovered)
                 return AttackSelectionTint;
+            if (actionType == ActionType.Move && hovered)
+                return MoveSelectionHoveredTint;
             else
                 return MoveSelectionTint;
         }
