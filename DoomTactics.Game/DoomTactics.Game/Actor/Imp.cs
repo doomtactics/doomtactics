@@ -26,7 +26,7 @@ namespace DoomTactics
             Func<Tile, ActionAnimationScript> actionScriptGenerator = ShootFireballAction;
             TileSelector selector = TileSelectorHelper.OccupiedTileSelector(level, this);
 
-            return new ActionInformation(actionScriptGenerator, selector);
+            return new ActionInformation(actionScriptGenerator, selector, ActionType.Attack);
         }
 
         private ActionAnimationScript ShootFireballAction(Tile tile)

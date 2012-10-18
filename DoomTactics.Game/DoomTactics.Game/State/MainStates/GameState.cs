@@ -28,7 +28,6 @@ namespace DoomTactics
         public TileEffect Effect;        
         public SpriteBatch SpriteBatch;
         public BasicEffect SpriteEffect;
-        // public HighlightEffectContainer HighlightingEffectContainer;
         public AlphaTestEffect AlphaTestEffect;
         private readonly StateMachine _stateMachine;
 
@@ -57,14 +56,12 @@ namespace DoomTactics
             MessagingSystem.Subscribe(OnActorDespawn, DoomEventType.DespawnActor, "gamestate", null);
             MessagingSystem.Subscribe(OnRemoveActorFromTile, DoomEventType.RemoveFromCurrentTile, "gamestate", null);
 
-            // Effect = new BasicEffect(_gameInstance.GraphicsDevice);
             Effect = new TileEffect(_gameInstance.Content);
 
             CreateLevelTemp(_gameInstance.Content);
 
             SpriteBatch = new SpriteBatch(_gameInstance.GraphicsDevice);
             SpriteEffect = new BasicEffect(_gameInstance.GraphicsDevice);
-            //HighlightingEffectContainer = new HighlightEffectContainer(_gameInstance.Content);
             AlphaTestEffect = new AlphaTestEffect(_gameInstance.GraphicsDevice);
         }
 

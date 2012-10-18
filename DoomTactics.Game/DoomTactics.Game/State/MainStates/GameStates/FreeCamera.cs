@@ -17,7 +17,6 @@ namespace DoomTactics
             : base(gameState)
         {
             _previousState = previousState;
-            HighlightHoveredTile = false;
             InputProcessor = new FreeCameraInputProcessor(Keyboard.GetState(), Mouse.GetState(), gameState, this);
         }
 

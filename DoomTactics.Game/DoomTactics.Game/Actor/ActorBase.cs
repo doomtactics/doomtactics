@@ -193,7 +193,7 @@ namespace DoomTactics
         {
             Func<Tile, ActionAnimationScript> scriptGenerator = MoveToTileAction;
             TileSelector selector = TileSelectorHelper.StandardMovementTileSelector(level, level.GetTileOfActor(this), MovementRange);
-            return new ActionInformation(scriptGenerator, selector);
+            return new ActionInformation(scriptGenerator, selector, ActionType.Move);
         }
 
         protected virtual ActionAnimationScript MoveToTileAction(Tile tile)

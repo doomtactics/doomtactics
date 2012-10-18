@@ -21,8 +21,6 @@ namespace DoomTactics
             GameState = gameState;
         }
 
-        public virtual bool HighlightHoveredTile { get; protected set; }
-
         public virtual void OnEnter()
         {
             NextState = null;
@@ -95,15 +93,9 @@ namespace DoomTactics
         }
 
         private void RenderTiles(GraphicsDevice device)
-        {
-            Tile highlightedTile = null;
-            if (HighlightHoveredTile)
-            {
-                highlightedTile = GameState.FindHighlightedTile();
-            }
+        {            
             foreach (var tile in GameState.Level.Tiles)
-            {
-                bool isHighlighted = (tile == highlightedTile);                
+            {                
                 tile.Render(device, GameState.Effect);
             }
         }

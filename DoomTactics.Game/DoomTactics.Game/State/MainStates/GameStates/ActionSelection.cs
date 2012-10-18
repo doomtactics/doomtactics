@@ -19,7 +19,6 @@ namespace DoomTactics
         public ActionSelection(GameState gameState, ActorBase actionActor)
             : base(gameState)
         {
-            HighlightHoveredTile = true;
             InputProcessor = new ActionSelectionProcessor(Keyboard.GetState(), Mouse.GetState(), gameState, this);
             _actionActor = actionActor;
         }
