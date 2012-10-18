@@ -311,10 +311,9 @@
       <Processor>TextureProcessor</Processor>
     </Compile>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
-    <Compile Include="shaders\highlight.fx">
-      <Name>highlight</Name>
+    <Compile Include="shaders\default.fx">
+      <Name>default</Name>
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
     </Compile>

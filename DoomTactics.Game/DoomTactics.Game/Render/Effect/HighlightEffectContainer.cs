@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace DoomTactics
 {
+    /*
     public class HighlightEffectContainer
     {
         private Effect _effect;
@@ -29,5 +30,5 @@ namespace DoomTactics
             _tintColor.SetValue(tintColor);   
         }
 
-    }
+    }*/
 }

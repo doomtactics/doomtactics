@@ -25,10 +25,10 @@ namespace DoomTactics
         public StateTransition NextState { get; private set; }
 
         private readonly DoomTacticsGame _gameInstance;
-        public BasicEffect Effect;        
+        public DefaultEffect Effect;        
         public SpriteBatch SpriteBatch;
         public BasicEffect SpriteEffect;
-        public HighlightEffectContainer HighlightingEffectContainer;
+        // public HighlightEffectContainer HighlightingEffectContainer;
         public AlphaTestEffect AlphaTestEffect;
         private readonly StateMachine _stateMachine;
 
@@ -57,13 +57,14 @@ namespace DoomTactics
             MessagingSystem.Subscribe(OnActorDespawn, DoomEventType.DespawnActor, "gamestate", null);
             MessagingSystem.Subscribe(OnRemoveActorFromTile, DoomEventType.RemoveFromCurrentTile, "gamestate", null);
 
-            Effect = new BasicEffect(_gameInstance.GraphicsDevice);
+            // Effect = new BasicEffect(_gameInstance.GraphicsDevice);
+            Effect = new DefaultEffect(_gameInstance.Content);
 
             CreateLevelTemp(_gameInstance.Content);
 
             SpriteBatch = new SpriteBatch(_gameInstance.GraphicsDevice);
             SpriteEffect = new BasicEffect(_gameInstance.GraphicsDevice);
-            HighlightingEffectContainer = new HighlightEffectContainer(_gameInstance.Content);
+            //HighlightingEffectContainer = new HighlightEffectContainer(_gameInstance.Content);
             AlphaTestEffect = new AlphaTestEffect(_gameInstance.GraphicsDevice);
         }
 

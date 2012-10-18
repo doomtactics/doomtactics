@@ -55,12 +55,7 @@ namespace DoomTactics
         {
             GameState.Level.DrawBackground(device, GameState.SpriteBatch);
 
-            GameState.Effect.World = Matrix.Identity;
-            GameState.Effect.View = GameState.Camera.View;
-            GameState.Effect.Projection = GameState.Camera.Projection;
-
-            GameState.Effect.TextureEnabled = true;
-            GameState.Effect.EnableDefaultLighting();
+            GameState.Effect.WorldViewProj = Matrix.Identity * GameState.Camera.View * GameState.Camera.Projection;
 
             device.RasterizerState = RasterizerState.CullNone;
             device.DepthStencilState = DepthStencilState.Default;
@@ -109,7 +104,7 @@ namespace DoomTactics
             foreach (var tile in GameState.Level.Tiles)
             {
                 bool isHighlighted = (tile == highlightedTile);                
-                tile.Render(device, GameState.Effect, GameState.HighlightingEffectContainer, isHighlighted);
+                tile.Render(device, GameState.Effect);
             }
         }
     }
