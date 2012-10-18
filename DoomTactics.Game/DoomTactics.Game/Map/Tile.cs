@@ -87,7 +87,7 @@ namespace DoomTactics
             _box = new BoundingBox(new Vector3(position.X, position.Y - visualHeight, position.Z), new Vector3(position.X + TileLength, position.Y, position.Z + TileLength));
         }
 
-        public void Render(GraphicsDevice device, BasicEffect effect, Effect highlightEffect, bool isHighlighted)
+        public void Render(GraphicsDevice device, TileEffect effect, Vector4 tint)
         {
             using (var buffer = new VertexBuffer(
                 device,
@@ -103,24 +103,17 @@ namespace DoomTactics
                 device.SetVertexBuffer(buffer);
 
                 // top
-                foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+                foreach (EffectPass pass in effect.GetEffect().CurrentTechnique.Passes)
                 {
                     effect.Texture = _tileTextures.Top;
+                    effect.Tint = tint;
                     pass.Apply();
                     device.DrawPrimitives(PrimitiveType.TriangleList, 0, 2);
                 }
-
-                if (isHighlighted)
-                {
-                    foreach (EffectPass pass in highlightEffect.CurrentTechnique.Passes)
-                    {
-                        pass.Apply();
-                        device.DrawPrimitives(PrimitiveType.TriangleList, 0, 2);
-                    }
-                }
+                effect.Tint = new Vector4(1.0f);
 
                 // north
-                foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+                foreach (EffectPass pass in effect.GetEffect().CurrentTechnique.Passes)
                 {
                     effect.Texture = _tileTextures.North;
                     pass.Apply();
@@ -128,7 +121,7 @@ namespace DoomTactics
                 }
 
                 // south
-                foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+                foreach (EffectPass pass in effect.GetEffect().CurrentTechnique.Passes)
                 {
                     effect.Texture = _tileTextures.South;
                     pass.Apply();
@@ -136,7 +129,7 @@ namespace DoomTactics
                 }
 
                 // east
-                foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+                foreach (EffectPass pass in effect.GetEffect().CurrentTechnique.Passes)
                 {
                     effect.Texture = _tileTextures.East;
                     pass.Apply();
@@ -144,7 +137,7 @@ namespace DoomTactics
                 }
 
                 // west
-                foreach (EffectPass pass in effect.CurrentTechnique.Passes)
+                foreach (EffectPass pass in effect.GetEffect().CurrentTechnique.Passes)
                 {
                     effect.Texture = _tileTextures.West;
                     pass.Apply();
@@ -171,12 +164,14 @@ namespace DoomTactics
         private readonly TileModel _model;
         public ActorBase ActorInTile { get; private set; }
         public decimal GameHeight { get; private set; }
+        public Vector4 Tint;
 
         public Tile(TileTextures tileTextures, Vector3 position, float visualHeight, int xcoord, int ycoord, decimal gameHeight)
         {
             _model = new TileModel(tileTextures, position, visualHeight);
             XCoord = xcoord;
             YCoord = ycoord;
+            Tint = new Vector4(1.0f);
         }
 
         public Vector3 GetTopCenter()
@@ -189,9 +184,9 @@ namespace DoomTactics
             ActorInTile = actorBase;
         }
 
-        public void Render(GraphicsDevice device, BasicEffect effect, Effect highlightEffect, bool isHighlighted)
+        public void Render(GraphicsDevice device, TileEffect effect)
         {
-            _model.Render(device, effect, highlightEffect, isHighlighted);         
+            _model.Render(device, effect, Tint);
         }
 
         public BoundingBox CreateBoundingBox()
