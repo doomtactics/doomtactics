@@ -87,7 +87,7 @@ namespace DoomTactics
             _box = new BoundingBox(new Vector3(position.X, position.Y - visualHeight, position.Z), new Vector3(position.X + TileLength, position.Y, position.Z + TileLength));
         }
 
-        public void Render(GraphicsDevice device, DefaultEffect effect)// highlightEffectContainer, bool isHighlighted, Vector4 tint)
+        public void Render(GraphicsDevice device, TileEffect effect, Vector4 tint)
         {
             using (var buffer = new VertexBuffer(
                 device,
@@ -106,19 +106,11 @@ namespace DoomTactics
                 foreach (EffectPass pass in effect.GetEffect().CurrentTechnique.Passes)
                 {
                     effect.Texture = _tileTextures.Top;
+                    effect.Tint = tint;
                     pass.Apply();
                     device.DrawPrimitives(PrimitiveType.TriangleList, 0, 2);
                 }
-                /*
-                if (isHighlighted)
-                {                
-                    highlightEffectContainer.SetTint(new Vector4(0.75f, 0.75f, 1.50f, 1));
-                    foreach (EffectPass pass in highlightEffectContainer.GetEffect().CurrentTechnique.Passes)
-                    {
-                        pass.Apply();
-                        device.DrawPrimitives(PrimitiveType.TriangleList, 0, 2);
-                    }
-                }*/
+                effect.Tint = new Vector4(1.0f);
 
                 // north
                 foreach (EffectPass pass in effect.GetEffect().CurrentTechnique.Passes)
@@ -172,12 +164,14 @@ namespace DoomTactics
         private readonly TileModel _model;
         public ActorBase ActorInTile { get; private set; }
         public decimal GameHeight { get; private set; }
+        public Vector4 Tint;
 
         public Tile(TileTextures tileTextures, Vector3 position, float visualHeight, int xcoord, int ycoord, decimal gameHeight)
         {
             _model = new TileModel(tileTextures, position, visualHeight);
             XCoord = xcoord;
             YCoord = ycoord;
+            Tint = new Vector4(1.0f);
         }
 
         public Vector3 GetTopCenter()
@@ -190,9 +184,9 @@ namespace DoomTactics
             ActorInTile = actorBase;
         }
 
-        public void Render(GraphicsDevice device, DefaultEffect effect)//, HighlightEffectContainer highlightEffectContainer, bool isHighlighted, Vector4 tint)
+        public void Render(GraphicsDevice device, TileEffect effect)
         {
-            _model.Render(device, effect);//;, highlightEffectContainer, isHighlighted, tint);         
+            _model.Render(device, effect, Tint);
         }
 
         public BoundingBox CreateBoundingBox()

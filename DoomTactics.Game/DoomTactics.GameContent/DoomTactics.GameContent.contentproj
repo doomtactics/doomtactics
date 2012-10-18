@@ -312,8 +312,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="shaders\default.fx">
-      <Name>default</Name>
+    <Compile Include="shaders\tile.fx">
+      <Name>tile</Name>
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
     </Compile>

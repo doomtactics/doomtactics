@@ -25,7 +25,7 @@ namespace DoomTactics
         public StateTransition NextState { get; private set; }
 
         private readonly DoomTacticsGame _gameInstance;
-        public DefaultEffect Effect;        
+        public TileEffect Effect;        
         public SpriteBatch SpriteBatch;
         public BasicEffect SpriteEffect;
         // public HighlightEffectContainer HighlightingEffectContainer;
@@ -58,7 +58,7 @@ namespace DoomTactics
             MessagingSystem.Subscribe(OnRemoveActorFromTile, DoomEventType.RemoveFromCurrentTile, "gamestate", null);
 
             // Effect = new BasicEffect(_gameInstance.GraphicsDevice);
-            Effect = new DefaultEffect(_gameInstance.Content);
+            Effect = new TileEffect(_gameInstance.Content);
 
             CreateLevelTemp(_gameInstance.Content);
 

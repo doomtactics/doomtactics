@@ -158,7 +158,7 @@
     <Compile Include="Render\ActorAnimation.cs" />
     <Compile Include="Render\ActorAnimationManager.cs" />
     <Compile Include="Render\Cube.cs" />
-    <Compile Include="Render\Effect\DefaultEffect.cs" />
+    <Compile Include="Render\Effect\TileEffect.cs" />
     <Compile Include="Render\Effect\DoomEffect.cs" />
     <Compile Include="Render\Effect\HighlightEffectContainer.cs" />
     <Compile Include="Render\ImpFireballSheet.cs" />

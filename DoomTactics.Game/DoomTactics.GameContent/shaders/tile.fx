@@ -1,5 +1,6 @@
 float4x4 WorldViewProj;
 texture Texture;
+float4 Tint : COLOR0;
 
 sampler2D Sampler = sampler_state {
 	Texture = (Texture);
@@ -37,6 +38,10 @@ float4 PixelShaderFunction(VertexShaderOutput input) : COLOR0
 	float4 output;
 	output = tex2D(Sampler, input.TexCoord);
 	output.a = 1;
+	output.a = output.a * Tint.a;
+	output.r = output.r * Tint.r;
+	output.g = output.g * Tint.g;
+	output.b = output.b * Tint.b;
 
 	return output;
 }
