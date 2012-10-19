@@ -180,6 +180,7 @@
     <Compile Include="State\MainStates\MenuState.cs" />
     <Compile Include="State\StateMachine.cs" />
     <Compile Include="State\StateTransition.cs" />
+    <Compile Include="Util\AStar.cs" />
     <Compile Include="Util\MathUtils.cs" />
     <Compile Include="Util\TileSelectorHelper.cs" />
   </ItemGroup>
