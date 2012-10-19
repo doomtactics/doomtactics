@@ -93,7 +93,7 @@ namespace DoomTactics
                 }
             }
 
-            if (nodes[goal.XCoord, goal.YCoord].Parent == null) return null;
+            if (nodes[goal.XCoord, goal.YCoord].Parent == null) return null;            
             Node target = nodes[goal.XCoord, goal.YCoord];
             while (target != nodes[start.XCoord, start.YCoord])
             {
@@ -101,6 +101,7 @@ namespace DoomTactics
                 target = target.Parent;
             }
             path.Insert(0, start);
+            if (path.Count > actor.MovementRange + 1) return null;
 
             return path;
         }
