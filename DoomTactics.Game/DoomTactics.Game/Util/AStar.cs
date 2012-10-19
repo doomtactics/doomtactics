@@ -108,7 +108,7 @@ namespace DoomTactics
 
         private static bool CanMoveToTile(ActorBase actor, Level level, int startX, int startY, int currentX, int currentY, int candidateX, int candidateY)
         {
-            if (candidateX < 0 || candidateY < 0 || candidateX > level.Length || candidateY > level.Width || (candidateX == startX && candidateY == startY))
+            if (candidateX < 0 || candidateY < 0 || candidateX >= level.Length || candidateY >= level.Width || (candidateX == startX && candidateY == startY))
             {
                 return false;
             }

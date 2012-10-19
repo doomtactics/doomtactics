@@ -21,7 +21,7 @@ namespace DoomTactics
         protected ActorAnimation CurrentAnimation;
         public Vector3 Position;
         public Vector3 Velocity;
-        public Vector3 FacingDirection;        
+        public Vector3 FacingDirection;
 
         public virtual SpriteSheet SpriteSheet
         {
@@ -145,13 +145,13 @@ namespace DoomTactics
 
         public BoundingBox CreateBoundingBox()
         {
-            var bb = new BoundingBox(new Vector3(Position.X - Width/2, Position.Y, Position.Z - Width/2),
-                                   new Vector3(Position.X + Width/2, Position.Y + Height, Position.Z + Width/2));
+            var bb = new BoundingBox(new Vector3(Position.X - Width / 2, Position.Y, Position.Z - Width / 2),
+                                   new Vector3(Position.X + Width / 2, Position.Y + Height, Position.Z + Width / 2));
             return bb;
         }
 
         public void FacePoint(Vector3 targetPosition, bool snapToEightDirections)
-        {            
+        {
             FacingDirection = new Vector3(targetPosition.X, 0, targetPosition.Z) - new Vector3(Position.X, 0, Position.Z);
             if (snapToEightDirections)
             {
@@ -181,47 +181,86 @@ namespace DoomTactics
 
         public virtual void Die()
         {
-            
-        }        
+
+        }
 
         private void SnapToTile(Tile tile)
         {
             this.Position = new Vector3(tile.XCoord * 64.0f + 32.0f, tile.CreateBoundingBox().Max.Y, tile.YCoord * 64.0f + 32.0f);
         }
-        
+
         public ActionInformation MoveToTile(Level level)
         {
-            Func<Tile, ActionAnimationScript> scriptGenerator = MoveToTileAction;
+            Func<Tile, ActionAnimationScript> scriptGenerator = (tile) => MoveToTileAction(tile, level);
             TileSelector selector = TileSelectorHelper.StandardMovementTileSelector(level, level.GetTileOfActor(this), MovementRange);
             return new ActionInformation(scriptGenerator, selector, ActionType.Move);
         }
 
-        protected virtual ActionAnimationScript MoveToTileAction(Tile tile)
+        protected virtual ActionAnimationScript MoveToTileAction(Tile goalTile, Level level)
         {
-            var tilePosition = new Vector3(tile.XCoord * 64.0f + 32.0f, tile.CreateBoundingBox().Max.Y, tile.YCoord * 64.0f + 32.0f);
-            var directionToMove = tilePosition - Position;
-            directionToMove.Normalize();
+            IList<Tile> path = AStar.CalculateAStarPath(level.GetTileOfActor(this), goalTile, level, this);
 
-            BoundingBox checkBox = new BoundingBox(tilePosition - new Vector3(5.0f), tilePosition + new Vector3(5.0f));
-            var removeFromTileEvent = new ActorEvent(DoomEventType.RemoveFromCurrentTile, this);
+            var scriptBuilder = new ActionAnimationScriptBuilder().Name(ActorId + "Move");
+            for (int pathIndex = 1; pathIndex < path.Count; pathIndex++)
+            {
+                var tile = path[pathIndex];
+                var tilePosition = new Vector3(tile.XCoord * 64.0f + 32.0f, tile.CreateBoundingBox().Max.Y, tile.YCoord * 64.0f + 32.0f);
+                BoundingBox checkBox = new BoundingBox(tilePosition - new Vector3(5.0f), tilePosition + new Vector3(5.0f));
 
-            var script = new ActionAnimationScriptBuilder().Name(ActorId + "move")
-                .Segment()
-                    .OnStart(() =>
-                                 {              
-                                     MessagingSystem.DispatchEvent(removeFromTileEvent, ActorId);
-                                     Velocity = Speed*directionToMove;
-                                 })
-                    .EndCondition(() => (checkBox.Contains(Position) == ContainmentType.Contains))
-                    .OnComplete(() =>
-                                    {
-                                        Velocity = Vector3.Zero; 
-                                        SnapToTile(tile);
-                                        tile.SetActor(this);
-                                    })
-                .Build();
+                if (pathIndex == path.Count - 1)
+                {
+                    var removeFromTileEvent = new ActorEvent(DoomEventType.RemoveFromCurrentTile, this);
+                    scriptBuilder = scriptBuilder
+                        .Segment()
+                        .OnStart(() =>
+                                     {
+                                         if (path.Count == 2) MessagingSystem.DispatchEvent(removeFromTileEvent, ActorId);
+                                         Vector3 directionToMove = GetDirectionToPoint(tilePosition);
+                                         FacePoint(tilePosition, false);
+                                         Velocity = Speed * directionToMove;
+                                     })
+                        .EndCondition(() => (checkBox.Contains(Position) == ContainmentType.Contains))
+                        .OnComplete(() =>
+                                        {
+                                            Velocity = Vector3.Zero;
+                                            SnapToTile(tile);
+                                            tile.SetActor(this);
+                                        });
+                }
+                else if (pathIndex == 1)
+                {
+                    var removeFromTileEvent = new ActorEvent(DoomEventType.RemoveFromCurrentTile, this);
+                    scriptBuilder = scriptBuilder
+                        .Segment()
+                        .OnStart(() =>
+                                     {
+                                         MessagingSystem.DispatchEvent(removeFromTileEvent, ActorId);
+                                         Vector3 directionToMove = GetDirectionToPoint(tilePosition);
+                                         FacePoint(tilePosition, false);
+                                         Velocity = Speed * directionToMove;
+                                     })
+                        .EndCondition(() => (checkBox.Contains(Position) == ContainmentType.Contains));
+                }
+                else if (pathIndex != path.Count - 1)
+                {
+                    scriptBuilder = scriptBuilder
+                        .Segment()
+                        .OnStart(() =>
+                                     {
+                                         Vector3 directionToMove = GetDirectionToPoint(tilePosition);
+                                         FacePoint(tilePosition, false);
+                                         Velocity = Speed * directionToMove;
+                                     })
+                        .EndCondition(() => (checkBox.Contains(Position) == ContainmentType.Contains));
+                }
+              
+            }
+            return scriptBuilder.Build();
+        }
 
-            return script;
+        private Vector3 GetDirectionToPoint(Vector3 targetPosition)
+        {
+            return Vector3.Normalize(targetPosition - Position);
         }
     }
 }

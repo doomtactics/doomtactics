@@ -32,12 +32,12 @@ namespace DoomTactics
 
         public void SetWaitDirection(Vector2 mousePosition)
         {
-            SetActorWaitDirection(mousePosition);
+            SetActorWaitDirection(mousePosition, false);
         }
 
         public void FinalizeWaitDirection(Vector2 mousePosition)
         {
-            SetActorWaitDirection(mousePosition);
+            SetActorWaitDirection(mousePosition, false);
             ActorBase nextActiveUnit = GameState.GetNextActiveUnit();
             if (nextActiveUnit == null)
             {
@@ -49,7 +49,7 @@ namespace DoomTactics
             }
         }
 
-        private void SetActorWaitDirection(Vector2 mousePosition)
+        private void SetActorWaitDirection(Vector2 mousePosition, bool snapDirection)
         {
             Ray ray = GameState.CreateRayFromMouseCursorPosition(mousePosition);
 
@@ -58,7 +58,7 @@ namespace DoomTactics
             if (distance != null)
             {
                 Vector3 targetPoint = ray.Position + ray.Direction * distance.Value;
-                GameState.ActiveUnit.FacePoint(targetPoint, true);
+                GameState.ActiveUnit.FacePoint(targetPoint, snapDirection);
             }
         }
 
