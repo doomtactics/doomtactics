@@ -19,10 +19,10 @@ namespace DoomTactics
             return new TileSelector(tileList);
         }
 
-        public static TileSelector StandardMovementTileSelector(Level level, Tile currentTile, int movementRange)
+        public static TileSelector StandardMovementTileSelector(Level level, Tile currentTile, ActorBase actor)
         {
             var selector = new TileSelector();
-
+            int movementRange = actor.MovementRange;
             for (int i = -movementRange; i <= movementRange; i++)
             {
                 for (int j = -movementRange; j <= movementRange; j++)
@@ -32,7 +32,10 @@ namespace DoomTactics
                         Tile t = level.GetTileAt(currentTile.XCoord + j, currentTile.YCoord + i);
                         if (t != null && t.ActorInTile == null)
                         {
-                            selector.AddValidTile(t);
+                            if (AStar.CalculateAStarPath(currentTile, t, level, actor) != null)
+                            {
+                                selector.AddValidTile(t);
+                            }
                         }
                     }
                 }

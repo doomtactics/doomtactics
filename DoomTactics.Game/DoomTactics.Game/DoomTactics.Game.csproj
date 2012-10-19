@@ -180,6 +180,7 @@
     <Compile Include="State\MainStates\MenuState.cs" />
     <Compile Include="State\StateMachine.cs" />
     <Compile Include="State\StateTransition.cs" />
+    <Compile Include="Util\AStar.cs" />
     <Compile Include="Util\MathUtils.cs" />
     <Compile Include="Util\TileSelectorHelper.cs" />
   </ItemGroup>
@@ -232,7 +233,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Global\" />
-    <Folder Include="Map\Data\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
