@@ -11,10 +11,10 @@ namespace DoomTactics
 {
     public class TargetSelection : GameStateBase
     {
-        private static readonly Vector4 MoveSelectionHoveredTint = new Vector4(2.5f, 2.5f, 10.0f, 1.0f);
-        private static readonly Vector4 MoveSelectionTint = new Vector4(0.75f, 0.75f, 10.0f, 1.0f);
-        private static readonly Vector4 AttackSelectionTint = new Vector4(10.0f, 0.75f, 0.75f, 1.0f);
-        private static readonly Vector4 AttackSelectionHoveredTint = new Vector4(10.0f, 2.5f, 2.5f, 1.0f);
+        private static readonly Vector4 MoveSelectionHoveredTint = new Vector4(2.5f, 2.5f, 10.0f, 0.5f);
+        private static readonly Vector4 MoveSelectionTint = new Vector4(0.75f, 0.75f, 10.0f, 0.5f);
+        private static readonly Vector4 AttackSelectionTint = new Vector4(10.0f, 0.75f, 0.75f, 0.5f);
+        private static readonly Vector4 AttackSelectionHoveredTint = new Vector4(10.0f, 2.5f, 2.5f, 0.5f);
         private static readonly Vector4 DefaultTint = new Vector4(1.0f);
         private Tile _hoveredTile;
         private readonly IState _previousState;

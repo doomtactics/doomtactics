@@ -9,6 +9,7 @@ namespace DoomTactics
 {
     public class TileModel
     {
+        private static readonly Vector4 DefaultTint = new Vector4(1.0f);
         private const float TileLength = 64.0f;
         private const int NumVertexes = 30;
         private VertexPositionNormalTexture[] _vertexes;
@@ -106,11 +107,23 @@ namespace DoomTactics
                 foreach (EffectPass pass in effect.GetEffect().CurrentTechnique.Passes)
                 {
                     effect.Texture = _tileTextures.Top;
-                    effect.Tint = tint;
                     pass.Apply();
                     device.DrawPrimitives(PrimitiveType.TriangleList, 0, 2);
                 }
-                effect.Tint = new Vector4(1.0f);
+                
+                if (tint != DefaultTint)
+                {
+                    foreach (EffectPass pass in effect.GetEffect().CurrentTechnique.Passes)
+                    {
+                        effect.Texture = _tileTextures.Top;
+                        effect.Tint = tint;
+                        pass.Apply();
+                        device.DrawPrimitives(PrimitiveType.TriangleList, 0, 2);
+                    }
+
+                    effect.Tint = DefaultTint;
+                }
+                
 
                 // north
                 foreach (EffectPass pass in effect.GetEffect().CurrentTechnique.Passes)

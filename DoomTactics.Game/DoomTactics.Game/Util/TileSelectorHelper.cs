@@ -27,7 +27,7 @@ namespace DoomTactics
             {
                 for (int j = -movementRange; j <= movementRange; j++)
                 {                    
-                    if (Math.Abs(i) + Math.Abs(j) < movementRange)
+                    if (Math.Abs(i) + Math.Abs(j) <= movementRange)
                     {
                         Tile t = level.GetTileAt(currentTile.XCoord + j, currentTile.YCoord + i);
                         if (t != null && t.ActorInTile == null)

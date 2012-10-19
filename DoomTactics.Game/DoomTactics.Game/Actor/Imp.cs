@@ -18,7 +18,7 @@ namespace DoomTactics
             Position = position;
             CurrentAnimation = ActorAnimationManager.Make("impidle", "testimp");
             SpriteSheet = SpriteSheetFactory.CreateSpriteSheet(ActorType.Imp);
-            MovementRange = 4;
+            MovementRange = 3;
         }
 
         public ActionInformation ShootFireball(Level level)

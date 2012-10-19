@@ -131,6 +131,9 @@ namespace DoomTactics
   
         public Tile GetTileAt(int x, int y)
         {
+            if (x < 0 || y < 0)
+                return null;
+
             int index = (y*Length + x);
             if (index < 0 || index >= _tiles.Length)
                 return null;
