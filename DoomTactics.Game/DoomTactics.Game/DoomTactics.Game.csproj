@@ -162,7 +162,6 @@
     <Compile Include="Render\Cube.cs" />
     <Compile Include="Render\Effect\TileEffect.cs" />
     <Compile Include="Render\Effect\DoomEffect.cs" />
-    <Compile Include="Render\Effect\HighlightEffectContainer.cs" />
     <Compile Include="Render\ImpFireballSheet.cs" />
     <Compile Include="Render\ImpSheet.cs" />
     <Compile Include="Render\RendererXna.cs" />
