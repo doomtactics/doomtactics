@@ -60,10 +60,10 @@ namespace DoomTactics
                         int candidateX = x + current.X;
                         int candidateY = y + current.Y;
 
-                        if (CanMoveToTile(actor, start.XCoord, start.YCoord, current.X, current.Y, candidateX, candidateY))
+                        if (CanMoveToTile(actor, level, start.XCoord, start.YCoord, current.X, current.Y, candidateX, candidateY))
                         {
                             float nextStepCost = current.Cost +
-                                                 CalculateMovementCost(actor, current.X, current.Y, candidateX,
+                                                 CalculateMovementCost(actor, level, current.X, current.Y, candidateX,
                                                                        candidateY);
                             Node neighbor = nodes[candidateX, candidateY];
                             if (nextStepCost < neighbor.Cost)
@@ -106,19 +106,31 @@ namespace DoomTactics
         }
 
 
-        private static bool CanMoveToTile(ActorBase actor, int xCoord, int yCoord, int i, int i1, int candidateX, int candidateY)
+        private static bool CanMoveToTile(ActorBase actor, Level level, int startX, int startY, int currentX, int currentY, int candidateX, int candidateY)
         {
-            throw new NotImplementedException();
+            if (candidateX < 0 || candidateY < 0 || candidateX > level.Length || candidateY > level.Width || (candidateX == startX && candidateY == startY))
+            {
+                return false;
+            }
+
+            var candidateTile = level.GetTileAt(candidateX, candidateY);
+
+            if (candidateTile.ActorInTile != null)
+                return false;
+
+            return true;
         }
 
-        private static float CalculateMovementCost(ActorBase actor, int currentX, int currentY, int candidateX, int candidateY)
+        private static float CalculateMovementCost(ActorBase actor, Level level, int currentX, int currentY, int candidateX, int candidateY)
         {
-            
+            var currentTile = level.GetTileAt(currentX, currentY);
+            var candidateTile = level.GetTileAt(candidateX, candidateY);
+            return (float)Math.Abs(currentTile.GameHeight - candidateTile.GameHeight);
         }
 
-        private static float GetHeuristicCost(ActorBase actor, Tile getTileAt, Tile goal)
+        private static float GetHeuristicCost(ActorBase actor, Tile tile, Tile goal)
         {
-            throw new NotImplementedException();
+            return Math.Abs(tile.XCoord - goal.XCoord) + Math.Abs(tile.YCoord - goal.YCoord);
         }
 
     }
