@@ -32,12 +32,12 @@ namespace DoomTactics
 
         public void SetWaitDirection(Vector2 mousePosition)
         {
-            SetActorWaitDirection(mousePosition, false);
+            SetActorWaitDirection(mousePosition, true);
         }
 
         public void FinalizeWaitDirection(Vector2 mousePosition)
         {
-            SetActorWaitDirection(mousePosition, false);
+            SetActorWaitDirection(mousePosition, true);
             ActorBase nextActiveUnit = GameState.GetNextActiveUnit();
             if (nextActiveUnit == null)
             {
