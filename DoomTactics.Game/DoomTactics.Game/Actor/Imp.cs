@@ -14,10 +14,9 @@ namespace DoomTactics
         {
             Height = 56;
             Width = 40;
-            Speed = 4;
             CurrentAnimation = ActorAnimationManager.Make("impidle", "testimp");
             SpriteSheet = SpriteSheetFactory.CreateSpriteSheet(ActorType.Imp);
-            MovementRange = 3;
+            MovementVelocityModifier = 3.0f;
         }
 
         public ActionInformation ShootFireball(Level level)
@@ -55,6 +54,12 @@ namespace DoomTactics
                 .Build();                        
 
             return script;
+        }
+
+        public override void SetupStats()
+        {
+            BaseStats = GameplayStats.DefaultStats(ActorType.Imp);
+            CurrentStats = BaseStats.CopyStats();
         }
     }
 }

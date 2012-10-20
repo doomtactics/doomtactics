@@ -11,18 +11,23 @@ namespace DoomTactics
     public abstract class ActorBase
     {
         protected static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         public string ActorId;
         public int Height;
         public int Width;
-        public int Speed;
-        public int ChargeTime;
+               
         public bool IncreaseChargeTime;
-        public int MovementRange;
+        
         protected ActorAnimation CurrentAnimation;
         public Vector3 Position;
         public Vector3 Velocity;
         public Vector3 FacingDirection;
         public int Team;
+
+        public virtual float MovementVelocityModifier { get; protected set; }
+
+        public GameplayStats BaseStats;
+        public GameplayStats CurrentStats;
 
         public virtual SpriteSheet SpriteSheet
         {
@@ -53,13 +58,13 @@ namespace DoomTactics
 
         protected ActorBase(string id, Vector3 position, Vector3 velocity, int team)
         {
-            ActorId = id;
-            ChargeTime = 0;
+            ActorId = id;            
             IncreaseChargeTime = true;
             Position = position;
             Velocity = velocity;
             FacingDirection = Vector3.Forward;
             Team = team;
+            SetupStats();
         }
 
         public virtual void Update(GameTime elapsedTime)
@@ -68,12 +73,14 @@ namespace DoomTactics
             Position += Velocity;
         }
 
+        public abstract void SetupStats();
+
         public void IncreaseCT()
         {
-            ChargeTime += Speed;
-            if (ChargeTime >= 100)
+            CurrentStats.ChargeTime += CurrentStats.Speed;
+            if (CurrentStats.ChargeTime >= 100)
             {
-                ChargeTime = 100;
+                CurrentStats.ChargeTime = 100;
                 var turnEvent = new TurnEvent(DoomEventType.ChargeTimeReached, this);
                 MessagingSystem.DispatchEvent(turnEvent, ActorId);
             }
@@ -235,7 +242,7 @@ namespace DoomTactics
                                          if (path.Count == 2) MessagingSystem.DispatchEvent(removeFromTileEvent, ActorId);
                                          Vector3 directionToMove = GetDirectionToPoint(tilePosition);
                                          FacePoint(tilePosition, false);
-                                         Velocity = Speed * directionToMove;
+                                         Velocity = MovementVelocityModifier * directionToMove;
                                      })
                         .EndCondition(() => (checkBox.Contains(Position) == ContainmentType.Contains))
                         .OnComplete(() =>
@@ -255,7 +262,7 @@ namespace DoomTactics
                                          MessagingSystem.DispatchEvent(removeFromTileEvent, ActorId);
                                          Vector3 directionToMove = GetDirectionToPoint(tilePosition);
                                          FacePoint(tilePosition, false);
-                                         Velocity = Speed * directionToMove;
+                                         Velocity = MovementVelocityModifier * directionToMove;
                                      })
                         .EndCondition(() => (checkBox.Contains(Position) == ContainmentType.Contains));
                 }
@@ -267,7 +274,7 @@ namespace DoomTactics
                                      {
                                          Vector3 directionToMove = GetDirectionToPoint(tilePosition);
                                          FacePoint(tilePosition, false);
-                                         Velocity = Speed * directionToMove;
+                                         Velocity = MovementVelocityModifier * directionToMove;
                                      })
                         .EndCondition(() => (checkBox.Contains(Position) == ContainmentType.Contains));
                 }

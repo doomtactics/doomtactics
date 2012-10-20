@@ -28,7 +28,7 @@ namespace DoomTactics
         public static TileSelector StandardMovementTileSelector(Level level, Tile currentTile, ActorBase actor)
         {
             var selector = new TileSelector();
-            int movementRange = actor.MovementRange;
+            int movementRange = actor.CurrentStats.MovementRange;
             for (int i = -movementRange; i <= movementRange; i++)
             {
                 for (int j = -movementRange; j <= movementRange; j++)

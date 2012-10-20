@@ -118,6 +118,7 @@
     <Compile Include="Actions\ActionType.cs" />
     <Compile Include="Actions\TileSelector.cs" />
     <Compile Include="Actor\ActorBase.cs" />
+    <Compile Include="Actor\GameplayStats.cs" />
     <Compile Include="Actor\Imp.cs" />
     <Compile Include="Actor\ImpFireball.cs" />
     <Compile Include="Actor\ActorSpawnMethods.cs" />
