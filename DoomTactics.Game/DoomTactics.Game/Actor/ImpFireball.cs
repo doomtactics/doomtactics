@@ -17,6 +17,13 @@ namespace DoomTactics
             CurrentAnimation = ActorAnimationManager.Make("impfireballidle", ActorId);
             SpriteSheet = SpriteSheetFactory.CreateSpriteSheet(ActorType.ImpFireball);
             IncreaseChargeTime = false;
+            MovementVelocityModifier = 10.0f;
+        }
+
+        public override void SetupStats()
+        {
+            BaseStats = GameplayStats.Statsless();
+            CurrentStats = GameplayStats.Statsless();
         }
 
         public override void Die()

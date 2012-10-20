@@ -64,7 +64,7 @@ namespace DoomTactics
 
         public override void OnExit()
         {
-            GameState.ActiveUnit.ChargeTime = 0;
+            GameState.ActiveUnit.CurrentStats.ChargeTime = 0;
             GameState.ActiveUnit = GameState.GetNextActiveUnit();
         }
 

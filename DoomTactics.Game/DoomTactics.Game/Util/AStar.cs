@@ -101,7 +101,7 @@ namespace DoomTactics
                 target = target.Parent;
             }
             path.Insert(0, start);
-            if (path.Count > actor.MovementRange + 1) return null;
+            if (path.Count > actor.CurrentStats.MovementRange + 1) return null;
 
             return path;
         }
