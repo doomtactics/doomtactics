@@ -116,7 +116,7 @@ namespace DoomTactics
 
             var candidateTile = level.GetTileAt(candidateX, candidateY);
 
-            if (candidateTile.ActorInTile != null)
+            if (candidateTile.ActorInTile != null && candidateTile.ActorInTile.Team != actor.Team)
                 return false;
 
             return true;

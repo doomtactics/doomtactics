@@ -10,7 +10,7 @@ namespace DoomTactics
     {
         private static long _ballNum = 0;
 
-        public ImpFireball(string id) : base(id + _ballNum++)
+        public ImpFireball(string id, Vector3 position, Vector3 velocity) : base(id + _ballNum++, position, velocity)
         {
             Height = 32;
             Width = 32;

@@ -150,6 +150,7 @@
     <Compile Include="Input\GameState\TargetSelectionProcessor.cs" />
     <Compile Include="Map\Camera.cs" />
     <Compile Include="Map\Level.cs" />
+    <Compile Include="Map\LevelFactory.cs" />
     <Compile Include="Map\Tile.cs" />
     <Compile Include="Map\TileTextures.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

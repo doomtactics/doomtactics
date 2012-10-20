@@ -17,7 +17,7 @@ namespace DoomTactics
 
             _spawnMethods.Add(ActorType.ImpFireball, (p, v) =>
             {
-                var fireball = new ImpFireball("fireball");
+                var fireball = new ImpFireball("fireball", p, v);
                 fireball.Position = p;
                 fireball.Velocity = v;
                 return fireball;
