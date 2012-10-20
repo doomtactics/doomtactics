@@ -13,11 +13,17 @@ namespace DoomTactics
             return new TileSelector(tileList);
         }
 
+        public static TileSelector EnemyTileSelector(Level level, int myTeam)
+        {
+            var tileList = level.Tiles.Where(x => x.ActorInTile != null && x.ActorInTile.Team != myTeam).ToList();
+            return new TileSelector(tileList);
+        }
+
         public static TileSelector UnoccupiedTileSelector(Level level)
         {
             var tileList = level.Tiles.Where(x => x.ActorInTile == null).ToList();
             return new TileSelector(tileList);
-        }
+        }        
 
         public static TileSelector StandardMovementTileSelector(Level level, Tile currentTile, ActorBase actor)
         {
