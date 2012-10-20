@@ -188,26 +188,6 @@ namespace DoomTactics
                 if (FacingDirection.Z > 0.5f) FacingDirection.Z = 1.0f;
                 else if (FacingDirection.Z < -0.5f) FacingDirection.Z = -1.0f;
                 else FacingDirection.Z = 0;
-                
-                /*
-                // Get the enumerated render angle as if the camera were at the origin, and turn that into a Vector3.
-                Angle angle = GetAngle(Vector3.Zero);
-                if (angle == Angle.Forward)
-                    FacingDirection = new Vector3(0, 0, -1);
-                if (angle == Angle.ForwardLeft)
-                    FacingDirection = new Vector3(1, 0, -1);
-                if (angle == Angle.Left)
-                    FacingDirection = new Vector3(1, 0, 0);
-                if (angle == Angle.BackLeft)
-                    FacingDirection = new Vector3(1, 0, 1);
-                if (angle == Angle.Back)
-                    FacingDirection = new Vector3(0, 0, 1);
-                if (angle == Angle.BackRight)
-                    FacingDirection = new Vector3(-1, 0, 1);
-                if (angle == Angle.Right)
-                    FacingDirection = new Vector3(-1, 0, 0);
-                if (angle == Angle.ForwardRight)
-                    FacingDirection = new Vector3(-1, 0, -1);*/
             }
 
             FacingDirection.Normalize();
