@@ -22,6 +22,7 @@ namespace DoomTactics
         public Vector3 Position;
         public Vector3 Velocity;
         public Vector3 FacingDirection;
+        public int Team;
 
         public virtual SpriteSheet SpriteSheet
         {
@@ -35,13 +36,30 @@ namespace DoomTactics
             protected set;
         }
 
-        protected ActorBase(string id)
+        protected ActorBase(string id) : this(id, Vector3.Zero, Vector3.Zero, 0)
+        {
+            
+        }
+
+        protected ActorBase(string id, Vector3 position) : this (id, position, Vector3.Zero, 0)
+        {
+            
+        }
+
+        protected ActorBase(string id, Vector3 position, Vector3 velocity) : this(id, position, velocity, 0)
+        {
+            
+        }
+
+        protected ActorBase(string id, Vector3 position, Vector3 velocity, int team)
         {
             ActorId = id;
             ChargeTime = 0;
             IncreaseChargeTime = true;
-            Velocity = Vector3.Zero;
+            Position = position;
+            Velocity = velocity;
             FacingDirection = Vector3.Forward;
+            Team = team;
         }
 
         public virtual void Update(GameTime elapsedTime)
