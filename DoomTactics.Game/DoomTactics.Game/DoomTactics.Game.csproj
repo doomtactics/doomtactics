@@ -117,7 +117,9 @@
     <Compile Include="Actions\ActionInformation.cs" />
     <Compile Include="Actions\ActionType.cs" />
     <Compile Include="Actions\TileSelector.cs" />
+    <Compile Include="Actor\AbilityDetails.cs" />
     <Compile Include="Actor\ActorBase.cs" />
+    <Compile Include="Actor\DamageCalculator.cs" />
     <Compile Include="Actor\GameplayStats.cs" />
     <Compile Include="Actor\Imp.cs" />
     <Compile Include="Actor\ImpFireball.cs" />
