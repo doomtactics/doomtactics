@@ -178,26 +178,16 @@ namespace DoomTactics
         public void FacePoint(Vector3 targetPosition, bool snapToEightDirections)
         {
             FacingDirection = new Vector3(targetPosition.X, 0, targetPosition.Z) - new Vector3(Position.X, 0, Position.Z);
+            FacingDirection.Normalize();
             if (snapToEightDirections)
             {
-                // Get the enumerated render angle as if the camera were at the origin, and turn that into a Vector3.
-                Angle angle = GetAngle(Vector3.Zero);
-                if (angle == Angle.Forward)
-                    FacingDirection = new Vector3(-1, 0, 0);
-                if (angle == Angle.ForwardLeft)
-                    FacingDirection = new Vector3(-1, 0, -1);
-                if (angle == Angle.Left)
-                    FacingDirection = new Vector3(0, 0, -1);
-                if (angle == Angle.BackLeft)
-                    FacingDirection = new Vector3(1, 0, -1);
-                if (angle == Angle.Back)
-                    FacingDirection = new Vector3(1, 0, 0);
-                if (angle == Angle.BackRight)
-                    FacingDirection = new Vector3(1, 0, 1);
-                if (angle == Angle.Right)
-                    FacingDirection = new Vector3(0, 0, 1);
-                if (angle == Angle.ForwardRight)
-                    FacingDirection = new Vector3(-1, 0, 1);
+                if (FacingDirection.X > 0.5f) FacingDirection.X = 1.0f;
+                else if (FacingDirection.X < -0.5f) FacingDirection.X = -1.0f;
+                else FacingDirection.X = 0;
+
+                if (FacingDirection.Z > 0.5f) FacingDirection.Z = 1.0f;
+                else if (FacingDirection.Z < -0.5f) FacingDirection.Z = -1.0f;
+                else FacingDirection.Z = 0;
             }
 
             FacingDirection.Normalize();
