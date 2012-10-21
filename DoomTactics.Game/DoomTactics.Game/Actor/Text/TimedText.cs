@@ -34,9 +34,23 @@ namespace DoomTactics
             }
         }
 
-        public void Render(GraphicsDevice device, SpriteBatch batch, Effect spriteEffect)
+        public void Render(GraphicsDevice device, Camera camera, SpriteBatch spriteBatch, AlphaTestEffect textEffect)
         {
-            batch.DrawString(_font, _text, Vector2.Zero, Color.White);
+            Matrix bill = Matrix.CreateConstrainedBillboard(_position, camera.Position, Vector3.Down, camera.Direction,
+                                                Vector3.Forward);
+
+            textEffect.World = bill;
+            textEffect.View = camera.View;
+            textEffect.Projection = camera.Projection;
+            textEffect.ReferenceAlpha = 0;
+            textEffect.AlphaFunction = CompareFunction.Greater;
+            textEffect.ReferenceAlpha = 128;
+
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.DepthRead,
+                                  RasterizerState.CullNone, textEffect);
+            spriteBatch.DrawString(_font, _text, Vector2.Zero, Color.White);
+
+            spriteBatch.End();
         }
     }
 }

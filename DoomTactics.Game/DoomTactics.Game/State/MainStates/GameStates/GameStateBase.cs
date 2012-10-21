@@ -31,7 +31,7 @@ namespace DoomTactics
         public abstract bool IsPaused { get; }
 
         public virtual void Update(GameTime gameTime)
-        {            
+        {
             if (GameState.ActiveUnit == null)
             {
                 foreach (var actor in GameState.Level.Actors)
@@ -51,7 +51,7 @@ namespace DoomTactics
                 floatingText.Update(gameTime);
             }
 
-            InputProcessor.ProcessInput(Keyboard.GetState(), Mouse.GetState(), gameTime);                        
+            InputProcessor.ProcessInput(Keyboard.GetState(), Mouse.GetState(), gameTime);
         }
 
         public virtual void Render(GraphicsDevice device)
@@ -99,21 +99,19 @@ namespace DoomTactics
         }
 
         private void RenderTiles(GraphicsDevice device)
-        {            
+        {
             foreach (var tile in GameState.Level.Tiles)
-            {                
+            {
                 tile.Render(device, GameState.Effect);
             }
         }
 
         private void RenderText(GraphicsDevice device)
         {
-            GameState.SpriteBatch.Begin();
             foreach (var text in GameState.FloatingTexts)
             {
-                text.Render(device, GameState.SpriteBatch, GameState.SpriteEffect);
+                text.Render(device, GameState.Camera, GameState.SpriteBatch, GameState.TextEffect);
             }
-            GameState.SpriteBatch.End();
         }
     }
 }

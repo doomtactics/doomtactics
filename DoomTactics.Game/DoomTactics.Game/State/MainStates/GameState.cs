@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using DoomTactics.Controls;
@@ -30,6 +31,7 @@ namespace DoomTactics
         public TileEffect Effect;
         public SpriteBatch SpriteBatch;
         public BasicEffect SpriteEffect;
+        public AlphaTestEffect TextEffect;
         public AlphaTestEffect AlphaTestEffect;
         public SpriteFont DamageFont;
 
@@ -54,8 +56,7 @@ namespace DoomTactics
 
             // fonts
             FloatingTexts = new List<TimedText>();
-            DamageFont = _gameInstance.Content.Load<SpriteFont>("fonts/Doom16");
-
+            DamageFont = _gameInstance.Content.Load<SpriteFont>("fonts/Doom12");
 
             // camera
             float aspectRatio = (float)_gameInstance.Window.ClientBounds.Width / _gameInstance.Window.ClientBounds.Height;
@@ -76,6 +77,7 @@ namespace DoomTactics
             SpriteBatch = new SpriteBatch(_gameInstance.GraphicsDevice);
             SpriteEffect = new BasicEffect(_gameInstance.GraphicsDevice);
             AlphaTestEffect = new AlphaTestEffect(_gameInstance.GraphicsDevice);
+            TextEffect = new AlphaTestEffect(_gameInstance.GraphicsDevice);
         }
 
         public void OnExit()
@@ -174,7 +176,9 @@ namespace DoomTactics
         public void OnDisplayDamage(IDoomEvent displayDamageEvent)
         {
             var evt = (DamageEvent) displayDamageEvent;
-            var floatingText = new TimedText(evt.Damage.ToString(), Vector3.Zero, DamageFont, 2000);
+            float yOffset = evt.DamagedActor.Height + DamageFont.MeasureString(evt.Damage.ToString()).Y;
+            float xOffset = DamageFont.MeasureString(evt.Damage.ToString()).X/2;
+            var floatingText = new TimedText(evt.Damage.ToString(), evt.DamagedActor.Position + new Vector3(xOffset, yOffset, 0), DamageFont, 200000);
             FloatingTexts.Add(floatingText);
 
             Log.Debug("Actor " + evt.DamagedActor.ActorId + " took " + evt.Damage + " damage.");
