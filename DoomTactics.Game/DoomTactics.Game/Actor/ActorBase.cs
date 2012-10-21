@@ -202,6 +202,16 @@ namespace DoomTactics
             // Logger.Debug("Target Position: " + targetPosition + ", My position: " + Position + ", facing direction: " + FacingDirection);
         }
 
+        public virtual void Idle()
+        {
+            
+        }
+
+        public virtual void Pain()
+        {
+            
+        }
+
         public virtual void Die()
         {
 
@@ -291,7 +301,11 @@ namespace DoomTactics
                 damageResult.AffectedActor.CurrentStats.Health -= damageResult.NetDamage;
                 if (damageResult.AffectedActor.CurrentStats.Health <= 0)
                 {
-                    damageResult.AffectedActor.Die();                    
+                    damageResult.AffectedActor.Die();
+                }
+                else
+                {
+                    damageResult.AffectedActor.Pain();
                 }
             }
         }

@@ -62,6 +62,16 @@ namespace DoomTactics
             TextureMap.Add(new AngledSprite("impshoot3", Angle.BackRight), new SpriteRenderDetails(new Rectangle(50, 150, 46, 47), new Vector2(23, 42), SpriteEffects.FlipHorizontally));
             TextureMap.Add(new AngledSprite("impshoot3", Angle.Back), new SpriteRenderDetails(new Rectangle(125, 241, 31, 49), new Vector2(16, 44), SpriteEffects.None));
 
+            TextureMap.Add(new AngledSprite("imppain", Angle.Forward), new SpriteRenderDetails(new Rectangle(274, 0, 41, 55), new Vector2(18, 50), SpriteEffects.None));
+            TextureMap.Add(new AngledSprite("imppain", Angle.ForwardLeft), new SpriteRenderDetails(new Rectangle(93, 225, 31, 56), new Vector2(6, 51), SpriteEffects.None));
+            TextureMap.Add(new AngledSprite("imppain", Angle.ForwardRight), new SpriteRenderDetails(new Rectangle(93, 225, 31, 56), new Vector2(25, 51), SpriteEffects.FlipHorizontally));
+            TextureMap.Add(new AngledSprite("imppain", Angle.Left), new SpriteRenderDetails(new Rectangle(421, 50, 34, 57), new Vector2(12, 52), SpriteEffects.None));
+            TextureMap.Add(new AngledSprite("imppain", Angle.Right), new SpriteRenderDetails(new Rectangle(421, 50, 34, 57), new Vector2(22, 52), SpriteEffects.FlipHorizontally));
+            TextureMap.Add(new AngledSprite("imppain", Angle.BackLeft), new SpriteRenderDetails(new Rectangle(318, 171, 34, 56), new Vector2(9, 51), SpriteEffects.None));
+            TextureMap.Add(new AngledSprite("imppain", Angle.BackRight), new SpriteRenderDetails(new Rectangle(318, 171, 34, 56), new Vector2(25, 51), SpriteEffects.FlipHorizontally));
+            TextureMap.Add(new AngledSprite("imppain", Angle.Back), new SpriteRenderDetails(new Rectangle(357, 0, 39, 57), new Vector2(21, 52), SpriteEffects.None));
+
+
             AddUnangledSprite("impdeath1", new SpriteRenderDetails(new Rectangle(153, 118, 42, 62), new Vector2(22, 57), SpriteEffects.None));
             AddUnangledSprite("impdeath2", new SpriteRenderDetails(new Rectangle(142, 181, 41, 59), new Vector2(21, 54), SpriteEffects.None));
             AddUnangledSprite("impdeath3", new SpriteRenderDetails(new Rectangle(316, 0,   40, 54), new Vector2(18, 54), SpriteEffects.None));

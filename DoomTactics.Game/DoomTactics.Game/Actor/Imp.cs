@@ -9,8 +9,6 @@ namespace DoomTactics
 {
     public class Imp : ActorBase
     {        
-
-
         public Imp(string id, Vector3 position)
             : base(id, position)
         {
@@ -36,7 +34,7 @@ namespace DoomTactics
 
             // animation
             CurrentAnimation = ActorAnimationManager.Make("impshoot", ActorId);
-            CurrentAnimation.OnComplete = () => CurrentAnimation = ActorAnimationManager.Make("impidle", ActorId);
+            CurrentAnimation.OnComplete = Idle;
 
             var tilebox = selectedTile.CreateBoundingBox();
             var average = tilebox.Min + (tilebox.Max - tilebox.Min)/2.0f;
@@ -69,6 +67,17 @@ namespace DoomTactics
                 .Build();                        
 
             return script;
+        }
+
+        public override void Idle()
+        {
+            CurrentAnimation = ActorAnimationManager.Make("impidle", ActorId);
+        }
+
+        public override void Pain()
+        {
+            CurrentAnimation = ActorAnimationManager.Make("imppain", ActorId);
+            CurrentAnimation.OnComplete = Idle;
         }
 
         public override void Die()

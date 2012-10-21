@@ -27,6 +27,13 @@ namespace DoomTactics.Data
                     var impShoot = new ActorAnimation(animList, false, "Prototype");
                     ActorAnimationManager.RegisterAnimation("impshoot", impShoot);
                 }
+                // imp pain
+                {
+                    var anim1 = new AnimationEntry("imppain", TimeSpan.FromMilliseconds(300));
+                    var animList = new List<AnimationEntry>() {anim1};
+                    var impPain = new ActorAnimation(animList, false, "Prototype");
+                    ActorAnimationManager.RegisterAnimation("imppain", impPain);
+                }
                 // imp death
                 {
                     var anim1 = new AnimationEntry("impdeath1", TimeSpan.FromMilliseconds(200));

@@ -18,7 +18,7 @@ namespace DoomTactics
             var damageResult = new DamageResult() {DamageType = DamageType.Physical};
             damageResult.AffectedActor = targeted.ActorInTile;
             damageResult.DamageReduced = 0;
-            damageResult.NetDamage = 550;            
+            damageResult.NetDamage = 350;            
 
             return new List<DamageResult>() {damageResult};
         }
