@@ -162,7 +162,9 @@ namespace DoomTactics
         public void OnDisplayDamage(IDoomEvent displayDamageEvent)
         {
             var evt = (DamageEvent) displayDamageEvent;
-            // display damage            
+            Matrix bill = Matrix.CreateConstrainedBillboard(evt.DamagedActor.Position, Camera.Position, Vector3.Down, Camera.Direction,
+                                                            Vector3.Forward);
+
             Log.Debug("Actor " + evt.DamagedActor.ActorId + " took " + evt.Damage + " damage.");
         }
 

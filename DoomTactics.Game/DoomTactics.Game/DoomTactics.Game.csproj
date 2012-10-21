@@ -128,6 +128,7 @@
     <Compile Include="Actor\Imp.cs" />
     <Compile Include="Actor\ImpFireball.cs" />
     <Compile Include="Actor\ActorSpawnMethods.cs" />
+    <Compile Include="Actor\Text\TimedText.cs" />
     <Compile Include="Controls\ActionMenu.cs" />
     <Compile Include="Controls\Builders\ActionMenuBuilder.cs" />
     <Compile Include="Controls\Builders\ControlBuilder.cs" />
