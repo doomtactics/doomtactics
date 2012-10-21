@@ -147,6 +147,7 @@
     <Compile Include="Event\IDoomEvent.cs" />
     <Compile Include="Event\MessagingHelper.cs" />
     <Compile Include="Event\MessagingSystem.cs" />
+    <Compile Include="Event\TextEvent.cs" />
     <Compile Include="Event\TurnEvent.cs" />
     <Compile Include="Input\GameState\ActionSelectionProcessor.cs" />
     <Compile Include="Input\GameState\FreeCameraInputProcessor.cs" />

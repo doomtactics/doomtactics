@@ -16,20 +16,26 @@ namespace DoomTactics
     public class GameState : IState
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        private readonly DoomTacticsGame _gameInstance;
+        private readonly StateMachine _stateMachine;
 
+        // gameplay
         public Camera Camera;
         public Level Level;
-        public readonly DoomDesktop Desktop;
-        public readonly SquidInputManager SquidInputManager;
+        public IList<TimedText> FloatingTexts;         
         public ActorBase ActiveUnit;
         public StateTransition NextState { get; private set; }
 
-        private readonly DoomTacticsGame _gameInstance;
-        public TileEffect Effect;        
+        // graphics
+        public TileEffect Effect;
         public SpriteBatch SpriteBatch;
         public BasicEffect SpriteEffect;
         public AlphaTestEffect AlphaTestEffect;
-        private readonly StateMachine _stateMachine;
+        public SpriteFont DamageFont;
+
+        // ui
+        public readonly DoomDesktop Desktop;
+        public readonly SquidInputManager SquidInputManager;
 
 
         public GameState(DoomTacticsGame gameInstance, SquidInputManager squidInputManager)
@@ -37,7 +43,7 @@ namespace DoomTactics
             _gameInstance = gameInstance;
             Desktop = new DoomDesktop();
             SquidInputManager = squidInputManager;
-            _stateMachine = new StateMachine(new FreeCamera(this, null));
+            _stateMachine = new StateMachine(new FreeCamera(this, null));            
         }
 
         public void OnEnter()
@@ -45,6 +51,11 @@ namespace DoomTactics
             // setup
             SpriteSheetFactory.Initialize(_gameInstance.Content);
             HardcodedAnimations.CreateAnimations();
+
+            // fonts
+            FloatingTexts = new List<TimedText>();
+            DamageFont = _gameInstance.Content.Load<SpriteFont>("fonts/Doom16");
+
 
             // camera
             float aspectRatio = (float)_gameInstance.Window.ClientBounds.Width / _gameInstance.Window.ClientBounds.Height;
@@ -56,6 +67,7 @@ namespace DoomTactics
             MessagingSystem.Subscribe(OnActorDespawn, DoomEventType.DespawnActor, "gamestate", null);
             MessagingSystem.Subscribe(OnRemoveActorFromTile, DoomEventType.RemoveFromCurrentTile, "gamestate", null);
             MessagingSystem.Subscribe(OnDisplayDamage, DoomEventType.DisplayDamage, "gamestate", null);
+            MessagingSystem.Subscribe(OnDespawnText, DoomEventType.DespawnText, "gamestate", null);
 
             Effect = new TileEffect(_gameInstance.Content);
 
@@ -162,12 +174,17 @@ namespace DoomTactics
         public void OnDisplayDamage(IDoomEvent displayDamageEvent)
         {
             var evt = (DamageEvent) displayDamageEvent;
-            Matrix bill = Matrix.CreateConstrainedBillboard(evt.DamagedActor.Position, Camera.Position, Vector3.Down, Camera.Direction,
-                                                            Vector3.Forward);
+            var floatingText = new TimedText(evt.Damage.ToString(), Vector3.Zero, DamageFont, 2000);
+            FloatingTexts.Add(floatingText);
 
             Log.Debug("Actor " + evt.DamagedActor.ActorId + " took " + evt.Damage + " damage.");
         }
 
+        public void OnDespawnText(IDoomEvent despawnTextEvent)
+        {
+            var evt = (TextEvent) despawnTextEvent;
+            FloatingTexts.Remove(evt.Text);
+        }
 
         public ActorBase GetNextActiveUnit()
         {

@@ -46,6 +46,11 @@ namespace DoomTactics
                 actor.Update(gameTime);
             }
 
+            foreach (var floatingText in GameState.FloatingTexts)
+            {
+                floatingText.Update(gameTime);
+            }
+
             InputProcessor.ProcessInput(Keyboard.GetState(), Mouse.GetState(), gameTime);                        
         }
 
@@ -60,6 +65,7 @@ namespace DoomTactics
 
             RenderTiles(device);
             RenderActors(device);
+            RenderText(device);
         }
 
         private void RenderActors(GraphicsDevice device)
@@ -98,6 +104,16 @@ namespace DoomTactics
             {                
                 tile.Render(device, GameState.Effect);
             }
+        }
+
+        private void RenderText(GraphicsDevice device)
+        {
+            GameState.SpriteBatch.Begin();
+            foreach (var text in GameState.FloatingTexts)
+            {
+                text.Render(device, GameState.SpriteBatch, GameState.SpriteEffect);
+            }
+            GameState.SpriteBatch.End();
         }
     }
 }
