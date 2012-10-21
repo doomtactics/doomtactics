@@ -16,7 +16,7 @@ namespace DoomTactics
         {
             Height = 56;
             Width = 40;
-            CurrentAnimation = ActorAnimationManager.Make("impidle", "testimp");
+            CurrentAnimation = ActorAnimationManager.Make("impidle", ActorId);
             SpriteSheet = SpriteSheetFactory.CreateSpriteSheet(ActorType.Imp);
             MovementVelocityModifier = 3.0f;
         }
@@ -33,6 +33,10 @@ namespace DoomTactics
         {
             // calculate damages
             var damageList = abilityDetails.CalculateDamages(level, selectedTile);
+
+            // animation
+            CurrentAnimation = ActorAnimationManager.Make("impshoot", ActorId);
+            CurrentAnimation.OnComplete = () => CurrentAnimation = ActorAnimationManager.Make("impidle", ActorId);
 
             var tilebox = selectedTile.CreateBoundingBox();
             var average = tilebox.Min + (tilebox.Max - tilebox.Min)/2.0f;

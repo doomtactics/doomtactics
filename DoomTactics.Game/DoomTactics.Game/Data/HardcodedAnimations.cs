@@ -18,6 +18,15 @@ namespace DoomTactics.Data
                     var impIdle = new ActorAnimation(animList, true, "Prototype");
                     ActorAnimationManager.RegisterAnimation("impidle", impIdle);
                 }
+                // Imp shoot
+                {
+                    var anim1 = new AnimationEntry("impshoot1", TimeSpan.FromMilliseconds(200));
+                    var anim2 = new AnimationEntry("impshoot2", TimeSpan.FromMilliseconds(200));
+                    var anim3 = new AnimationEntry("impshoot3", TimeSpan.FromMilliseconds(200));
+                    var animList = new List<AnimationEntry>() {anim1, anim2, anim3};
+                    var impShoot = new ActorAnimation(animList, false, "Prototype");
+                    ActorAnimationManager.RegisterAnimation("impshoot", impShoot);
+                }
 
                 // Imp fireball idle
                 {
