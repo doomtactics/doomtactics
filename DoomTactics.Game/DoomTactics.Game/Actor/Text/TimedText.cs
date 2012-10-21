@@ -38,6 +38,7 @@ namespace DoomTactics
         {
             Matrix bill = Matrix.CreateConstrainedBillboard(_position, camera.Position, Vector3.Down, camera.Direction,
                                                 Vector3.Forward);
+            float xOffset = _font.MeasureString(_text).X/2;
 
             textEffect.World = bill;
             textEffect.View = camera.View;
@@ -48,7 +49,7 @@ namespace DoomTactics
 
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.DepthRead,
                                   RasterizerState.CullNone, textEffect);
-            spriteBatch.DrawString(_font, _text, Vector2.Zero, Color.White);
+            spriteBatch.DrawString(_font, _text, new Vector2(-xOffset, 0), Color.White);
 
             spriteBatch.End();
         }
