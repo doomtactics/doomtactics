@@ -177,7 +177,7 @@ namespace DoomTactics
         {
             var evt = (DamageEvent) displayDamageEvent;
             float yOffset = evt.DamagedActor.Height + DamageFont.MeasureString(evt.Damage.ToString()).Y;            
-            var floatingText = new TimedText(evt.Damage.ToString(), evt.DamagedActor.Position + new Vector3(0, yOffset, 0), DamageFont, 200000, 1, Color.Red, Color.Black);
+            var floatingText = new TimedText(evt.Damage.ToString(), evt.DamagedActor.Position + new Vector3(0, yOffset, 0), DamageFont, 1500, 1, Color.Red, Color.Black);
             FloatingTexts.Add(floatingText);
 
             Log.Debug("Actor " + evt.DamagedActor.ActorId + " took " + evt.Damage + " damage.");
