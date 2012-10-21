@@ -62,8 +62,11 @@ namespace DoomTactics
             TextureMap.Add(new AngledSprite("impshoot3", Angle.BackRight), new SpriteRenderDetails(new Rectangle(50, 150, 46, 47), new Vector2(23, 42), SpriteEffects.FlipHorizontally));
             TextureMap.Add(new AngledSprite("impshoot3", Angle.Back), new SpriteRenderDetails(new Rectangle(125, 241, 31, 49), new Vector2(16, 44), SpriteEffects.None));
 
-
-
+            AddUnangledSprite("impdeath1", new SpriteRenderDetails(new Rectangle(153, 118, 42, 62), new Vector2(22, 57), SpriteEffects.None));
+            AddUnangledSprite("impdeath2", new SpriteRenderDetails(new Rectangle(142, 181, 41, 59), new Vector2(21, 54), SpriteEffects.None));
+            AddUnangledSprite("impdeath3", new SpriteRenderDetails(new Rectangle(316, 0,   40, 54), new Vector2(18, 54), SpriteEffects.None));
+            AddUnangledSprite("impdeath4", new SpriteRenderDetails(new Rectangle(58,  103, 48, 46), new Vector2(23, 45), SpriteEffects.None));
+            AddUnangledSprite("impdeath5", new SpriteRenderDetails(new Rectangle(60,  0,   58, 22), new Vector2(29, 19), SpriteEffects.None));
 
 
         }
