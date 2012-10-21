@@ -9,6 +9,8 @@ namespace DoomTactics
 {
     public class Imp : ActorBase
     {        
+
+
         public Imp(string id, Vector3 position)
             : base(id, position)
         {
@@ -60,6 +62,12 @@ namespace DoomTactics
         {
             BaseStats = GameplayStats.DefaultStats(ActorType.Imp);
             CurrentStats = BaseStats.CopyStats();
+        }
+
+        public override void SetupAbilityList()
+        {
+            var fireball = new AbilityInformation(new ImpFireballDetails(CurrentStats), ShootFireball);
+            AbilityList.Add(fireball);
         }
     }
 }
