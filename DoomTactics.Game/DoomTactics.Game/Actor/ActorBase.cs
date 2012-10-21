@@ -285,7 +285,9 @@ namespace DoomTactics
         {
             foreach (var damageResult in damageResults)
             {
-                // dispatch event
+                var damageEvent = new DamageEvent(DoomEventType.DisplayDamage, damageResult.NetDamage,
+                                                  damageResult.AffectedActor);
+                MessagingSystem.DispatchEvent(damageEvent, ActorId);
                 damageResult.AffectedActor.CurrentStats.Health -= damageResult.NetDamage;
                 if (damageResult.AffectedActor.CurrentStats.Health <= 0)
                 {
