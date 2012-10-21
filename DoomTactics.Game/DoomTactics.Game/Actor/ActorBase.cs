@@ -28,6 +28,7 @@ namespace DoomTactics
 
         public GameplayStats BaseStats;
         public GameplayStats CurrentStats;
+        public IList<AbilityInformation> AbilityList;
 
         public virtual SpriteSheet SpriteSheet
         {
@@ -64,7 +65,9 @@ namespace DoomTactics
             Velocity = velocity;
             FacingDirection = Vector3.Forward;
             Team = team;
+            AbilityList = new List<AbilityInformation>();
             SetupStats();
+            SetupAbilityList();
         }
 
         public virtual void Update(GameTime elapsedTime)
@@ -74,6 +77,11 @@ namespace DoomTactics
         }
 
         public abstract void SetupStats();
+        public virtual void SetupAbilityList()
+        {
+
+        }
+
 
         public void IncreaseCT()
         {
@@ -271,6 +279,21 @@ namespace DoomTactics
               
             }
             return scriptBuilder.Build();
+        }
+
+        protected void ApplyAndDisplayDamages(IList<DamageResult> damageResults)
+        {
+            foreach (var damageResult in damageResults)
+            {
+                var damageEvent = new DamageEvent(DoomEventType.DisplayDamage, damageResult.NetDamage,
+                                                  damageResult.AffectedActor);
+                MessagingSystem.DispatchEvent(damageEvent, ActorId);
+                damageResult.AffectedActor.CurrentStats.Health -= damageResult.NetDamage;
+                if (damageResult.AffectedActor.CurrentStats.Health <= 0)
+                {
+                    damageResult.AffectedActor.Die();                    
+                }
+            }
         }
 
         private Vector3 GetDirectionToPoint(Vector3 targetPosition)

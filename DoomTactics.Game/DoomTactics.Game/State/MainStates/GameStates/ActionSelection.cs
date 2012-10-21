@@ -31,12 +31,14 @@ namespace DoomTactics
 
             if (_actionSubMenu == null)
             {
-                _actionSubMenu = new ActionMenuBuilder()
-                    .AsSubMenu()
-                    .Action("Fireball", (ctl, e) => SwitchToTargetSelection((_actionActor as Imp).ShootFireball(GameState.Level)))
-                    .Action("Eviscerate", null)
-                    .Size(200, 200)
-                    .Build();
+                var menuBuilder = new ActionMenuBuilder().AsSubMenu();
+                foreach (var ability in _actionActor.AbilityList)
+                {
+                    var selectedAbility = ability;
+                    menuBuilder.Action(ability.AbilityDetails.AbilityName, (ctl, e) => SwitchToTargetSelection(selectedAbility.AbilityMethod(GameState.Level, ability.AbilityDetails)));
+                }
+                menuBuilder.Size(200, 200);
+                _actionSubMenu = menuBuilder.Build();
             }
             if (_actionMenu == null)
             {

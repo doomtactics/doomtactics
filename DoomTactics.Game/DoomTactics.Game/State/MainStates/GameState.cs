@@ -55,6 +55,7 @@ namespace DoomTactics
             MessagingSystem.Subscribe(OnActorSpawn, DoomEventType.SpawnActor, "gamestate", null);
             MessagingSystem.Subscribe(OnActorDespawn, DoomEventType.DespawnActor, "gamestate", null);
             MessagingSystem.Subscribe(OnRemoveActorFromTile, DoomEventType.RemoveFromCurrentTile, "gamestate", null);
+            MessagingSystem.Subscribe(OnDisplayDamage, DoomEventType.DisplayDamage, "gamestate", null);
 
             Effect = new TileEffect(_gameInstance.Content);
 
@@ -157,6 +158,14 @@ namespace DoomTactics
                 tile.SetActor(null);
             }
         }
+
+        public void OnDisplayDamage(IDoomEvent displayDamageEvent)
+        {
+            var evt = (DamageEvent) displayDamageEvent;
+            // display damage            
+            Log.Debug("Actor " + evt.DamagedActor.ActorId + " took " + evt.Damage + " damage.");
+        }
+
 
         public ActorBase GetNextActiveUnit()
         {

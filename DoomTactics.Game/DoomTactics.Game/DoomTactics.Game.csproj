@@ -117,6 +117,12 @@
     <Compile Include="Actions\ActionInformation.cs" />
     <Compile Include="Actions\ActionType.cs" />
     <Compile Include="Actions\TileSelector.cs" />
+    <Compile Include="Actor\Abilities\AbilityDetails.cs" />
+    <Compile Include="Actor\Abilities\AbilityInformation.cs" />
+    <Compile Include="Actor\Abilities\AbilityType.cs" />
+    <Compile Include="Actor\Abilities\DamageResult.cs" />
+    <Compile Include="Actor\Abilities\DamageType.cs" />
+    <Compile Include="Actor\Abilities\ImpFireballDetails.cs" />
     <Compile Include="Actor\ActorBase.cs" />
     <Compile Include="Actor\GameplayStats.cs" />
     <Compile Include="Actor\Imp.cs" />
@@ -134,6 +140,7 @@
     <Compile Include="Event\AnimationEvent.cs" />
     <Compile Include="Event\AnimationScriptEvent.cs" />
     <Compile Include="Event\CameraEvent.cs" />
+    <Compile Include="Event\DamageEvent.cs" />
     <Compile Include="Event\DespawnActorEvent.cs" />
     <Compile Include="Event\DoomEvent.cs" />
     <Compile Include="Event\IDoomEvent.cs" />
