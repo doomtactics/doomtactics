@@ -35,7 +35,7 @@ namespace DoomTactics
                 foreach (var ability in _actionActor.AbilityList)
                 {
                     var selectedAbility = ability;
-                    menuBuilder.Action(ability.AbilityDetails.AbilityName, (ctl, e) => SwitchToTargetSelection(selectedAbility.AbilityMethod(GameState.Level)));
+                    menuBuilder.Action(ability.AbilityDetails.AbilityName, (ctl, e) => SwitchToTargetSelection(selectedAbility.AbilityMethod(GameState.Level, ability.AbilityDetails)));
                 }
                 menuBuilder.Size(200, 200);
                 _actionSubMenu = menuBuilder.Build();
