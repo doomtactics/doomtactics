@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using DoomTactics.Controls;
@@ -16,20 +17,27 @@ namespace DoomTactics
     public class GameState : IState
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
+        private readonly DoomTacticsGame _gameInstance;
+        private readonly StateMachine _stateMachine;
 
+        // gameplay
         public Camera Camera;
         public Level Level;
-        public readonly DoomDesktop Desktop;
-        public readonly SquidInputManager SquidInputManager;
+        public IList<TimedText> FloatingTexts;         
         public ActorBase ActiveUnit;
         public StateTransition NextState { get; private set; }
 
-        private readonly DoomTacticsGame _gameInstance;
-        public TileEffect Effect;        
+        // graphics
+        public TileEffect Effect;
         public SpriteBatch SpriteBatch;
         public BasicEffect SpriteEffect;
+        public AlphaTestEffect TextEffect;
         public AlphaTestEffect AlphaTestEffect;
-        private readonly StateMachine _stateMachine;
+        public SpriteFont DamageFont;
+
+        // ui
+        public readonly DoomDesktop Desktop;
+        public readonly SquidInputManager SquidInputManager;
 
 
         public GameState(DoomTacticsGame gameInstance, SquidInputManager squidInputManager)
@@ -37,7 +45,7 @@ namespace DoomTactics
             _gameInstance = gameInstance;
             Desktop = new DoomDesktop();
             SquidInputManager = squidInputManager;
-            _stateMachine = new StateMachine(new FreeCamera(this, null));
+            _stateMachine = new StateMachine(new FreeCamera(this, null));            
         }
 
         public void OnEnter()
@@ -45,6 +53,10 @@ namespace DoomTactics
             // setup
             SpriteSheetFactory.Initialize(_gameInstance.Content);
             HardcodedAnimations.CreateAnimations();
+
+            // fonts
+            FloatingTexts = new List<TimedText>();
+            DamageFont = _gameInstance.Content.Load<SpriteFont>("fonts/Doom12");
 
             // camera
             float aspectRatio = (float)_gameInstance.Window.ClientBounds.Width / _gameInstance.Window.ClientBounds.Height;
@@ -56,6 +68,7 @@ namespace DoomTactics
             MessagingSystem.Subscribe(OnActorDespawn, DoomEventType.DespawnActor, "gamestate", null);
             MessagingSystem.Subscribe(OnRemoveActorFromTile, DoomEventType.RemoveFromCurrentTile, "gamestate", null);
             MessagingSystem.Subscribe(OnDisplayDamage, DoomEventType.DisplayDamage, "gamestate", null);
+            MessagingSystem.Subscribe(OnDespawnText, DoomEventType.DespawnText, "gamestate", null);
 
             Effect = new TileEffect(_gameInstance.Content);
 
@@ -64,6 +77,7 @@ namespace DoomTactics
             SpriteBatch = new SpriteBatch(_gameInstance.GraphicsDevice);
             SpriteEffect = new BasicEffect(_gameInstance.GraphicsDevice);
             AlphaTestEffect = new AlphaTestEffect(_gameInstance.GraphicsDevice);
+            TextEffect = new AlphaTestEffect(_gameInstance.GraphicsDevice);
         }
 
         public void OnExit()
@@ -162,10 +176,18 @@ namespace DoomTactics
         public void OnDisplayDamage(IDoomEvent displayDamageEvent)
         {
             var evt = (DamageEvent) displayDamageEvent;
-            // display damage            
+            float yOffset = evt.DamagedActor.Height + DamageFont.MeasureString(evt.Damage.ToString()).Y;            
+            var floatingText = new TimedText(evt.Damage.ToString(), evt.DamagedActor.Position + new Vector3(0, yOffset, 0), DamageFont, 200000, 1, Color.Red, Color.Black);
+            FloatingTexts.Add(floatingText);
+
             Log.Debug("Actor " + evt.DamagedActor.ActorId + " took " + evt.Damage + " damage.");
         }
 
+        public void OnDespawnText(IDoomEvent despawnTextEvent)
+        {
+            var evt = (TextEvent) despawnTextEvent;
+            FloatingTexts.Remove(evt.Text);
+        }
 
         public ActorBase GetNextActiveUnit()
         {

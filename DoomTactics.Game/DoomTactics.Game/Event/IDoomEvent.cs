@@ -19,6 +19,9 @@
 
         // damage
         DisplayDamage,
+        
+        // text
+        DespawnText,
 
         // scripting
         AnimationScriptStart,
