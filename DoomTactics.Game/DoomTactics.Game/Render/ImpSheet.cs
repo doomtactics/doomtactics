@@ -34,6 +34,38 @@ namespace DoomTactics
             TextureMap.Add(new AngledSprite("impidle2", Angle.BackLeft), new SpriteRenderDetails(new Rectangle(392, 108, 33, 47), new Vector2(19, 42), SpriteEffects.None));
             TextureMap.Add(new AngledSprite("impidle2", Angle.BackRight), new SpriteRenderDetails(new Rectangle(392, 108, 33, 47), new Vector2(14, 42), SpriteEffects.FlipHorizontally));
             TextureMap.Add(new AngledSprite("impidle2", Angle.Back), new SpriteRenderDetails(new Rectangle(426, 108, 33, 46), new Vector2(20, 41), SpriteEffects.None));
+
+            TextureMap.Add(new AngledSprite("impshoot1", Angle.Forward), new SpriteRenderDetails(new Rectangle(0, 114, 49, 60), new Vector2(30, 55), SpriteEffects.None));
+            TextureMap.Add(new AngledSprite("impshoot1", Angle.ForwardLeft), new SpriteRenderDetails(new Rectangle(426, 155, 32, 56), new Vector2(11, 51), SpriteEffects.None));
+            TextureMap.Add(new AngledSprite("impshoot1", Angle.ForwardRight), new SpriteRenderDetails(new Rectangle(426, 155, 32, 56), new Vector2(21, 51), SpriteEffects.FlipHorizontally));
+            TextureMap.Add(new AngledSprite("impshoot1", Angle.Left), new SpriteRenderDetails(new Rectangle(239, 119, 39, 49), new Vector2(23, 44), SpriteEffects.None));
+            TextureMap.Add(new AngledSprite("impshoot1", Angle.Right), new SpriteRenderDetails(new Rectangle(239, 119, 39, 49), new Vector2(16, 44), SpriteEffects.FlipHorizontally));
+            TextureMap.Add(new AngledSprite("impshoot1", Angle.BackLeft), new SpriteRenderDetails(new Rectangle(356, 157, 34, 47), new Vector2(20, 42), SpriteEffects.None));
+            TextureMap.Add(new AngledSprite("impshoot1", Angle.BackRight), new SpriteRenderDetails(new Rectangle(356, 157, 34, 47), new Vector2(14, 42), SpriteEffects.FlipHorizontally));
+            TextureMap.Add(new AngledSprite("impshoot1", Angle.Back), new SpriteRenderDetails(new Rectangle(345, 58, 38, 48), new Vector2(17, 43), SpriteEffects.None));
+
+            TextureMap.Add(new AngledSprite("impshoot2", Angle.Forward), new SpriteRenderDetails(new Rectangle(97, 169, 44, 55), new Vector2(18, 50), SpriteEffects.None));
+            TextureMap.Add(new AngledSprite("impshoot2", Angle.ForwardLeft), new SpriteRenderDetails(new Rectangle(47, 198, 45, 54), new Vector2(25, 49), SpriteEffects.None));
+            TextureMap.Add(new AngledSprite("impshoot2", Angle.ForwardRight), new SpriteRenderDetails(new Rectangle(47, 198, 45, 54), new Vector2(20, 49), SpriteEffects.FlipHorizontally));
+            TextureMap.Add(new AngledSprite("impshoot2", Angle.Left), new SpriteRenderDetails(new Rectangle(196, 118, 42, 49), new Vector2(18, 44), SpriteEffects.None));
+            TextureMap.Add(new AngledSprite("impshoot2", Angle.Right), new SpriteRenderDetails(new Rectangle(196, 118, 42, 49), new Vector2(24, 44), SpriteEffects.FlipHorizontally));
+            TextureMap.Add(new AngledSprite("impshoot2", Angle.BackLeft), new SpriteRenderDetails(new Rectangle(384, 58, 36, 47), new Vector2(16, 42), SpriteEffects.None));
+            TextureMap.Add(new AngledSprite("impshoot2", Angle.BackRight), new SpriteRenderDetails(new Rectangle(384, 58, 36, 47), new Vector2(20, 42), SpriteEffects.FlipHorizontally));
+            TextureMap.Add(new AngledSprite("impshoot2", Angle.Back), new SpriteRenderDetails(new Rectangle(353, 205, 33, 46), new Vector2(12, 41), SpriteEffects.None));
+
+            TextureMap.Add(new AngledSprite("impshoot3", Angle.Forward), new SpriteRenderDetails(new Rectangle(0, 235, 32, 55), new Vector2(5, 50), SpriteEffects.None));
+            TextureMap.Add(new AngledSprite("impshoot3", Angle.ForwardLeft), new SpriteRenderDetails(new Rectangle(176, 0, 55, 55), new Vector2(25, 50), SpriteEffects.None));
+            TextureMap.Add(new AngledSprite("impshoot3", Angle.ForwardRight), new SpriteRenderDetails(new Rectangle(176, 0, 55, 55), new Vector2(30, 50), SpriteEffects.FlipHorizontally));
+            TextureMap.Add(new AngledSprite("impshoot3", Angle.Left), new SpriteRenderDetails(new Rectangle(0, 0, 59, 51), new Vector2(27, 46), SpriteEffects.None));
+            TextureMap.Add(new AngledSprite("impshoot3", Angle.Right), new SpriteRenderDetails(new Rectangle(0, 0, 59, 51), new Vector2(32, 46), SpriteEffects.FlipHorizontally));
+            TextureMap.Add(new AngledSprite("impshoot3", Angle.BackLeft), new SpriteRenderDetails(new Rectangle(50, 150, 46, 47), new Vector2(23, 42), SpriteEffects.None));
+            TextureMap.Add(new AngledSprite("impshoot3", Angle.BackRight), new SpriteRenderDetails(new Rectangle(50, 150, 46, 47), new Vector2(23, 42), SpriteEffects.FlipHorizontally));
+            TextureMap.Add(new AngledSprite("impshoot3", Angle.Back), new SpriteRenderDetails(new Rectangle(125, 241, 31, 49), new Vector2(16, 44), SpriteEffects.None));
+
+
+
+
+
         }
     }
 }

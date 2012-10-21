@@ -12,7 +12,13 @@ namespace DoomTactics
         private readonly List<AnimationEntry> _animations;
         private readonly string _entityName;
         private readonly bool _loop;
-        private int _currentIndex;        
+        private int _currentIndex;
+        private Action _onComplete;
+
+        public Action OnComplete
+        {
+            set { _onComplete = value; }
+        }
 
         public ActorAnimation(bool loop, string entityName) : this(null, loop, entityName)
         {
@@ -53,8 +59,10 @@ namespace DoomTactics
                 }
                 else
                 {
+                    if (_onComplete != null)
+                        _onComplete.Invoke();
                     var evt = new DoomEvent(DoomEventType.AnimationEnd);
-                    MessagingSystem.DispatchEvent(evt, _entityName);
+                    MessagingSystem.DispatchEvent(evt, _entityName);                    
                 }
             }
         }
