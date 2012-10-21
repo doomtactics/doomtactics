@@ -281,6 +281,19 @@ namespace DoomTactics
             return scriptBuilder.Build();
         }
 
+        protected void ApplyAndDisplayDamages(IList<DamageResult> damageResults)
+        {
+            foreach (var damageResult in damageResults)
+            {
+                // dispatch event
+                damageResult.AffectedActor.CurrentStats.Health -= damageResult.NetDamage;
+                if (damageResult.AffectedActor.CurrentStats.Health <= 0)
+                {
+                    damageResult.AffectedActor.Die();                    
+                }
+            }
+        }
+
         private Vector3 GetDirectionToPoint(Vector3 targetPosition)
         {
             return Vector3.Normalize(targetPosition - Position);

@@ -140,6 +140,7 @@
     <Compile Include="Event\AnimationEvent.cs" />
     <Compile Include="Event\AnimationScriptEvent.cs" />
     <Compile Include="Event\CameraEvent.cs" />
+    <Compile Include="Event\DamageEvent.cs" />
     <Compile Include="Event\DespawnActorEvent.cs" />
     <Compile Include="Event\DoomEvent.cs" />
     <Compile Include="Event\IDoomEvent.cs" />

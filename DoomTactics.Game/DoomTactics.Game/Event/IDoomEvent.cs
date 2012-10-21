@@ -17,6 +17,9 @@
         DespawnActor,
         RemoveFromCurrentTile,
 
+        // damage
+        DisplayDamage,
+
         // scripting
         AnimationScriptStart,
         AnimationScriptComplete,

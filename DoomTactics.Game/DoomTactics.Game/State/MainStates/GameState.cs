@@ -158,6 +158,13 @@ namespace DoomTactics
             }
         }
 
+        public void OnDisplayDamage(IDoomEvent displayDamageEvent)
+        {
+            var evt = (DamageEvent) displayDamageEvent;
+            // display damage
+        }
+
+
         public ActorBase GetNextActiveUnit()
         {
             return Level.Actors.FirstOrDefault(x => x.CurrentStats.ChargeTime == 100 && x != ActiveUnit);

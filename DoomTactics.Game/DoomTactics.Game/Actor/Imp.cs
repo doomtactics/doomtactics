@@ -55,7 +55,12 @@ namespace DoomTactics
                     .OnComplete(impFireball.Die)
                 .Segment()
                     .EndOnEvent(DoomEventType.AnimationEnd, impFireball.ActorId)
-                    .OnComplete(() => MessagingSystem.DispatchEvent(new DespawnActorEvent(DoomEventType.DespawnActor, impFireball), ActorId))
+                    .OnComplete(() =>
+                                    {
+                                        ApplyAndDisplayDamages(damageList);
+                                        MessagingSystem.DispatchEvent(
+                                            new DespawnActorEvent(DoomEventType.DespawnActor, impFireball), ActorId);
+                                    })
                 .Build();                        
 
             return script;
