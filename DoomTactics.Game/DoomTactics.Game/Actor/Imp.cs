@@ -56,18 +56,24 @@ namespace DoomTactics
                                      MessagingSystem.DispatchEvent(spawnEvent, ActorId);
                                  })
                     .EndCondition(() => targetBoundingBox.Contains(impFireball.Position) == ContainmentType.Contains)
-                    .OnComplete(impFireball.Die)
-                .Segment()
-                    .EndOnEvent(DoomEventType.AnimationEnd, impFireball.ActorId)
                     .OnComplete(() =>
                                     {
                                         ApplyAndDisplayDamages(damageList);
-                                        MessagingSystem.DispatchEvent(
-                                            new DespawnActorEvent(DoomEventType.DespawnActor, impFireball), ActorId);
+                                        impFireball.Die();
                                     })
+                .Segment()
+                    .EndOnEvent(DoomEventType.AnimationEnd, impFireball.ActorId)
+                    .OnComplete(() => 
+                        MessagingSystem.DispatchEvent(new DespawnActorEvent(DoomEventType.DespawnActor, impFireball), ActorId)
+                        )
                 .Build();                        
 
             return script;
+        }
+
+        public override void Die()
+        {
+            CurrentAnimation = ActorAnimationManager.Make("impdie", ActorId);
         }
 
         public override void SetupStats()
