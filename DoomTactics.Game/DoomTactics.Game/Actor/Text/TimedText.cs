@@ -47,8 +47,9 @@ namespace DoomTactics
 
         public void Render(GraphicsDevice device, Camera camera, SpriteBatch spriteBatch, AlphaTestEffect textEffect)
         {
-            Matrix bill = Matrix.CreateConstrainedBillboard(_position, camera.Position, Vector3.Down, camera.Direction,
-                                                Vector3.Forward);
+            Matrix bill = Matrix.CreateBillboard(_position, camera.Position, Vector3.Down, camera.Direction);
+            //Matrix bill = Matrix.CreateConstrainedBillboard(_position, camera.Position, Vector3.Down, camera.Direction,
+            //                                    Vector3.Forward);
             float xOffset = _font.MeasureString(_text).X/2;
 
             textEffect.World = bill;

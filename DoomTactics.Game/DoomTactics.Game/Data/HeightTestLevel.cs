@@ -29,8 +29,8 @@ namespace DoomTactics.Data
                     int index = i * length + j;
                     var tileData = new TileData();
 
-                    tileData.YPosition = 32.0f;
-                    tileData.VisualHeight = tileData.YPosition;
+                    tileData.YPosition = 1.0f;
+                    tileData.VisualHeight = 32.0f;
                     tileData.TopTextureName = FloorTexture;
                     tileData.NorthTextureName = WallTexture1;
                     tileData.SouthTextureName = WallTexture1;
@@ -46,11 +46,11 @@ namespace DoomTactics.Data
             {
                 // top row
                 data.TileDatas[i].VisualHeight = 160f;
-                data.TileDatas[i].YPosition = 160f;
+                data.TileDatas[i].YPosition = 7.0f;
 
                 // bottom
                 data.TileDatas[(length) * (width - 1) + i].VisualHeight = 160f;
-                data.TileDatas[(length) * (width - 1) + i].YPosition = 160f;
+                data.TileDatas[(length) * (width - 1) + i].YPosition = 7.0f;
             }
 
             // center area - raised platform
@@ -59,7 +59,7 @@ namespace DoomTactics.Data
                 for (int j = 5; j <= 6; j++)
                 {
                     data.TileDatas[i * length + j].VisualHeight = 160f;
-                    data.TileDatas[i * length + j].YPosition = 160f;
+                    data.TileDatas[i * length + j].YPosition = 7.0f;
                     data.TileDatas[i * length + j].NorthTextureName = WallTexture2;
                     data.TileDatas[i * length + j].SouthTextureName = WallTexture2;
                     data.TileDatas[i * length + j].EastTextureName = WallTexture2;
@@ -70,12 +70,14 @@ namespace DoomTactics.Data
             // stairs
             int[] indexes = new int[] {7*length + 4, 8*length + 4, 9*length + 4, 9*length + 5, 9*length + 6};
             float height = 32.0f + 24.0f;
+            float gameHeight = 2.0f;
             foreach (int index in indexes)
             {
                 data.TileDatas[index].VisualHeight = height;
-                data.TileDatas[index].YPosition = height;
+                data.TileDatas[index].YPosition = gameHeight;
                 data.TileDatas[index].TopTextureName = CenterFloorTexture;
                 height += 24;
+                gameHeight += 1.0f;
             }
 
 
