@@ -67,3 +67,5 @@ packages/
 # Assets
 *.ttf
 *.png
+*.wav
+*.mp3
