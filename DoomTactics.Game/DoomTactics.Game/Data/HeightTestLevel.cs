@@ -53,15 +53,41 @@ namespace DoomTactics.Data
                 data.TileDatas[(length) * (width - 1) + i].YPosition = 160f;
             }
 
-            var impOne = new ActorInfo() { ActorType = ActorType.Imp, DisplayName = "Imp1", Name = "Imp1", TileX = 0, TileY = 0, Team = 1 };
-            var impTwo = new ActorInfo() { ActorType = ActorType.Imp, DisplayName = "Imp2", Name = "Imp2", TileX = 1, TileY = 0, Team = 1 };
+            // center area - raised platform
+            for (int i = 7; i <= 8; i++)
+            {
+                for (int j = 5; j <= 6; j++)
+                {
+                    data.TileDatas[i * length + j].VisualHeight = 160f;
+                    data.TileDatas[i * length + j].YPosition = 160f;
+                    data.TileDatas[i * length + j].NorthTextureName = WallTexture2;
+                    data.TileDatas[i * length + j].SouthTextureName = WallTexture2;
+                    data.TileDatas[i * length + j].EastTextureName = WallTexture2;
+                    data.TileDatas[i * length + j].WestTextureName = WallTexture2;
+                }
+            }
+
+            // stairs
+            int[] indexes = new int[] {7*length + 4, 8*length + 4, 9*length + 4, 9*length + 5, 9*length + 6};
+            float height = 32.0f + 24.0f;
+            foreach (int index in indexes)
+            {
+                data.TileDatas[index].VisualHeight = height;
+                data.TileDatas[index].YPosition = height;
+                data.TileDatas[index].TopTextureName = CenterFloorTexture;
+                height += 24;
+            }
+
+
+            var impOne = new ActorInfo() { ActorType = ActorType.Imp, DisplayName = "Imp1", Name = "Imp1", TileX = 7, TileY = 2, Team = 1 };
+            var impTwo = new ActorInfo() { ActorType = ActorType.Imp, DisplayName = "Imp2", Name = "Imp2", TileX = 7, TileY = 3, Team = 1 };
             var impThree = new ActorInfo()
             {
                 ActorType = ActorType.Imp,
                 DisplayName = "Imp3",
                 Name = "Team2Imp3",
-                TileX = 5,
-                TileY = 3,
+                TileX = 2,
+                TileY = 7,
                 Team = 2,
             };
             var impFour = new ActorInfo()
@@ -69,8 +95,8 @@ namespace DoomTactics.Data
                 ActorType = ActorType.Imp,
                 DisplayName = "Imp4",
                 Name = "Team2Imp4",
-                TileX = 6,
-                TileY = 3,
+                TileX = 2,
+                TileY = 8,
                 Team = 2
             };
 
@@ -90,19 +116,7 @@ namespace DoomTactics.Data
 
 
 
-            // center area - raised platform
-            for (int i = 7; i <= 8; i++)
-            {
-                for (int j = 5; j <= 6; j++)
-                {
-                    data.TileDatas[i * length + j].VisualHeight = 160f;
-                    data.TileDatas[i * length + j].YPosition = 160f;
-                    data.TileDatas[i * length + j].NorthTextureName = WallTexture2;
-                    data.TileDatas[i * length + j].SouthTextureName = WallTexture2;
-                    data.TileDatas[i * length + j].EastTextureName = WallTexture2;
-                    data.TileDatas[i * length + j].WestTextureName = WallTexture2;
-                }
-            }
+
 
             data.BackgroundTextureName = "textures\\doom\\sky3";
 
