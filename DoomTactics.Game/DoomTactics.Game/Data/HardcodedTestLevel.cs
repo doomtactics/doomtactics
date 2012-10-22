@@ -25,8 +25,8 @@ namespace DoomTactics.Data
                     int index = i*length + j;
                     var tileData = new TileData();
 
-                    tileData.YPosition = 24.0f;
-                    tileData.VisualHeight = tileData.YPosition;
+                    tileData.YPosition = 24.0m;
+                    tileData.VisualHeight = 24;
                     tileData.TopTextureName = GetRandomFloor();
                     tileData.NorthTextureName = GetRandomTexture();
                     tileData.SouthTextureName = GetRandomTexture();

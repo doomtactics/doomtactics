@@ -20,7 +20,7 @@ namespace DoomTactics
     [Serializable]
     public class TileData
     {
-        public float YPosition;
+        public decimal YPosition;
         public float VisualHeight;
         public string TopTextureName;
         public string NorthTextureName;

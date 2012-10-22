@@ -15,16 +15,15 @@ namespace DoomTactics
         public string ActorId;
         public int Height;
         public int Width;
-               
         public bool IncreaseChargeTime;
         
         protected ActorAnimation CurrentAnimation;
         public Vector3 Position;
         public Vector3 Velocity;
         public Vector3 FacingDirection;
-        public int Team;
+        public int Team;        
 
-        public virtual float MovementVelocityModifier { get; protected set; }
+        public virtual float MovementVelocityModifier { get; protected set; }        
 
         public GameplayStats BaseStats;
         public GameplayStats CurrentStats;

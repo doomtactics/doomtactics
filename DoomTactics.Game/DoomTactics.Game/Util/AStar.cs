@@ -114,7 +114,11 @@ namespace DoomTactics
                 return false;
             }
 
+            var currentTile = level.GetTileAt(currentX, currentY);
             var candidateTile = level.GetTileAt(candidateX, candidateY);
+
+            if (Math.Abs(currentTile.GameHeight - candidateTile.GameHeight) > actor.CurrentStats.MaximumHeightCanMove)
+                return false;
 
             if (candidateTile.ActorInTile != null && candidateTile.ActorInTile.Team != actor.Team)
                 return false;

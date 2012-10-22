@@ -16,6 +16,7 @@ namespace DoomTactics
         public int Speed;
         public int ChargeTime;
         public int MovementRange;
+        public decimal MaximumHeightCanMove;
 
         public static GameplayStats Statsless()
         {
@@ -35,7 +36,8 @@ namespace DoomTactics
                                Armor = 20,
                                DR = 15,
                                Speed = 6,
-                               MovementRange = 3
+                               MovementRange = 3,
+                               MaximumHeightCanMove = 1
                            };
             }
 
@@ -53,7 +55,8 @@ namespace DoomTactics
                            Armor = this.Armor,
                            DR = this.DR,
                            Speed = this.Speed,
-                           MovementRange = this.MovementRange
+                           MovementRange = this.MovementRange,
+                           MaximumHeightCanMove = this.MaximumHeightCanMove
                        };
         }
     }

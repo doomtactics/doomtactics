@@ -184,6 +184,7 @@ namespace DoomTactics
             _model = new TileModel(tileTextures, position, visualHeight);
             XCoord = xcoord;
             YCoord = ycoord;
+            GameHeight = gameHeight;
             Tint = new Vector4(1.0f);
         }
 
