@@ -137,6 +137,7 @@
     <Compile Include="Controls\Builders\DoomWindowBuilder.cs" />
     <Compile Include="Data\HardcodedAnimations.cs" />
     <Compile Include="Data\HardcodedTestLevel.cs" />
+    <Compile Include="Data\HeightTestLevel.cs" />
     <Compile Include="Event\ActorEvent.cs" />
     <Compile Include="Event\AnimationEvent.cs" />
     <Compile Include="Event\AnimationScriptEvent.cs" />

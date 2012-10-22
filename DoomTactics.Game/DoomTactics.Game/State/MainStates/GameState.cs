@@ -137,7 +137,8 @@ namespace DoomTactics
 
         private void CreateLevelTemp(ContentManager contentManager)
         {
-            var tempLevelData = HardcodedTestLevel.CreateLevel();
+            //var tempLevelData = HardcodedTestLevel.CreateLevel();
+            var tempLevelData = HeightTestLevel.CreateLevel();
             Level = LevelFactory.CreateLevel(contentManager, tempLevelData);
         }
 
