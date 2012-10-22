@@ -63,3 +63,7 @@ packages/
 #Test files
 *.testsettings
 *.cachefile
+
+# Assets
+*.ttf
+*.png
