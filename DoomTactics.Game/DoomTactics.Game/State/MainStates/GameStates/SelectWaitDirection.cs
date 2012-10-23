@@ -52,8 +52,9 @@ namespace DoomTactics
         private void SetActorWaitDirection(Vector2 mousePosition, bool snapDirection)
         {
             Ray ray = GameState.CreateRayFromMouseCursorPosition(mousePosition);
+            Tile tile = GameState.Level.GetTileOfActor(GameState.ActiveUnit);
 
-            var plane = new Plane(Vector3.Down, 0);
+            var plane = new Plane(Vector3.Down, tile.CreateBoundingBox().Max.Y);
             float? distance = ray.Intersects(plane);
             if (distance != null)
             {
