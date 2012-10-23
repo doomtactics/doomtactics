@@ -13,9 +13,17 @@ namespace DoomTactics
             return new TileSelector(tileList);
         }
 
-        public static TileSelector EnemyTileSelector(Level level, int myTeam)
+        public static TileSelector EnemyTileSelector(Level level, Tile currentTile, int myTeam, int maxRange)
         {
-            var tileList = level.Tiles.Where(x => x.ActorInTile != null && x.ActorInTile.Team != myTeam).ToList();
+            var candidateTileList = level.Tiles.Where(x => x.ActorInTile != null && x.ActorInTile.Team != myTeam).ToList();
+            var tileList = new List<Tile>();
+            foreach (var tile in candidateTileList)
+            {
+                if (Math.Abs(currentTile.XCoord - tile.XCoord) + Math.Abs(currentTile.YCoord - tile.YCoord) <= maxRange)
+                {
+                    tileList.Add(tile);
+                }
+            }
             return new TileSelector(tileList);
         }
 

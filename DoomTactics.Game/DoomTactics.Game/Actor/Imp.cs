@@ -22,7 +22,7 @@ namespace DoomTactics
         public ActionInformation ShootFireball(Level level, AbilityDetails abilityDetails)
         {
             Func<Tile, ActionAnimationScript> actionScriptGenerator = (tile) => ShootFireballAction(level, abilityDetails, tile);
-            TileSelector selector = TileSelectorHelper.EnemyTileSelector(level, Team);
+            TileSelector selector = TileSelectorHelper.EnemyTileSelector(level, level.GetTileOfActor(this), Team, 5);
 
             return new ActionInformation(actionScriptGenerator, selector, ActionType.Attack);
         }
