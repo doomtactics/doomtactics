@@ -37,7 +37,7 @@ namespace DoomTactics
         {
             if (_currentIndex < _scriptSegments.Count)
             {
-                if (_scriptSegments[_currentIndex].EndCondition.Invoke())
+                if (_scriptSegments[_currentIndex].EndCondition.Invoke(_scriptVariables))
                 {
                     if (_scriptSegments[_currentIndex].OnComplete != null)
                     {
@@ -63,7 +63,7 @@ namespace DoomTactics
                 if (_scriptSegments[_currentIndex].EndOnEventSender != null)
                 {
                     MessagingSystem.Subscribe((evt) => ReceivedEvent(), _scriptSegments[_currentIndex].EndOnEventType, _name, _scriptSegments[_currentIndex].EndOnEventSender);
-                    _scriptSegments[_currentIndex].EndCondition = () => _receivedEvent;
+                    _scriptSegments[_currentIndex].EndCondition = (sv) => _receivedEvent;
                 }
                 if (_scriptSegments[_currentIndex].OnStart != null)
                 {

@@ -67,8 +67,13 @@ namespace DoomTactics
             _scriptSegments[_currentIndex].OnStart = onStart;
             return this;
         }
-       
+
         public ActionAnimationScriptBuilder EndCondition(Func<bool> checkCondition)
+        {
+            return EndCondition((sv) => checkCondition());
+        }
+
+        public ActionAnimationScriptBuilder EndCondition(Func<ScriptVariables, bool> checkCondition)
         {
             _scriptSegments[_currentIndex].EndCondition = checkCondition;
             return this;
