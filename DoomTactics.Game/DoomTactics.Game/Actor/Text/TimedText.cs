@@ -13,10 +13,11 @@ namespace DoomTactics
         private readonly Vector3 _position;
         private readonly SpriteFont _font;
         private readonly int _timeToDisplay;
+        private readonly int _outlineSize;
+        private readonly Color _textColor;
+        private readonly Color _outlineColor;
         private int _elapsedTime;
-        private int _outlineSize;
-        private Color _textColor;
-        private Color _outlineColor;
+
 
         public TimedText(string text, Vector3 position, SpriteFont font, int timeToDisplay) : this(text, position, font, timeToDisplay, 0, Color.White, Color.Black)
         {
