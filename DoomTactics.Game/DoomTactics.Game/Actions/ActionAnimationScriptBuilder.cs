@@ -5,6 +5,11 @@ using System.Text;
 
 namespace DoomTactics
 {
+    public class ScriptVariables
+    {
+        
+    }
+
     public class ActionAnimationScriptBuilder
     {
         private readonly IList<ScriptSegment> _scriptSegments;
@@ -33,6 +38,12 @@ namespace DoomTactics
 
         public ActionAnimationScriptBuilder OnStart(Action onStart)
         {
+            return OnStart((p) => onStart());
+
+        }
+
+        public ActionAnimationScriptBuilder OnStart(Action<ScriptVariables> onStart)
+        {
             _scriptSegments[_currentIndex].OnStart = onStart;
             return this;
         }
@@ -52,9 +63,14 @@ namespace DoomTactics
 
         public ActionAnimationScriptBuilder OnComplete(Action onComplete)
         {
+            return OnComplete((p) => onComplete());
+        }        
+
+        public ActionAnimationScriptBuilder OnComplete(Action<ScriptVariables> onComplete)
+        {
             _scriptSegments[_currentIndex].OnComplete = onComplete;
             return this;
-        }        
+        }
 
         public ActionAnimationScriptBuilder Finish(Action onScriptFinish)
         {

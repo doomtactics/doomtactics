@@ -4,9 +4,9 @@ namespace DoomTactics
 {
     public class ScriptSegment
     {
-        public Action OnStart;
+        public Action<ScriptVariables> OnStart;
         public Func<bool> EndCondition;
-        public Action OnComplete;
+        public Action<ScriptVariables> OnComplete;
         public DoomEventType EndOnEventType;
         public string EndOnEventSender;
     }

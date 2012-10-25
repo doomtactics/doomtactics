@@ -12,12 +12,14 @@ namespace DoomTactics
         private readonly string _name;
         private int _currentIndex;
         private bool _receivedEvent;
+        private ScriptVariables _scriptVariables;
 
         public string Name { get { return _name; } }
 
         public ActionAnimationScript(IList<ScriptSegment> scriptSegments, string name)
         {
             _scriptSegments = scriptSegments;
+            _scriptVariables = new ScriptVariables();
             _name = name;
             _currentIndex = 0;
         }
@@ -26,7 +28,7 @@ namespace DoomTactics
         {
             if (_scriptSegments[_currentIndex].OnStart != null)
             {
-                _scriptSegments[_currentIndex].OnStart.Invoke();
+                _scriptSegments[_currentIndex].OnStart.Invoke(_scriptVariables);
             }
             MessagingSystem.DispatchEvent(new AnimationScriptEvent(DoomEventType.AnimationScriptStart, _name), _name);
         }
@@ -39,7 +41,7 @@ namespace DoomTactics
                 {
                     if (_scriptSegments[_currentIndex].OnComplete != null)
                     {
-                        _scriptSegments[_currentIndex].OnComplete.Invoke();
+                        _scriptSegments[_currentIndex].OnComplete.Invoke(_scriptVariables);
                     }
                     Next();
                 }
@@ -65,7 +67,7 @@ namespace DoomTactics
                 }
                 if (_scriptSegments[_currentIndex].OnStart != null)
                 {
-                    _scriptSegments[_currentIndex].OnStart.Invoke();
+                    _scriptSegments[_currentIndex].OnStart.Invoke(_scriptVariables);
                 }
             }
             else
