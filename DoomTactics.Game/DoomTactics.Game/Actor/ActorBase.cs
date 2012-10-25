@@ -236,8 +236,38 @@ namespace DoomTactics
             for (int pathIndex = 1; pathIndex < path.Count; pathIndex++)
             {
                 var tile = path[pathIndex];
-                var tilePosition = new Vector3(tile.XCoord * 64.0f + 32.0f, tile.CreateBoundingBox().Max.Y, tile.YCoord * 64.0f + 32.0f);
-                BoundingBox checkBox = new BoundingBox(tilePosition - new Vector3(5.0f), tilePosition + new Vector3(5.0f));
+                float tileYPos = tile.CreateBoundingBox().Max.Y;
+                var tilePosition = new Vector3(tile.XCoord * 64.0f + 32.0f, tileYPos, tile.YCoord * 64.0f + 32.0f);
+                BoundingBox centerCheckBox = new BoundingBox(tilePosition - new Vector3(5.0f), tilePosition + new Vector3(5.0f));                
+                scriptBuilder = scriptBuilder
+                    .Segment()
+                    .OnStart(() =>
+                                 {
+                                     Vector3 directionToMove = GetDirectionToPoint(tilePosition);
+                                     FacePoint(tilePosition, true);
+                                     Velocity = MovementVelocityModifier * directionToMove;                                     
+                                     if (Math.Abs(directionToMove.Y) > 0.01f)
+                                     {
+                                         Velocity.Y *= 2;
+                                     }
+                                     else if (Math.Abs(directionToMove.Y) <= 0)
+                                     {
+                                         Velocity.Y = 0;
+                                     }
+                                 })
+                    .EndCondition(() =>
+                                      {
+                                          bool reachedYPosition = (Velocity.Y > 0 && Position.Y >= tileYPos) ||
+                                                                  (Velocity.X > 0 &&
+                                                                   Position.X >= tile.CreateBoundingBox().Min.X) ||
+                                                                  (Velocity.X < 0 &&
+                                                                   Position.X <= tile.CreateBoundingBox().Max.X) ||
+                                                                  (Velocity.Z > 0 &&
+                                                                   Position.Z >= tile.CreateBoundingBox().Min.Z) ||
+                                                                  (Velocity.Z < 0 &&
+                                                                   Position.Z <= tile.CreateBoundingBox().Max.Z);
+                                          return reachedYPosition;
+                                      });
 
                 if (pathIndex == path.Count - 1)
                 {
@@ -248,10 +278,10 @@ namespace DoomTactics
                                      {
                                          if (path.Count == 2) MessagingSystem.DispatchEvent(removeFromTileEvent, ActorId);
                                          Vector3 directionToMove = GetDirectionToPoint(tilePosition);
-                                         FacePoint(tilePosition, false);
+                                         FacePoint(tilePosition, true);
                                          Velocity = MovementVelocityModifier * directionToMove;
                                      })
-                        .EndCondition(() => (checkBox.Contains(Position) == ContainmentType.Contains))
+                        .EndCondition(() => (centerCheckBox.Contains(Position) == ContainmentType.Contains))
                         .OnComplete(() =>
                                         {
                                             Velocity = Vector3.Zero;
@@ -268,10 +298,10 @@ namespace DoomTactics
                                      {
                                          MessagingSystem.DispatchEvent(removeFromTileEvent, ActorId);
                                          Vector3 directionToMove = GetDirectionToPoint(tilePosition);
-                                         FacePoint(tilePosition, false);
+                                         FacePoint(tilePosition, true);
                                          Velocity = MovementVelocityModifier * directionToMove;
                                      })
-                        .EndCondition(() => (checkBox.Contains(Position) == ContainmentType.Contains));
+                        .EndCondition(() => (centerCheckBox.Contains(Position) == ContainmentType.Contains));
                 }
                 else if (pathIndex != path.Count - 1)
                 {
@@ -280,10 +310,10 @@ namespace DoomTactics
                         .OnStart(() =>
                                      {
                                          Vector3 directionToMove = GetDirectionToPoint(tilePosition);
-                                         FacePoint(tilePosition, false);
+                                         FacePoint(tilePosition, true);
                                          Velocity = MovementVelocityModifier * directionToMove;
                                      })
-                        .EndCondition(() => (checkBox.Contains(Position) == ContainmentType.Contains));
+                        .EndCondition(() => (centerCheckBox.Contains(Position) == ContainmentType.Contains));
                 }
               
             }
@@ -307,7 +337,7 @@ namespace DoomTactics
                     damageResult.AffectedActor.Pain();
                 }
             }
-        }
+        }        
 
         private Vector3 GetDirectionToPoint(Vector3 targetPosition)
         {
