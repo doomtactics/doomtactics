@@ -44,7 +44,8 @@ namespace DoomTactics
             var direction = target - source;
             var velocity = Vector3.Normalize(direction)*5.0f;
             var impFireball = ActorSpawnMethods.GetSpawnMethod(ActorType.ImpFireball).Invoke(source, velocity);
-            var spawnEvent = new ActorEvent(DoomEventType.SpawnActor, impFireball);            
+            var spawnEvent = new ActorEvent(DoomEventType.SpawnActor, impFireball);
+            var soundEvent = new SoundEvent(DoomEventType.PlaySound, "sound/fireballshoot");
 
             var script = new ActionAnimationScriptBuilder().Name(ActorId + "shootFireball")
                 .Segment()
@@ -52,6 +53,7 @@ namespace DoomTactics
                                  {
                                      FacePoint(selectedTile.GetTopCenter(), false);
                                      MessagingSystem.DispatchEvent(spawnEvent, ActorId);
+                                     MessagingSystem.DispatchEvent(soundEvent, ActorId);
                                  })
                     .EndCondition(() => targetBoundingBox.Contains(impFireball.Position) == ContainmentType.Contains)
                     .OnComplete(() =>
