@@ -16,7 +16,7 @@ namespace DoomTactics
             Width = 40;
             CurrentAnimation = ActorAnimationManager.Make("impidle", ActorId);
             SpriteSheet = SpriteSheetFactory.CreateSpriteSheet(ActorType.Imp);
-            MovementVelocityModifier = 3.0f;
+            MovementVelocityModifier = 3f;
         }
 
         public ActionInformation ShootFireball(Level level, AbilityDetails abilityDetails)

@@ -241,32 +241,42 @@ namespace DoomTactics
                 BoundingBox centerCheckBox = new BoundingBox(tilePosition - new Vector3(5.0f), tilePosition + new Vector3(5.0f));                
                 scriptBuilder = scriptBuilder
                     .Segment()
-                    .OnStart(() =>
+                    .OnStart((sv) =>
                                  {
                                      Vector3 directionToMove = GetDirectionToPoint(tilePosition);
                                      FacePoint(tilePosition, true);
                                      Velocity = MovementVelocityModifier * directionToMove;                                     
-                                     if (Math.Abs(directionToMove.Y) > 0.01f)
+                                     if (directionToMove.Y > 0.0f)
                                      {
                                          Velocity.Y *= 2;
+                                         sv.SetVariable("evalFunc", new Func<Vector3, bool>((v) => v.Y >= tileYPos));
                                      }
-                                     else if (Math.Abs(directionToMove.Y) <= 0)
+                                     else if (directionToMove.Y <= 0)
                                      {
+                                         Vector3 currentPosition = Position;
+                                         if (directionToMove.X >= 0.9f)
+                                         {
+                                             sv.SetVariable("evalFunc", new Func<Vector3, bool>((v) => v.X >= currentPosition.X + 40f));
+                                         }
+                                         else if (directionToMove.X <= -0.9f)
+                                         {
+                                             sv.SetVariable("evalFunc", new Func<Vector3, bool>((v) => v.X <= currentPosition.X - 40f));
+                                         }
+                                         else if (directionToMove.Z <= -0.9f)
+                                         {
+                                             sv.SetVariable("evalFunc", new Func<Vector3, bool>((v) => v.Z <= currentPosition.Z - 40f));
+                                         }
+                                         else if (directionToMove.Z >= 0.9f)
+                                         {
+                                             sv.SetVariable("evalFunc", new Func<Vector3, bool>((v) => v.Z >= currentPosition.Z + 40f));
+                                         }
                                          Velocity.Y = 0;
                                      }
                                  })
-                    .EndCondition(() =>
+                    .EndCondition((sv) =>
                                       {
-                                          bool reachedYPosition = (Velocity.Y > 0 && Position.Y >= tileYPos) ||
-                                                                  (Velocity.X > 0 &&
-                                                                   Position.X >= tile.CreateBoundingBox().Min.X) ||
-                                                                  (Velocity.X < 0 &&
-                                                                   Position.X <= tile.CreateBoundingBox().Max.X) ||
-                                                                  (Velocity.Z > 0 &&
-                                                                   Position.Z >= tile.CreateBoundingBox().Min.Z) ||
-                                                                  (Velocity.Z < 0 &&
-                                                                   Position.Z <= tile.CreateBoundingBox().Max.Z);
-                                          return reachedYPosition;
+                                          bool result = sv.GetVariable<Func<Vector3, bool>>("evalFunc")(Position);
+                                          return result;
                                       });
 
                 if (pathIndex == path.Count - 1)
