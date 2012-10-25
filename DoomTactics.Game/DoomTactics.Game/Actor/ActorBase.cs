@@ -28,6 +28,9 @@ namespace DoomTactics
         public GameplayStats BaseStats;
         public GameplayStats CurrentStats;
         public IList<AbilityInformation> AbilityList;
+        public bool DidMove;
+        public bool DidAction;
+
 
         public virtual SpriteSheet SpriteSheet
         {
@@ -88,6 +91,8 @@ namespace DoomTactics
             if (CurrentStats.ChargeTime >= 100)
             {
                 CurrentStats.ChargeTime = 100;
+                DidMove = false;
+                DidAction = false;
                 var turnEvent = new TurnEvent(DoomEventType.ChargeTimeReached, this);
                 MessagingSystem.DispatchEvent(turnEvent, ActorId);
             }

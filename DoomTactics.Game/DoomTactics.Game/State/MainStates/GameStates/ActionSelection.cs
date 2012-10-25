@@ -42,15 +42,27 @@ namespace DoomTactics
             }
             if (_actionMenu == null)
             {
-                _actionMenu = new ActionMenuBuilder()
-                    .ActorName(_actionActor.ActorId)
-                    .Action("Action", (ctl, e) => _actionMenu.ShowSubMenu(_actionSubMenu))
-                    .Action("Move", (ctl, e) => SwitchToTargetSelection(_actionActor.MoveToTile(GameState.Level)))
+                var _actionMenuBuilder = new ActionMenuBuilder()
+                    .ActorName(_actionActor.ActorId);
+
+                if (!_actionActor.DidAction)
+                {
+                    _actionMenuBuilder
+                        .Action("Action", (ctl, e) => _actionMenu.ShowSubMenu(_actionSubMenu));
+                }
+                if (!_actionActor.DidMove)
+                {
+                    _actionMenuBuilder
+                        .Action("Move", (ctl, e) => SwitchToTargetSelection(_actionActor.MoveToTile(GameState.Level)));
+                }
+
+                _actionMenuBuilder
                     .Action("Wait", null)
                     .Position(50, 100)
                     .Size(200, 200)
-                    .Parent(GameState.Desktop)
-                    .Build();
+                    .Parent(GameState.Desktop);
+
+                _actionMenu = _actionMenuBuilder.Build();
             }
             _actionMenu.Visible = true;
             _actionSubMenu.Visible = true;
