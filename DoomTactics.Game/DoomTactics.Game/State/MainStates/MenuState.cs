@@ -71,7 +71,7 @@ namespace DoomTactics
 
         public void OnEnter()
         {
-            
+            MusicManager.PlayMusic("music/doom2-intro", false);
         }
 
         public void OnExit()

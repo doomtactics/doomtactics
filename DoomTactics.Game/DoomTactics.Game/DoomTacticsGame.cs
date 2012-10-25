@@ -18,7 +18,7 @@ namespace DoomTactics
         GraphicsDeviceManager graphics;
         private StateMachine _stateMachine;
         private static DoomDesktop _desktop;
-        private static SquidInputManager _inputManager;
+        private static SquidInputManager _inputManager;        
 
         public DoomTacticsGame()
         {
@@ -31,12 +31,13 @@ namespace DoomTactics
         protected override void Initialize()
         {
             GuiHost.Renderer = new RendererXna(this);            
-            base.Initialize();
-
+            base.Initialize();            
         }
 
         protected override void LoadContent()
         {
+            MusicManager.Initialize(Content);
+
             _desktop = new DoomDesktop() { Name = "desk" };
             _inputManager = new SquidInputManager(this);
             var menuState = new MenuState(this, _inputManager, _desktop);

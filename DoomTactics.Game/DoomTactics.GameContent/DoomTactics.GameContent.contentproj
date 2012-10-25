@@ -295,6 +295,11 @@
       <Importer>TextureImporter</Importer>
       <Processor>TextureProcessor</Processor>
     </Compile>
+    <Compile Include="music\doom2-intro.mp3">
+      <Name>doom2-intro</Name>
+      <Importer>Mp3Importer</Importer>
+      <Processor>SongProcessor</Processor>
+    </Compile>
     <Content Include="squid\SampleMapCoords.xml">
       <Name>SampleMapCoords</Name>
       <Importer>XmlImporter</Importer>
