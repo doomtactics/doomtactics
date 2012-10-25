@@ -7,7 +7,27 @@ namespace DoomTactics
 {
     public class ScriptVariables
     {
-        
+        private readonly IDictionary<string, object> _variables;
+
+        public ScriptVariables()
+        {
+            _variables = new Dictionary<string, object>();
+        }
+
+        public void SetVariable(string name, object value)
+        {
+            _variables[name] = value;
+        }
+
+        public object GetVariable(string name)
+        {
+            return _variables[name];
+        }
+
+        public T GetVariable<T>(string name)
+        {
+            return (T) _variables[name];
+        }
     }
 
     public class ActionAnimationScriptBuilder
