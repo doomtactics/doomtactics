@@ -37,6 +37,8 @@ namespace DoomTactics
         protected override void LoadContent()
         {
             MusicManager.Initialize(Content);
+            SoundManager.Initialize(Content);
+            MessagingSystem.Subscribe(SoundManager.OnPlaySound, DoomEventType.PlaySound, "soundsystem", null);
 
             _desktop = new DoomDesktop() { Name = "desk" };
             _inputManager = new SquidInputManager(this);

@@ -26,6 +26,9 @@
         // scripting
         AnimationScriptStart,
         AnimationScriptComplete,
+
+        // sound
+        PlaySound,
     }    
 
     public interface IDoomEvent

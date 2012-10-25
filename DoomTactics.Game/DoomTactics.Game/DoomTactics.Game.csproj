@@ -148,6 +148,7 @@
     <Compile Include="Event\IDoomEvent.cs" />
     <Compile Include="Event\MessagingHelper.cs" />
     <Compile Include="Event\MessagingSystem.cs" />
+    <Compile Include="Event\SoundEvent.cs" />
     <Compile Include="Event\TextEvent.cs" />
     <Compile Include="Event\TurnEvent.cs" />
     <Compile Include="Input\GameState\ActionSelectionProcessor.cs" />
@@ -164,7 +165,7 @@
     <Compile Include="Map\LevelFactory.cs" />
     <Compile Include="Map\Tile.cs" />
     <Compile Include="Map\TileTextures.cs" />
-    <Compile Include="Music\MusicManager.cs" />
+    <Compile Include="Sound\MusicManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="DoomTacticsGame.cs" />
@@ -181,6 +182,7 @@
     <Compile Include="Render\ScriptSegment.cs" />
     <Compile Include="Render\SpriteSheet.cs" />
     <Compile Include="Render\SpriteSheetFactory.cs" />
+    <Compile Include="Sound\SoundManager.cs" />
     <Compile Include="State\ControlScheme.cs" />
     <Compile Include="State\IState.cs" />
     <Compile Include="State\MainStates\GameState.cs" />
