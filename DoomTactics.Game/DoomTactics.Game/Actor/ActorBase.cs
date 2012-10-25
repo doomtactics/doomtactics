@@ -256,19 +256,19 @@ namespace DoomTactics
                                          Vector3 currentPosition = Position;
                                          if (directionToMove.X >= 0.9f)
                                          {
-                                             sv.SetVariable("evalFunc", new Func<Vector3, bool>((v) => v.X >= currentPosition.X + 40f));
+                                             sv.SetVariable("evalFunc", new Func<Vector3, bool>((v) => v.X >= currentPosition.X + 32f));
                                          }
                                          else if (directionToMove.X <= -0.9f)
                                          {
-                                             sv.SetVariable("evalFunc", new Func<Vector3, bool>((v) => v.X <= currentPosition.X - 40f));
+                                             sv.SetVariable("evalFunc", new Func<Vector3, bool>((v) => v.X <= currentPosition.X - 32f));
                                          }
                                          else if (directionToMove.Z <= -0.9f)
                                          {
-                                             sv.SetVariable("evalFunc", new Func<Vector3, bool>((v) => v.Z <= currentPosition.Z - 40f));
+                                             sv.SetVariable("evalFunc", new Func<Vector3, bool>((v) => v.Z <= currentPosition.Z - 32f));
                                          }
                                          else if (directionToMove.Z >= 0.9f)
                                          {
-                                             sv.SetVariable("evalFunc", new Func<Vector3, bool>((v) => v.Z >= currentPosition.Z + 40f));
+                                             sv.SetVariable("evalFunc", new Func<Vector3, bool>((v) => v.Z >= currentPosition.Z + 32f));
                                          }
                                          Velocity.Y = 0;
                                      }
