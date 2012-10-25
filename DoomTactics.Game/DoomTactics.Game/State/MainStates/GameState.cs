@@ -54,6 +54,9 @@ namespace DoomTactics
             SpriteSheetFactory.Initialize(_gameInstance.Content);
             HardcodedAnimations.CreateAnimations();
 
+            // music
+            MusicManager.PlayMusic("music/e1m1", true);
+
             // fonts
             FloatingTexts = new List<TimedText>();
             DamageFont = _gameInstance.Content.Load<SpriteFont>("fonts/Doom12");

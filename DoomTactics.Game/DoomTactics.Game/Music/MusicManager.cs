@@ -26,6 +26,7 @@ namespace DoomTactics
             {
                 _currentSong = _contentManager.Load<Song>(songname);
                 MediaPlayer.IsRepeating = repeat;
+                MediaPlayer.Volume = 0.6f;
                 MediaPlayer.Play(_currentSong);
             }
         }
