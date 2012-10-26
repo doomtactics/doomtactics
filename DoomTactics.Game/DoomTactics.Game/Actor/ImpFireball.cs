@@ -9,6 +9,7 @@ namespace DoomTactics
     public class ImpFireball : ActorBase
     {
         private static long _ballNum = 0;
+        private const string DeathSound = "sound/fireballdie";
 
         public ImpFireball(string id, Vector3 position, Vector3 velocity) : base(id + _ballNum++, position, velocity)
         {
@@ -28,6 +29,7 @@ namespace DoomTactics
 
         public override void Die()
         {
+            MessagingSystem.DispatchEvent(new SoundEvent(DoomEventType.PlaySound, DeathSound), ActorId);
             CurrentAnimation = ActorAnimationManager.Make("impfireballdeath", ActorId);
             Velocity = Vector3.Zero;
         }        

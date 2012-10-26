@@ -335,6 +335,11 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
+    <Compile Include="sound\imppain1.wav">
+      <Name>imppain1</Name>
+      <Importer>WavImporter</Importer>
+      <Processor>SoundEffectProcessor</Processor>
+    </Compile>
     <Content Include="squid\SampleMapCoords.xml">
       <Name>SampleMapCoords</Name>
       <Importer>XmlImporter</Importer>

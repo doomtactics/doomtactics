@@ -8,7 +8,12 @@ using Microsoft.Xna.Framework.Graphics;
 namespace DoomTactics
 {
     public class Imp : ActorBase
-    {        
+    {
+        private const string FireballShootSound = "sound/fireballshoot";
+        private const string PainSound = "sound/imppain1";
+        private const string DeathSound1 = "sound/impdeath1";
+        private const string DeathSound2 = "sound/impdeath2";
+
         public Imp(string id, Vector3 position)
             : base(id, position)
         {
@@ -45,7 +50,7 @@ namespace DoomTactics
             var velocity = Vector3.Normalize(direction)*5.0f;
             var impFireball = ActorSpawnMethods.GetSpawnMethod(ActorType.ImpFireball).Invoke(source, velocity);
             var spawnEvent = new ActorEvent(DoomEventType.SpawnActor, impFireball);
-            var soundEvent = new SoundEvent(DoomEventType.PlaySound, "sound/fireballshoot");
+            var soundEvent = new SoundEvent(DoomEventType.PlaySound, FireballShootSound);
 
             var script = new ActionAnimationScriptBuilder().Name(ActorId + "shootFireball")
                 .Segment()
@@ -78,12 +83,17 @@ namespace DoomTactics
 
         public override void Pain()
         {
+            MessagingSystem.DispatchEvent(new SoundEvent(DoomEventType.PlaySound, PainSound), ActorId);
             CurrentAnimation = ActorAnimationManager.Make("imppain", ActorId);
             CurrentAnimation.OnComplete = Idle;
         }
 
         public override void Die()
         {
+            string deathSound = DeathSound1;
+            int deathSoundNum = new Random().Next(0, 2);
+            if (deathSoundNum == 1) deathSound = DeathSound2;
+            MessagingSystem.DispatchEvent(new SoundEvent(DoomEventType.PlaySound, deathSound), ActorId);
             CurrentAnimation = ActorAnimationManager.Make("impdie", ActorId);
         }
 
