@@ -18,10 +18,14 @@ namespace DoomTactics
         GraphicsDeviceManager graphics;
         private StateMachine _stateMachine;
         private static DoomDesktop _desktop;
-        private static SquidInputManager _inputManager;        
-
-        public DoomTacticsGame()
+        private static SquidInputManager _inputManager;
+        private bool _enableMusic;
+        private bool _enableSound;
+       
+        public DoomTacticsGame(bool enableMusic, bool enableSound)
         {
+            _enableMusic = enableMusic;
+            _enableSound = enableSound;
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 960;
@@ -37,7 +41,9 @@ namespace DoomTactics
         protected override void LoadContent()
         {
             MusicManager.Initialize(Content);
+            MusicManager.SetMusic(_enableMusic);
             SoundManager.Initialize(Content);
+            SoundManager.SetPlaySound(_enableSound);
             MessagingSystem.Subscribe(SoundManager.OnPlaySound, DoomEventType.PlaySound, "soundsystem", null);
 
             _desktop = new DoomDesktop() { Name = "desk" };

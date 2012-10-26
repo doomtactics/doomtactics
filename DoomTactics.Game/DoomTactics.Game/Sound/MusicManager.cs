@@ -12,7 +12,7 @@ namespace DoomTactics
     public static class MusicManager
     {
         private static Song _currentSong;
-        private static bool _doPlayMusic = false;
+        private static bool _doPlayMusic = true;
         private static ContentManager _contentManager;
 
         public static void Initialize(ContentManager contentManager)
@@ -49,6 +49,11 @@ namespace DoomTactics
                 _currentSong.Dispose();
             }
         }    
+
+        public static void SetMusic(bool enabled)
+        {
+            _doPlayMusic = enabled;
+        }
 
     }
 }

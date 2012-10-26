@@ -10,7 +10,19 @@ namespace DoomTactics
         /// </summary>
         static void Main(string[] args)
         {
-            using (DoomTacticsGame game = new DoomTacticsGame())
+            bool enableMusic = true;
+            bool enableSound = true;
+            if (args.Length > 0)
+            {
+                foreach (var arg in args)
+                {
+                    if (arg == "--nomusic")
+                        enableMusic = false;
+                    else if (arg == "--nosound")
+                        enableSound = false;
+                }
+            }
+            using (DoomTacticsGame game = new DoomTacticsGame(enableMusic, enableSound))
             {
                 game.Run();
             }

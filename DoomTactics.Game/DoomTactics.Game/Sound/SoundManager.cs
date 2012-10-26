@@ -7,10 +7,11 @@ using Microsoft.Xna.Framework.Content;
 
 namespace DoomTactics
 {
-    internal static class SoundManager
+    public static class SoundManager
     {
         private static readonly IList<SoundEffect> SoundEffects = new List<SoundEffect>();
         private static ContentManager _contentManager;
+        private static bool _doPlaySounds;
 
         public static void Initialize(ContentManager contentManager)
         {
@@ -19,6 +20,9 @@ namespace DoomTactics
 
         public static void PlaySound(string soundEffectName)
         {
+            if (!_doPlaySounds)
+                return;
+
             if (!SoundEffects.Any(se => se.Name == soundEffectName))
             {
                 var se = _contentManager.Load<SoundEffect>(soundEffectName);
@@ -47,6 +51,11 @@ namespace DoomTactics
         {
             var evt = (SoundEvent) soundEvent;
             PlaySound(evt.SoundName);
+        }
+
+        public static void SetPlaySound(bool enabled)
+        {
+            _doPlaySounds = enabled;
         }
     }
 }
