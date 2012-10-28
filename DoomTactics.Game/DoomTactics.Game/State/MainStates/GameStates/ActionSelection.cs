@@ -57,7 +57,7 @@ namespace DoomTactics
                 }
 
                 _actionMenuBuilder
-                    .Action("Wait", null)
+                    .Action("Wait", (ctl, e) => SwitchToWaitDirection())
                     .Position(50, 100)
                     .Size(200, 200)
                     .Parent(GameState.Desktop);
@@ -96,6 +96,11 @@ namespace DoomTactics
         public void SwitchToTargetSelection(ActionInformation actionInformation)
         {
             NextState = new StateTransition(new TargetSelection(GameState, this, actionInformation));
+        }
+
+        public void SwitchToWaitDirection()
+        {
+            NextState = new StateTransition(new SelectWaitDirection(GameState));
         }
 
         public override bool IsPaused
