@@ -14,7 +14,7 @@ namespace DoomTactics
     {
         private ActionMenu _actionMenu;
         private ActionMenu _actionSubMenu;
-        private ActorBase _actionActor;
+        private readonly ActorBase _actionActor;
 
         public ActionSelection(GameState gameState, ActorBase actionActor)
             : base(gameState)
@@ -42,27 +42,27 @@ namespace DoomTactics
             }
             if (_actionMenu == null)
             {
-                var _actionMenuBuilder = new ActionMenuBuilder()
+                var actionMenuBuilder = new ActionMenuBuilder()
                     .ActorName(_actionActor.ActorId);
 
                 if (!_actionActor.DidAction)
                 {
-                    _actionMenuBuilder
+                    actionMenuBuilder
                         .Action("Action", (ctl, e) => _actionMenu.ShowSubMenu(_actionSubMenu));
                 }
                 if (!_actionActor.DidMove)
                 {
-                    _actionMenuBuilder
+                    actionMenuBuilder
                         .Action("Move", (ctl, e) => SwitchToTargetSelection(_actionActor.MoveToTile(GameState.Level)));
                 }
 
-                _actionMenuBuilder
+                actionMenuBuilder
                     .Action("Wait", (ctl, e) => SwitchToWaitDirection())
                     .Position(50, 100)
                     .Size(200, 200)
                     .Parent(GameState.Desktop);
 
-                _actionMenu = _actionMenuBuilder.Build();
+                _actionMenu = actionMenuBuilder.Build();
             }
             _actionMenu.Visible = true;
             _actionSubMenu.Visible = true;
