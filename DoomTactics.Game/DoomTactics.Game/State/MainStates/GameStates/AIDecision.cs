@@ -26,31 +26,15 @@ namespace DoomTactics
         private void AIDecisionComplete(ActionInformation actionInformation, Tile targetTile)
         {
             ActorBase nextActiveUnit = GameState.GetNextActiveUnit();
-            IState afterScriptStateTemp;
-            if (nextActiveUnit == null)
-            {
-                afterScriptStateTemp = new FreeCamera(GameState, null);
-            }
-            else
-            {
-                afterScriptStateTemp = new ActionSelection(GameState, nextActiveUnit);
-            }
-            
-
-            Func<IState> state = () => new ActionAnimationPlaying(GameState, 
-                                                   //new AIDecision(GameState, _actor),
-                                                   afterScriptStateTemp, 
-                                                   actionInformation.Script(targetTile));
+            Func<IState> state = () => 
+                new ActionAnimationPlaying(GameState, actionInformation, targetTile);
             NextState = new StateTransition(state);
         }
 
         public override void OnExit()
         {
-            GameState.ActiveUnit.EndTurn();
-            GameState.ActiveUnit = GameState.GetNextActiveUnit();
+
         }
-
-
 
         public override bool IsPaused
         {

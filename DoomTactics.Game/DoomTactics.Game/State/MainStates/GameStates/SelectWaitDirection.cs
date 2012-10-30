@@ -32,24 +32,22 @@ namespace DoomTactics
 
         public void SetWaitDirection(Vector2 mousePosition)
         {
-            SetActorWaitDirection(mousePosition, true);
+            Vector3? targetPoint = GetTargetPoint(mousePosition, true);
+            if (targetPoint.HasValue)
+                GameState.ActiveUnit.FacePoint(targetPoint.Value, true);
         }
 
         public void FinalizeWaitDirection(Vector2 mousePosition)
         {
-            SetActorWaitDirection(mousePosition, true);
-            ActorBase nextActiveUnit = GameState.GetNextActiveUnit();
-            if (nextActiveUnit == null)
+            Vector3? targetPoint = GetTargetPoint(mousePosition, true);
+            if (targetPoint.HasValue)
             {
-                NextState = new StateTransition(() => new FreeCamera(GameState, null));
-            }
-            else
-            {
-                NextState = new StateTransition(() => new ActionSelection(GameState, nextActiveUnit));
+                ActionInformation ai = GameState.ActiveUnit.Wait(targetPoint.Value);               
+                NextState = new StateTransition(() => new ActionAnimationPlaying(GameState, ai, null));
             }
         }
 
-        private void SetActorWaitDirection(Vector2 mousePosition, bool snapDirection)
+        private Vector3? GetTargetPoint(Vector2 mousePosition, bool snapDirection)
         {
             Ray ray = GameState.CreateRayFromMouseCursorPosition(mousePosition);
             Tile tile = GameState.Level.GetTileOfActor(GameState.ActiveUnit);
@@ -59,14 +57,15 @@ namespace DoomTactics
             if (distance != null)
             {
                 Vector3 targetPoint = ray.Position + ray.Direction * distance.Value;
-                GameState.ActiveUnit.FacePoint(targetPoint, snapDirection);
+                return targetPoint;
             }
+
+            return null;
         }
 
         public override void OnExit()
         {
-            GameState.ActiveUnit.EndTurn();
-            GameState.ActiveUnit = GameState.GetNextActiveUnit();
+
         }
 
         public override bool IsPaused

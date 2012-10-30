@@ -3,6 +3,7 @@ namespace DoomTactics
     public enum ActionType
     {
         Attack,
-        Move
+        Move,
+        Wait
     }
 }

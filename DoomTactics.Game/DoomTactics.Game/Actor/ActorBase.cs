@@ -234,6 +234,28 @@ namespace DoomTactics
             Position = tile.GetTopCenter();
         }
 
+        public ActionInformation Wait(Vector3 direction)
+        {
+            Func<Tile, ActionAnimationScript> scriptGenerator = (tile) => WaitAction(direction);
+            TileSelector selector = TileSelectorHelper.Empty();
+            return new ActionInformation(scriptGenerator, selector, ActionType.Wait);
+        }
+
+        protected virtual ActionAnimationScript WaitAction(Vector3 direction)
+        {
+            var scriptBuilder = new ActionAnimationScriptBuilder()
+                .Name(ActorId + "wait")
+                .Segment()
+                    .OnStart((sv) =>
+                                 {
+                                     FacePoint(direction, true);
+                                     sv.SetVariable("done", true);
+                                 })
+                    .EndCondition((sv) => sv.GetVariable<bool>("done"));
+
+            return scriptBuilder.Build();
+        }
+
         public ActionInformation MoveToTile(Level level)
         {
             Func<Tile, ActionAnimationScript> scriptGenerator = (tile) => MoveToTileAction(tile, level);

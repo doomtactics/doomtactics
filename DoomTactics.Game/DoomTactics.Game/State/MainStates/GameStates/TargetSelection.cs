@@ -95,23 +95,8 @@ namespace DoomTactics
             Tile targeted = GameState.FindHighlightedTile();
             if (targeted != null && _actionInformation.Selector.IsTileValid(targeted))
             {
-                if (_actionInformation.ActionType == ActionType.Move)
-                    GameState.ActiveUnit.SetMoved();
-                else if (_actionInformation.ActionType == ActionType.Attack)
-                    GameState.ActiveUnit.SetActioned();
-
-                IState nextState;
-                if (GameState.ActiveUnit.CanMove() || GameState.ActiveUnit.CanAction())
-                {
-                    nextState = new ActionSelection(GameState, GameState.ActiveUnit);
-                }
-                else
-                {
-                    nextState = new SelectWaitDirection(GameState);
-                }
-
-                Func<IState> animationState = () => new ActionAnimationPlaying(GameState, nextState, 
-                                                                _actionInformation.Script.Invoke(targeted));
+                Func<IState> animationState = () => 
+                    new ActionAnimationPlaying(GameState, _actionInformation, targeted);
                 NextState = new StateTransition(animationState);
             }
         }

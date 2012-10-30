@@ -9,16 +9,16 @@ namespace DoomTactics
 {
     public class ActionAnimationPlaying : GameStateBase
     {
-        private readonly IState _nextState;
+        private readonly ActionInformation _actionInformation;
         private readonly ActionAnimationScript _script;
         private readonly string _stateName;
         private static int _num = 0;
 
-        public ActionAnimationPlaying(GameState gameState, IState nextState, ActionAnimationScript script) : base(gameState)
+        public ActionAnimationPlaying(GameState gameState, ActionInformation actionInformation, Tile tile) : base(gameState)
         {
-            _nextState = nextState;
-            _script = script;
+            _actionInformation = actionInformation;
             _stateName = "ActorAnimationPlaying" + _num++;
+            _script = _actionInformation.Script(tile);
             InputProcessor = new NoInputProcessor();
         }
 
@@ -37,6 +37,7 @@ namespace DoomTactics
         public override void OnExit()
         {
             MessagingSystem.Unsubscribe(_stateName);
+
         }
 
         public override bool IsPaused
@@ -48,8 +49,28 @@ namespace DoomTactics
         {
             AnimationScriptEvent ase = (AnimationScriptEvent) doomEvent;
             if (ase.ScriptName == scriptName)
-            {
-                NextState = new StateTransition(() => _nextState);
+            {                
+                if (_actionInformation.ActionType == ActionType.Attack)
+                    GameState.ActiveUnit.SetActioned();
+                if (_actionInformation.ActionType == ActionType.Move)
+                    GameState.ActiveUnit.SetMoved();
+
+                if (_actionInformation.ActionType == ActionType.Wait)
+                {
+                    GameState.ActiveUnit.EndTurn();
+                    GameState.ActiveUnit = GameState.GetNextActiveUnit();
+                    NextState = GameState.ActiveUnit == null
+                                    ? new StateTransition(() => new FreeCamera(GameState, null))
+                                    : new StateTransition(() => new ActionSelection(GameState, GameState.ActiveUnit));
+                }
+                else if(!GameState.ActiveUnit.CanAction() && !GameState.ActiveUnit.CanMove())
+                {
+                    NextState = new StateTransition(() => new SelectWaitDirection(GameState));
+                }
+                else
+                {
+                    NextState = new StateTransition(() => new ActionSelection(GameState, GameState.ActiveUnit));
+                }
             }
         }
     }
