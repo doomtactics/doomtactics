@@ -25,7 +25,6 @@ namespace DoomTactics
 
         private void AIDecisionComplete(ActionInformation actionInformation, Tile targetTile)
         {
-            ActorBase nextActiveUnit = GameState.GetNextActiveUnit();
             Func<IState> state = () => 
                 new ActionAnimationPlaying(GameState, actionInformation, targetTile);
             NextState = new StateTransition(state);
