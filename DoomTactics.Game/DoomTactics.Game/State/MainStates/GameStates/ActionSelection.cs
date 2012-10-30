@@ -29,7 +29,7 @@ namespace DoomTactics
 
             if (GameState.IsAIControlled(_actionActor))
             {
-                NextState = new StateTransition(new AIDecision(GameState, _actionActor));
+                NextState = new StateTransition(() => new AIDecision(GameState, _actionActor));
                 return;
             }
 
@@ -99,17 +99,17 @@ namespace DoomTactics
 
         public void SwitchToFreeCamera()
         {
-            NextState = new StateTransition(new FreeCamera(GameState, this));
+            NextState = new StateTransition(() => new FreeCamera(GameState, this));
         }
 
         public void SwitchToTargetSelection(ActionInformation actionInformation)
         {
-            NextState = new StateTransition(new TargetSelection(GameState, this, actionInformation));
+            NextState = new StateTransition(() => new TargetSelection(GameState, this, actionInformation));
         }
 
         public void SwitchToWaitDirection()
         {
-            NextState = new StateTransition(new SelectWaitDirection(GameState));
+            NextState = new StateTransition(() => new SelectWaitDirection(GameState));
         }
 
         public override bool IsPaused

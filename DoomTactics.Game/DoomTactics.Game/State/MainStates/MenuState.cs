@@ -98,7 +98,7 @@ namespace DoomTactics
 
         private void NewGameClicked(Control sender, MouseEventArgs args)
         {
-            NextState = new StateTransition(new GameState(_game, _squidInputManager));
+            NextState = new StateTransition(() => new GameState(_game, _squidInputManager));
         }
 
         private void ExitGameClicked(Control sender, MouseEventArgs args)

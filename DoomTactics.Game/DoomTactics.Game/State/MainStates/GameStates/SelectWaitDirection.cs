@@ -41,11 +41,11 @@ namespace DoomTactics
             ActorBase nextActiveUnit = GameState.GetNextActiveUnit();
             if (nextActiveUnit == null)
             {
-                NextState = new StateTransition(new FreeCamera(GameState, null));
+                NextState = new StateTransition(() => new FreeCamera(GameState, null));
             }
             else
             {
-                NextState = new StateTransition(new ActionSelection(GameState, nextActiveUnit));
+                NextState = new StateTransition(() => new ActionSelection(GameState, nextActiveUnit));
             }
         }
 

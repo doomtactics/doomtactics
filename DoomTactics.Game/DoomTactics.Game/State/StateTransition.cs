@@ -7,9 +7,9 @@ namespace DoomTactics
 {
     public class StateTransition
     {
-        public IState NextState { get; private set; }
+        public Func<IState> NextState { get; private set; }
 
-        public StateTransition(IState nextState)
+        public StateTransition(Func<IState> nextState)
         {
             NextState = nextState;
         }

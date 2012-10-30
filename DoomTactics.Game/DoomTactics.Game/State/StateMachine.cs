@@ -36,13 +36,14 @@ namespace DoomTactics
 
         public void SetState(IState newState)
         {
-            TransitionTo(newState);
+            TransitionTo(() => newState);
         }
 
-        private void TransitionTo(IState nextState)
+        private void TransitionTo(Func<IState> nextStateFunc)
         {
             var oldState = _stateStack.Pop();
             oldState.OnExit();
+            var nextState = nextStateFunc();
             nextState.OnEnter();
             _stateStack.Push(nextState);
         }

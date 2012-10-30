@@ -59,11 +59,11 @@ namespace DoomTactics
         {
             if (_previousState != null)
             {
-                NextState = new StateTransition(_previousState);
+                NextState = new StateTransition(() => _previousState);
             }
             else
             {
-                NextState = new StateTransition(new ActionSelection(GameState, GameState.ActiveUnit));
+                NextState = new StateTransition(() => new ActionSelection(GameState, GameState.ActiveUnit));
             }         
         }
     }

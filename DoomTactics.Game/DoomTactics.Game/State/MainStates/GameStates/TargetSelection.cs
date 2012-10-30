@@ -87,7 +87,7 @@ namespace DoomTactics
 
         public void ReturnToPrevious()
         {
-            NextState = new StateTransition(_previousState);
+            NextState = new StateTransition(() => _previousState);
         }
 
         public void PerformAction()
@@ -110,7 +110,7 @@ namespace DoomTactics
                     nextState = new SelectWaitDirection(GameState);
                 }
 
-                var animationState = new ActionAnimationPlaying(GameState, nextState, 
+                Func<IState> animationState = () => new ActionAnimationPlaying(GameState, nextState, 
                                                                 _actionInformation.Script.Invoke(targeted));
                 NextState = new StateTransition(animationState);
             }

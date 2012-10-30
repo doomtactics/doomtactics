@@ -103,7 +103,7 @@ namespace DoomTactics
 
         public void ReturnToMainMenu()
         {
-            NextState = new StateTransition(DoomTacticsGame.CreateMenuState(_gameInstance));
+            NextState = new StateTransition(() => DoomTacticsGame.CreateMenuState(_gameInstance));
         }
 
         public void Render(GraphicsDevice device)

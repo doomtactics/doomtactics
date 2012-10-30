@@ -49,7 +49,7 @@ namespace DoomTactics
             AnimationScriptEvent ase = (AnimationScriptEvent) doomEvent;
             if (ase.ScriptName == scriptName)
             {
-                NextState = new StateTransition(_nextState);
+                NextState = new StateTransition(() => _nextState);
             }
         }
     }

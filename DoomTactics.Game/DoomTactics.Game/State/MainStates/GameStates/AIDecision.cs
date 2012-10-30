@@ -37,7 +37,7 @@ namespace DoomTactics
             }
             
 
-            var state = new ActionAnimationPlaying(GameState, 
+            Func<IState> state = () => new ActionAnimationPlaying(GameState, 
                                                    //new AIDecision(GameState, _actor),
                                                    afterScriptStateTemp, 
                                                    actionInformation.Script(targetTile));
