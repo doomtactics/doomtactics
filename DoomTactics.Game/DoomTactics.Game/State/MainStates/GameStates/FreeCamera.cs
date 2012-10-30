@@ -17,7 +17,7 @@ namespace DoomTactics
             : base(gameState)
         {
             _previousState = previousState;
-            InputProcessor = new FreeCameraInputProcessor(Keyboard.GetState(), Mouse.GetState(), gameState, this);
+            InputProcessor = new FreeCameraInputProcessor(gameState, this);
         }
 
         public override void OnEnter()

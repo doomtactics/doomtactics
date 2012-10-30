@@ -19,7 +19,7 @@ namespace DoomTactics
         public ActionSelection(GameState gameState, ActorBase actionActor)
             : base(gameState)
         {
-            InputProcessor = new ActionSelectionProcessor(Keyboard.GetState(), Mouse.GetState(), gameState, this);
+            InputProcessor = new ActionSelectionProcessor(gameState, this);
             _actionActor = actionActor;
         }
 

@@ -9,7 +9,7 @@ namespace DoomTactics
 {
     public class NoInputProcessor : InputProcessor
     {
-        public NoInputProcessor(KeyboardState keyState, MouseState mouseState) : base(keyState, mouseState)
+        public NoInputProcessor() : base(Keyboard.GetState(), Mouse.GetState())
         {
         }
 

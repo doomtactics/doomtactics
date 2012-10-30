@@ -19,7 +19,7 @@ namespace DoomTactics
             _nextState = nextState;
             _script = script;
             _stateName = "ActorAnimationPlaying" + _num++;
-            InputProcessor = new NoInputProcessor(Keyboard.GetState(), Mouse.GetState());
+            InputProcessor = new NoInputProcessor();
         }
 
         public override void OnEnter()

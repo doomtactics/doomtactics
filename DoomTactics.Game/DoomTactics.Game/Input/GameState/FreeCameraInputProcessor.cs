@@ -11,8 +11,8 @@ namespace DoomTactics
     {
         private readonly FreeCamera _freeCamera;
 
-        public FreeCameraInputProcessor(KeyboardState keyState, MouseState mouseState, GameState gameState, FreeCamera freeCamera) 
-            : base(keyState, mouseState, gameState)
+        public FreeCameraInputProcessor(GameState gameState, FreeCamera freeCamera) 
+            : base(gameState)
         {
             _freeCamera = freeCamera;
         }

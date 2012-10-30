@@ -11,8 +11,8 @@ namespace DoomTactics
     {
         private readonly TargetSelection _targetSelection;
 
-        public TargetSelectionProcessor(KeyboardState keyState, MouseState mouseState, GameState gameState, TargetSelection targetSelection) 
-            : base(keyState, mouseState, gameState)
+        public TargetSelectionProcessor(GameState gameState, TargetSelection targetSelection) 
+            : base(gameState)
         {
             _targetSelection = targetSelection;
         }

@@ -14,7 +14,7 @@ namespace DoomTactics
         public AIDecision(GameState gameState, ActorBase actor) : base(gameState)
         {
             _actor = actor;
-            InputProcessor = new NoInputProcessor(Keyboard.GetState(), Mouse.GetState());
+            InputProcessor = new NoInputProcessor();
         }
 
         public override void OnEnter()

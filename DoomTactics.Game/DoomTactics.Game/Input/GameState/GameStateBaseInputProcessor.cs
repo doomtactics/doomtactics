@@ -11,9 +11,9 @@ namespace DoomTactics
     {
         protected readonly GameState GameState;
 
-        public GameStateBaseInputProcessor(KeyboardState keyState, MouseState mouseState, GameState gameState)
-            : base(keyState, mouseState)
-        {
+        public GameStateBaseInputProcessor(GameState gameState)
+            : base(Keyboard.GetState(), Mouse.GetState())
+        {            
             GameState = gameState;
         }
 

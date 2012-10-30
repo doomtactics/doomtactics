@@ -12,7 +12,7 @@ namespace DoomTactics
         public SelectWaitDirection(GameState gameState)
             : base(gameState)
         {
-            InputProcessor = new SelectWaitDirectionProcessor(Keyboard.GetState(), Mouse.GetState(), GameState, this);
+            InputProcessor = new SelectWaitDirectionProcessor(GameState, this);
         }
 
         public override void OnEnter()

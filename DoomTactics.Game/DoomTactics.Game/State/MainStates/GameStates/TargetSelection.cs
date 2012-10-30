@@ -25,7 +25,7 @@ namespace DoomTactics
         {
             _previousState = previousState;
             _actionInformation = actionInformation;
-            InputProcessor = new TargetSelectionProcessor(Keyboard.GetState(), Mouse.GetState(), gameState, this);
+            InputProcessor = new TargetSelectionProcessor(gameState, this);
         }
 
         public override void OnEnter()

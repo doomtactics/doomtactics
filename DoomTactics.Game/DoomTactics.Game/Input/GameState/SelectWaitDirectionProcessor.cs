@@ -11,7 +11,7 @@ namespace DoomTactics
     {
         private readonly SelectWaitDirection _selectWaitDirection;
 
-        public SelectWaitDirectionProcessor(KeyboardState keyState, MouseState mouseState, GameState gameState, SelectWaitDirection selectWaitDirection) : base(keyState, mouseState, gameState)
+        public SelectWaitDirectionProcessor(GameState gameState, SelectWaitDirection selectWaitDirection) : base(gameState)
         {
             _selectWaitDirection = selectWaitDirection;
         }
