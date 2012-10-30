@@ -76,6 +76,12 @@ namespace DoomTactics
             return script;
         }
 
+        public override void MakeAIDecision(Level currentLevel, Action<ActionInformation, Tile> onComplete)
+        {
+            var currentTile = currentLevel.GetTileOfActor(this);
+            onComplete(MoveToTile(currentLevel), currentLevel.GetTileAt(currentTile.XCoord, currentTile.YCoord + 2));
+        }
+
         public override void Idle()
         {
             CurrentAnimation = ActorAnimationManager.Make("impidle", ActorId);

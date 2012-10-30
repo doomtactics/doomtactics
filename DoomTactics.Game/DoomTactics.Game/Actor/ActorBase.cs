@@ -16,14 +16,14 @@ namespace DoomTactics
         public int Height;
         public int Width;
         public bool IncreaseChargeTime;
-        
+
         protected ActorAnimation CurrentAnimation;
         public Vector3 Position;
         public Vector3 Velocity;
         public Vector3 FacingDirection;
-        public int Team;        
+        public int Team;
 
-        public virtual float MovementVelocityModifier { get; protected set; }        
+        public virtual float MovementVelocityModifier { get; protected set; }
 
         public GameplayStats BaseStats;
         public GameplayStats CurrentStats;
@@ -44,24 +44,27 @@ namespace DoomTactics
             protected set;
         }
 
-        protected ActorBase(string id) : this(id, Vector3.Zero, Vector3.Zero, 0)
+        protected ActorBase(string id)
+            : this(id, Vector3.Zero, Vector3.Zero, 0)
         {
-            
+
         }
 
-        protected ActorBase(string id, Vector3 position) : this (id, position, Vector3.Zero, 0)
+        protected ActorBase(string id, Vector3 position)
+            : this(id, position, Vector3.Zero, 0)
         {
-            
+
         }
 
-        protected ActorBase(string id, Vector3 position, Vector3 velocity) : this(id, position, velocity, 0)
+        protected ActorBase(string id, Vector3 position, Vector3 velocity)
+            : this(id, position, velocity, 0)
         {
-            
+
         }
 
         protected ActorBase(string id, Vector3 position, Vector3 velocity, int team)
         {
-            ActorId = id;            
+            ActorId = id;
             IncreaseChargeTime = true;
             Position = position;
             Velocity = velocity;
@@ -80,6 +83,11 @@ namespace DoomTactics
 
         public abstract void SetupStats();
         public virtual void SetupAbilityList()
+        {
+
+        }
+
+        public virtual void MakeAIDecision(Level currentLevel, Action<ActionInformation, Tile> onComplete)
         {
 
         }
@@ -208,12 +216,12 @@ namespace DoomTactics
 
         public virtual void Idle()
         {
-            
+
         }
 
         public virtual void Pain()
         {
-            
+
         }
 
         public virtual void Die()
@@ -296,7 +304,10 @@ namespace DoomTactics
                                          FacePoint(tilePosition, true);
                                          Velocity = MovementVelocityModifier * directionToMove;
                                      })
-                        .EndCondition(() => (centerCheckBox.Contains(Position) == ContainmentType.Contains))
+                        .EndCondition(() =>
+                                          {
+                                              return centerCheckBox.Contains(Position) == ContainmentType.Contains;
+                                          })
                         .OnComplete(() =>
                                         {
                                             Velocity = Vector3.Zero;
@@ -316,7 +327,10 @@ namespace DoomTactics
                                          FacePoint(tilePosition, true);
                                          Velocity = MovementVelocityModifier * directionToMove;
                                      })
-                        .EndCondition(() => (centerCheckBox.Contains(Position) == ContainmentType.Contains));
+                        .EndCondition(() =>
+                                          {
+                                              return centerCheckBox.Contains(Position) == ContainmentType.Contains;
+                                          });
                 }
                 else if (pathIndex != path.Count - 1)
                 {
@@ -328,7 +342,10 @@ namespace DoomTactics
                                          FacePoint(tilePosition, true);
                                          Velocity = MovementVelocityModifier * directionToMove;
                                      })
-                        .EndCondition(() => (centerCheckBox.Contains(Position) == ContainmentType.Contains));
+                        .EndCondition(() =>
+                                          {
+                                              return centerCheckBox.Contains(Position) == ContainmentType.Contains;
+                                          });
                 }
               
             }
@@ -352,7 +369,7 @@ namespace DoomTactics
                     damageResult.AffectedActor.Pain();
                 }
             }
-        }        
+        }
 
         private Vector3 GetDirectionToPoint(Vector3 targetPosition)
         {

@@ -32,15 +32,6 @@ namespace DoomTactics
 
         public virtual void Update(GameTime gameTime)
         {
-            if (GameState.ActiveUnit == null)
-            {
-                foreach (var actor in GameState.Level.Actors)
-                {
-                    if (actor.IncreaseChargeTime)
-                        actor.IncreaseCT();
-                }
-            }
-
             foreach (var actor in GameState.Level.Actors)
             {
                 actor.Update(gameTime);

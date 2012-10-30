@@ -8,8 +8,6 @@ namespace DoomTactics
 {
     public class MessagingHelper
     {
-        private static Logger _log = LogManager.GetCurrentClassLogger();
-
         private struct CallbackWithType
         {
             public Action<IDoomEvent> callback;
@@ -18,6 +16,8 @@ namespace DoomTactics
             public string SenderName;
         }
 
+        private static Logger _log = LogManager.GetCurrentClassLogger();
+        
         private List<CallbackWithType> callbacks;
 
         public MessagingHelper()
@@ -38,11 +38,11 @@ namespace DoomTactics
         public void DispatchEvent(IDoomEvent evt, string senderName)
         {
             var interestedListeners =
-                from l in callbacks
+                (from l in callbacks
                 where l.type == evt.EventType
                       && (l.SenderName == null || l.SenderName == senderName)
                       && (evt.ListenerNames == null || evt.ListenerNames.Length == 0 || evt.ListenerNames.Contains(l.ListenerName))
-                select l;
+                select l).ToList();
             foreach (var intListener in interestedListeners)
             {
                 //_log.Debug("Found interested listener " + intListener.ListenerName + " for event " + evt);

@@ -26,6 +26,13 @@ namespace DoomTactics
         public override void OnEnter()
         {
             base.OnEnter();
+
+            if (GameState.IsAIControlled(_actionActor))
+            {
+                NextState = new StateTransition(new AIDecision(GameState, _actionActor));
+                return;
+            }
+
             GameState.Desktop.Visible = true;
             GameState.Desktop.ShowCursor = true;
 
@@ -70,8 +77,10 @@ namespace DoomTactics
 
         public override void OnExit()
         {
-            _actionMenu.Visible = false;
-            _actionSubMenu.Visible = false;
+            if (_actionMenu != null)
+                _actionMenu.Visible = false;
+            if (_actionSubMenu != null)
+                _actionSubMenu.Visible = false;
         }
 
         public override void Update(GameTime gameTime)

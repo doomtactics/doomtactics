@@ -58,6 +58,7 @@ namespace DoomTactics
             _receivedEvent = false;
             _currentIndex++;
             MessagingSystem.Unsubscribe(_name);
+
             if (_currentIndex < _scriptSegments.Count)
             {
                 if (_scriptSegments[_currentIndex].EndOnEventSender != null)

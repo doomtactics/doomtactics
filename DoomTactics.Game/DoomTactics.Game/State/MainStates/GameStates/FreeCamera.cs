@@ -39,6 +39,14 @@ namespace DoomTactics
 
         public override void Update(GameTime gameTime)
         {
+            if (GameState.ActiveUnit == null)
+            {
+                foreach (var actor in GameState.Level.Actors)
+                {
+                    if (actor.IncreaseChargeTime)
+                        actor.IncreaseCT();
+                }
+            }
             base.Update(gameTime);
         }
 

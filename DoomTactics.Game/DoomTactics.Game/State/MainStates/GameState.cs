@@ -212,5 +212,10 @@ namespace DoomTactics
 
             return new Ray(nearpoint, direction);
         }
+
+        public bool IsAIControlled(ActorBase actor)
+        {
+            return (actor.Team != 1);
+        }
     }
 }
