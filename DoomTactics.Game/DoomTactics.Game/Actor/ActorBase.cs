@@ -229,7 +229,7 @@ namespace DoomTactics
 
         }
 
-        private void SnapToTile(Tile tile)
+        public void SnapToTile(Tile tile)
         {
             Position = tile.GetTopCenter();
         }
@@ -245,111 +245,9 @@ namespace DoomTactics
         {
             IList<Tile> path = AStar.CalculateAStarPath(level.GetTileOfActor(this), goalTile, level, this);
 
-            var scriptBuilder = new ActionAnimationScriptBuilder().Name(ActorId + "Move");
-            for (int pathIndex = 1; pathIndex < path.Count; pathIndex++)
-            {
-                var tile = path[pathIndex];
-                float tileYPos = tile.CreateBoundingBox().Max.Y;
-                var tilePosition = tile.GetTopCenter();
-                BoundingBox centerCheckBox = new BoundingBox(tilePosition - new Vector3(5.0f), tilePosition + new Vector3(5.0f));                
-                scriptBuilder = scriptBuilder
-                    .Segment()
-                    .OnStart((sv) =>
-                                 {
-                                     Vector3 directionToMove = GetDirectionToPoint(tilePosition);
-                                     FacePoint(tilePosition, true);
-                                     Velocity = MovementVelocityModifier * directionToMove;                                     
-                                     if (directionToMove.Y > 0.0f)
-                                     {
-                                         Velocity.Y *= 2;
-                                         sv.SetVariable("evalFunc", new Func<Vector3, bool>((v) => v.Y >= tileYPos));
-                                     }
-                                     else if (directionToMove.Y <= 0)
-                                     {
-                                         Vector3 currentPosition = Position;
-                                         if (directionToMove.X >= 0.9f)
-                                         {
-                                             sv.SetVariable("evalFunc", new Func<Vector3, bool>((v) => v.X >= currentPosition.X + 32f));
-                                         }
-                                         else if (directionToMove.X <= -0.9f)
-                                         {
-                                             sv.SetVariable("evalFunc", new Func<Vector3, bool>((v) => v.X <= currentPosition.X - 32f));
-                                         }
-                                         else if (directionToMove.Z <= -0.9f)
-                                         {
-                                             sv.SetVariable("evalFunc", new Func<Vector3, bool>((v) => v.Z <= currentPosition.Z - 32f));
-                                         }
-                                         else if (directionToMove.Z >= 0.9f)
-                                         {
-                                             sv.SetVariable("evalFunc", new Func<Vector3, bool>((v) => v.Z >= currentPosition.Z + 32f));
-                                         }
-                                         Velocity.Y = 0;
-                                     }
-                                 })
-                    .EndCondition((sv) =>
-                                      {
-                                          bool result = sv.GetVariable<Func<Vector3, bool>>("evalFunc")(Position);
-                                          return result;
-                                      });
+            var script = MoveToTileScript.MakeScript(path, this);
 
-                if (pathIndex == path.Count - 1)
-                {
-                    var removeFromTileEvent = new ActorEvent(DoomEventType.RemoveFromCurrentTile, this);
-                    scriptBuilder = scriptBuilder
-                        .Segment()
-                        .OnStart(() =>
-                                     {
-                                         if (path.Count == 2) MessagingSystem.DispatchEvent(removeFromTileEvent, ActorId);
-                                         Vector3 directionToMove = GetDirectionToPoint(tilePosition);
-                                         FacePoint(tilePosition, true);
-                                         Velocity = MovementVelocityModifier * directionToMove;
-                                     })
-                        .EndCondition(() =>
-                                          {
-                                              return centerCheckBox.Contains(Position) == ContainmentType.Contains;
-                                          })
-                        .OnComplete(() =>
-                                        {
-                                            Velocity = Vector3.Zero;
-                                            SnapToTile(tile);
-                                            tile.SetActor(this);
-                                        });
-                }
-                else if (pathIndex == 1)
-                {
-                    var removeFromTileEvent = new ActorEvent(DoomEventType.RemoveFromCurrentTile, this);
-                    scriptBuilder = scriptBuilder
-                        .Segment()
-                        .OnStart(() =>
-                                     {
-                                         MessagingSystem.DispatchEvent(removeFromTileEvent, ActorId);
-                                         Vector3 directionToMove = GetDirectionToPoint(tilePosition);
-                                         FacePoint(tilePosition, true);
-                                         Velocity = MovementVelocityModifier * directionToMove;
-                                     })
-                        .EndCondition(() =>
-                                          {
-                                              return centerCheckBox.Contains(Position) == ContainmentType.Contains;
-                                          });
-                }
-                else if (pathIndex != path.Count - 1)
-                {
-                    scriptBuilder = scriptBuilder
-                        .Segment()
-                        .OnStart(() =>
-                                     {
-                                         Vector3 directionToMove = GetDirectionToPoint(tilePosition);
-                                         FacePoint(tilePosition, true);
-                                         Velocity = MovementVelocityModifier * directionToMove;
-                                     })
-                        .EndCondition(() =>
-                                          {
-                                              return centerCheckBox.Contains(Position) == ContainmentType.Contains;
-                                          });
-                }
-              
-            }
-            return scriptBuilder.Build();
+            return script;
         }
 
         protected void ApplyAndDisplayDamages(IList<DamageResult> damageResults)
@@ -371,7 +269,7 @@ namespace DoomTactics
             }
         }
 
-        private Vector3 GetDirectionToPoint(Vector3 targetPosition)
+        public Vector3 GetDirectionToPoint(Vector3 targetPosition)
         {
             return Vector3.Normalize(targetPosition - Position);
         }
