@@ -22,8 +22,7 @@ namespace DoomTactics
                     .OnStart((sv) =>
                     {
                         Vector3 directionToMove = actor.GetDirectionToPoint(tilePosition);
-                        actor.FacePoint(tilePosition, true);
-                        actor.Velocity = actor.MovementVelocityModifier * directionToMove;
+                        FaceAndMoveToPoint(tilePosition, actor);
                         if (directionToMove.Y > 0.0f)
                         {
                             actor.Velocity.Y *= 2;
@@ -65,9 +64,7 @@ namespace DoomTactics
                         .OnStart(() =>
                         {
                             if (path.Count == 2) MessagingSystem.DispatchEvent(removeFromTileEvent, actor.ActorId);
-                            Vector3 directionToMove = actor.GetDirectionToPoint(tilePosition);
-                            actor.FacePoint(tilePosition, true);
-                            actor.Velocity = actor.MovementVelocityModifier * directionToMove;
+                            FaceAndMoveToPoint(tilePosition, actor);
                         })
                         .EndCondition(() =>
                         {
@@ -88,9 +85,7 @@ namespace DoomTactics
                         .OnStart(() =>
                         {
                             MessagingSystem.DispatchEvent(removeFromTileEvent, actor.ActorId);
-                            Vector3 directionToMove = actor.GetDirectionToPoint(tilePosition);
-                            actor.FacePoint(tilePosition, true);
-                            actor.Velocity = actor.MovementVelocityModifier * directionToMove;
+                            FaceAndMoveToPoint(tilePosition, actor);
                         })
                         .EndCondition(() =>
                         {
@@ -103,9 +98,7 @@ namespace DoomTactics
                         .Segment()
                         .OnStart(() =>
                         {
-                            Vector3 directionToMove = actor.GetDirectionToPoint(tilePosition);
-                            actor.FacePoint(tilePosition, true);
-                            actor.Velocity = actor.MovementVelocityModifier * directionToMove;
+                            FaceAndMoveToPoint(tilePosition, actor);
                         })
                         .EndCondition(() =>
                         {
@@ -115,6 +108,13 @@ namespace DoomTactics
 
             }
             return scriptBuilder.Build();
+        }
+
+        private static void FaceAndMoveToPoint(Vector3 tilePosition, ActorBase actor)
+        {
+            Vector3 directionToMove = actor.GetDirectionToPoint(tilePosition);
+            actor.FacePoint(tilePosition, true);
+            actor.Velocity = actor.MovementVelocityModifier * directionToMove;
         }
     }
 }
