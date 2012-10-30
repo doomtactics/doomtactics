@@ -25,8 +25,8 @@ namespace DoomTactics
 
         public virtual float MovementVelocityModifier { get; protected set; }
 
-        public GameplayStats BaseStats;
-        public GameplayStats CurrentStats;
+        protected GameplayStats BaseStats;
+        public GameplayStats CurrentStats { get; protected set; }
         public IList<AbilityInformation> AbilityList;
         public bool DidMove;
         public bool DidAction;
@@ -231,7 +231,7 @@ namespace DoomTactics
 
         private void SnapToTile(Tile tile)
         {
-            this.Position = new Vector3(tile.XCoord * 64.0f + 32.0f, tile.CreateBoundingBox().Max.Y, tile.YCoord * 64.0f + 32.0f);
+            Position = tile.GetTopCenter();
         }
 
         public ActionInformation MoveToTile(Level level)
@@ -250,7 +250,7 @@ namespace DoomTactics
             {
                 var tile = path[pathIndex];
                 float tileYPos = tile.CreateBoundingBox().Max.Y;
-                var tilePosition = new Vector3(tile.XCoord * 64.0f + 32.0f, tileYPos, tile.YCoord * 64.0f + 32.0f);
+                var tilePosition = tile.GetTopCenter();
                 BoundingBox centerCheckBox = new BoundingBox(tilePosition - new Vector3(5.0f), tilePosition + new Vector3(5.0f));                
                 scriptBuilder = scriptBuilder
                     .Segment()
@@ -374,6 +374,11 @@ namespace DoomTactics
         private Vector3 GetDirectionToPoint(Vector3 targetPosition)
         {
             return Vector3.Normalize(targetPosition - Position);
+        }
+
+        public virtual void EndTurn()
+        {
+            CurrentStats.ChargeTime = 0;
         }
     }
 }

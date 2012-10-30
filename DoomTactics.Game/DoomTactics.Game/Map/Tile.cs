@@ -206,7 +206,6 @@ namespace DoomTactics
         public BoundingBox CreateBoundingBox()
         {
             return _model.CreateBoundingBox();
-        }
-
+        }        
     }
 }

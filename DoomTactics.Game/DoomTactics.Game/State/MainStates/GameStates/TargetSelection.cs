@@ -124,8 +124,10 @@ namespace DoomTactics
                 return AttackSelectionTint;
             if (actionType == ActionType.Move && hovered)
                 return MoveSelectionHoveredTint;
-            else
+            if (actionType == ActionType.Move && !hovered)
                 return MoveSelectionTint;
+
+            return DefaultTint;
         }
     }
 }
