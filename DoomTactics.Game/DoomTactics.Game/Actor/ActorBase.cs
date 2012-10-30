@@ -28,8 +28,8 @@ namespace DoomTactics
         protected GameplayStats BaseStats;
         public GameplayStats CurrentStats { get; protected set; }
         public IList<AbilityInformation> AbilityList;
-        public bool DidMove;
-        public bool DidAction;
+        protected bool DidMove;
+        protected bool DidAction;
 
 
         public virtual SpriteSheet SpriteSheet
@@ -277,6 +277,26 @@ namespace DoomTactics
         public virtual void EndTurn()
         {
             CurrentStats.ChargeTime = 0;
+        }
+
+        public virtual bool CanMove()
+        {
+            return !DidMove;
+        }
+
+        public virtual void SetMoved()
+        {
+            DidMove = true;
+        }
+
+        public virtual bool CanAction()
+        {
+            return !DidAction;
+        }
+
+        public virtual void SetActioned()
+        {
+            DidAction = true;
         }
     }
 }

@@ -52,12 +52,12 @@ namespace DoomTactics
                 var actionMenuBuilder = new ActionMenuBuilder()
                     .ActorName(_actionActor.ActorId);
 
-                if (!_actionActor.DidAction)
+                if (_actionActor.CanAction())
                 {
                     actionMenuBuilder
                         .Action("Action", (ctl, e) => _actionMenu.ShowSubMenu(_actionSubMenu));
                 }
-                if (!_actionActor.DidMove)
+                if (_actionActor.CanMove())
                 {
                     actionMenuBuilder
                         .Action("Move", (ctl, e) => SwitchToTargetSelection(_actionActor.MoveToTile(GameState.Level)));

@@ -96,12 +96,12 @@ namespace DoomTactics
             if (targeted != null && _actionInformation.Selector.IsTileValid(targeted))
             {
                 if (_actionInformation.ActionType == ActionType.Move)
-                    GameState.ActiveUnit.DidMove = true;
+                    GameState.ActiveUnit.SetMoved();
                 else if (_actionInformation.ActionType == ActionType.Attack)
-                    GameState.ActiveUnit.DidAction = true;
+                    GameState.ActiveUnit.SetActioned();
 
                 IState nextState;
-                if (!GameState.ActiveUnit.DidMove || !GameState.ActiveUnit.DidAction)
+                if (GameState.ActiveUnit.CanMove() || GameState.ActiveUnit.CanAction())
                 {
                     nextState = new ActionSelection(GameState, GameState.ActiveUnit);
                 }
