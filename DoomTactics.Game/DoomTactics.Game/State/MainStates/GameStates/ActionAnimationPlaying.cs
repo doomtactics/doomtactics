@@ -63,7 +63,7 @@ namespace DoomTactics
                                     ? new StateTransition(() => new FreeCamera(GameState, null))
                                     : new StateTransition(() => new ActionSelection(GameState, GameState.ActiveUnit));
                 }
-                else if(!GameState.ActiveUnit.CanAction() && !GameState.ActiveUnit.CanMove())
+                else if(!GameState.ActiveUnit.CanAction() && !GameState.ActiveUnit.CanMove() && !GameState.IsAIControlled(GameState.ActiveUnit))
                 {
                     NextState = new StateTransition(() => new SelectWaitDirection(GameState));
                 }

@@ -42,12 +42,12 @@ namespace DoomTactics
             CurrentAnimation.OnComplete = Idle;
 
             var tilebox = selectedTile.CreateBoundingBox();
-            var average = tilebox.Min + (tilebox.Max - tilebox.Min)/2.0f;
-            Vector3 target = new Vector3(average.X, tilebox.Max.Y + Height/2.0f, average.Z);
+            var average = tilebox.Min + (tilebox.Max - tilebox.Min) / 2.0f;
+            Vector3 target = new Vector3(average.X, tilebox.Max.Y + Height / 2.0f, average.Z);
             BoundingBox targetBoundingBox = new BoundingBox(target - new Vector3(20, 20, 20), target + new Vector3(20, 20, 20));
-            Vector3 source = new Vector3(Position.X, Position.Y + Height/2.0f, Position.Z);
+            Vector3 source = new Vector3(Position.X, Position.Y + Height / 2.0f, Position.Z);
             var direction = target - source;
-            var velocity = Vector3.Normalize(direction)*5.0f;
+            var velocity = Vector3.Normalize(direction) * 5.0f;
             var impFireball = ActorSpawnMethods.GetSpawnMethod(ActorType.ImpFireball).Invoke(source, velocity);
             var spawnEvent = new ActorEvent(DoomEventType.SpawnActor, impFireball);
             var soundEvent = new SoundEvent(DoomEventType.PlaySound, FireballShootSound);
@@ -68,26 +68,75 @@ namespace DoomTactics
                                     })
                 .Segment()
                     .EndOnEvent(DoomEventType.AnimationEnd, impFireball.ActorId)
-                    .OnComplete(() => 
+                    .OnComplete(() =>
                         MessagingSystem.DispatchEvent(new DespawnActorEvent(DoomEventType.DespawnActor, impFireball), ActorId)
                         )
-                .Build();                        
+                .Build();
 
             return script;
         }
 
         public override void MakeAIDecision(Level currentLevel, Action<ActionInformation, Tile> onComplete)
         {
-            if (CanMove())
+            var enemyOrClosest = temp_GetEnemyInRangeOrClosest(currentLevel);
+            var ability = AbilityList.Single(x => x.AbilityDetails.AbilityName == "Fireball");
+            if (CanAction() && enemyOrClosest.Item2 <= 5)
             {
-                var currentTile = currentLevel.GetTileOfActor(this);
-                onComplete(MoveToTile(currentLevel), currentLevel.GetTileAt(currentTile.XCoord, currentTile.YCoord + 2));
+                onComplete(ShootFireball(currentLevel, ability.AbilityDetails),
+                           currentLevel.GetTileOfActor(enemyOrClosest.Item1));
+
+                return;
             }
-            else
+            if (CanAction() && enemyOrClosest.Item2 <= CurrentStats.MovementRange + 5)
             {
-                onComplete(Wait(Vector3.Zero), null);
+                Tile moveToTile = temp_GetTileClosestToEnemy(currentLevel, enemyOrClosest.Item1);
+                if (moveToTile != null)
+                {
+                    onComplete(MoveToTile(currentLevel), moveToTile);
+                }
+                return;
             }
+
+            onComplete(Wait(Vector3.Zero), null);
         }
+
+        private Tuple<ActorBase, int> temp_GetEnemyInRangeOrClosest(Level currentLevel)
+        {
+            Tuple<ActorBase, int> closestEnemy = null;
+            foreach (var enemy in currentLevel.Actors.Where(x => x.Team != this.Team))
+            {
+                Tile enemyTile = currentLevel.GetTileOfActor(enemy);
+                Tile myTile = currentLevel.GetTileOfActor(this);
+                int distance = MathUtils.DistanceBetweenTiles(myTile, enemyTile);
+                if (closestEnemy == null || distance < closestEnemy.Item2)
+                {
+                    closestEnemy = Tuple.Create(enemy, distance);
+                }
+            }
+
+            return closestEnemy;
+        }
+
+        private Tile temp_GetTileClosestToEnemy(Level currentLevel, ActorBase targetActor)
+        {
+            var candidateTiles = TileSelectorHelper.StandardMovementTileSelector(currentLevel,
+                                                                                currentLevel.GetTileOfActor(this), this).ValidTiles();
+            Tile targetTile = currentLevel.GetTileOfActor(targetActor);
+            int distance = Int16.MaxValue;
+            Tile moveToTile = null;
+            foreach (var candidateTile in candidateTiles)
+            {
+                int candidateDistance = MathUtils.DistanceBetweenTiles(candidateTile, targetTile);
+                if (candidateDistance < distance)
+                {
+                    distance = candidateDistance;
+                    moveToTile = candidateTile;
+                }
+            }
+
+            return moveToTile;
+        }
+
 
         public override void Idle()
         {

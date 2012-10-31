@@ -28,5 +28,10 @@ namespace DoomTactics
                 return angle + MathHelper.Pi;
             }
         }
+
+        public static int DistanceBetweenTiles(Tile tile1, Tile tile2)
+        {
+            return Math.Abs(tile1.XCoord - tile2.XCoord) + Math.Abs(tile1.YCoord - tile2.YCoord);
+        }
     }
 }
