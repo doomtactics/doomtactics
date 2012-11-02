@@ -56,7 +56,6 @@ namespace DoomTactics
             textEffect.World = bill;
             textEffect.View = camera.View;
             textEffect.Projection = camera.Projection;
-            textEffect.ReferenceAlpha = 0;
             textEffect.AlphaFunction = CompareFunction.Greater;
             textEffect.ReferenceAlpha = 128;
             textEffect.VertexColorEnabled = true;            
