@@ -8,14 +8,17 @@ using Microsoft.Xna.Framework.Content;
 namespace DoomTactics
 {
     public static class SoundManager
-    {
-        private static readonly IList<SoundEffect> SoundEffects = new List<SoundEffect>();
-        private static ContentManager _contentManager;
+    {        
         private static bool _doPlaySounds;
+        private static AudioEngine _audioEngine;
+        private static SoundBank _soundBank;
+        private static WaveBank _waveBank;
 
         public static void Initialize(ContentManager contentManager)
         {
-            _contentManager = contentManager;
+            _audioEngine = new AudioEngine("Sound/DoomTacticsAudio.xgs");
+            _soundBank = new SoundBank(_audioEngine, "Sound/Sound Bank.xsb");
+            _waveBank = new WaveBank(_audioEngine, "Sound/Wave Bank.xwb");
         }
 
         public static void PlaySound(string soundEffectName)
@@ -23,28 +26,14 @@ namespace DoomTactics
             if (!_doPlaySounds)
                 return;
 
-            if (!SoundEffects.Any(se => se.Name == soundEffectName))
-            {
-                var se = _contentManager.Load<SoundEffect>(soundEffectName);
-                se.Name = soundEffectName;
-                SoundEffects.Add(se);
-            }
-            var effect = (SoundEffects.FirstOrDefault(se => se.Name == soundEffectName));
-            var effectInstance = effect.CreateInstance();
-            effectInstance.IsLooped = false;
-            effectInstance.Play();
+            _soundBank.PlayCue(soundEffectName);
         }
 
         public static void DisposeAll()
         {
-            foreach (var se in SoundEffects)
-            {
-                if (!se.IsDisposed)
-                {
-                    se.Dispose();
-                }
-            }
-
+            _waveBank.Dispose();
+            _soundBank.Dispose();
+            _audioEngine.Dispose();            
         }
 
         public static void OnPlaySound(IDoomEvent soundEvent)

@@ -9,10 +9,10 @@ namespace DoomTactics
 {
     public class Imp : ActorBase
     {
-        private const string FireballShootSound = "sound/fireballshoot";
-        private const string PainSound = "sound/imppain1";
-        private const string DeathSound1 = "sound/impdeath1";
-        private const string DeathSound2 = "sound/impdeath2";
+        private const string FireballShootSound = "fireballshoot";
+        private const string PainSound = "imppain1";
+        private const string DeathSound1 = "impdeath1";
+        private const string DeathSound2 = "impdeath2";
 
         public Imp(string id, Vector3 position)
             : base(id, position)

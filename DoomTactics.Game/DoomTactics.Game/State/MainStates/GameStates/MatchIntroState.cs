@@ -10,8 +10,8 @@ namespace DoomTactics
 {
     public class MatchIntroState : GameStateBase
     {
-        private const string AnnouncerSoundOne = "sound/announcer/wheel";        
-        private const string AnnouncerSoundTwo = "sound/announcer/action";
+        private const string AnnouncerSoundOne = "wheeloffateisturning";        
+        private const string AnnouncerSoundTwo = "action";
         private static readonly TimeSpan AnnouncerSoundOneDuration = TimeSpan.FromMilliseconds(5000);
         private static readonly TimeSpan AnnouncerSoundTwoDuration = TimeSpan.FromMilliseconds(3000);
 

@@ -240,6 +240,18 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="..\..\DoomTactics.Xact\Win\DoomTacticsAudio.xgs">
+      <Link>Sound\DoomTacticsAudio.xgs</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\DoomTactics.Xact\Win\Sound Bank.xsb">
+      <Link>Sound\Sound Bank.xsb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="..\..\DoomTactics.Xact\Win\Wave Bank.xwb">
+      <Link>Sound\Wave Bank.xwb</Link>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <None Include="app.config" />
     <Content Include="NLog.config">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
