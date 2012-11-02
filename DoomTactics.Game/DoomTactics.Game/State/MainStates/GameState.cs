@@ -63,7 +63,7 @@ namespace DoomTactics
 
             // camera
             float aspectRatio = (float)GameInstance.Window.ClientBounds.Width / GameInstance.Window.ClientBounds.Height;
-            Camera = new Camera("camera", new Vector3(-96f, 32f, 32f), new Vector3(32.0f, 32.0f, 32.0f), Vector3.Up,
+            Camera = new Camera("camera", new Vector3(0, 210f, 0), new Vector3(180f, 130f, 216f), Vector3.Up,
                                 aspectRatio);
             MessagingSystem.Subscribe(Camera.MoveCamera, DoomEventType.CameraMoveEvent, "camera", null);
             MessagingSystem.Subscribe(OnChargeTimeReached, DoomEventType.ChargeTimeReached, "gamestate", null);

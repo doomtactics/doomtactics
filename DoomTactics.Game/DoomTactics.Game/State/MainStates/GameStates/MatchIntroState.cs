@@ -12,8 +12,8 @@ namespace DoomTactics
     {
         private const string AnnouncerSoundOne = "wheeloffateisturning";        
         private const string AnnouncerSoundTwo = "action";
-        private static readonly TimeSpan AnnouncerSoundOneDuration = TimeSpan.FromMilliseconds(5000);
-        private static readonly TimeSpan AnnouncerSoundTwoDuration = TimeSpan.FromMilliseconds(3000);
+        private static readonly TimeSpan AnnouncerSoundOneDuration = TimeSpan.FromMilliseconds(3000);
+        private static readonly TimeSpan AnnouncerSoundTwoDuration = TimeSpan.FromMilliseconds(500);
 
         private readonly Stopwatch _stopwatch;
         private Texture2D _fill;
