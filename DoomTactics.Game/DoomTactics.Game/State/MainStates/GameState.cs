@@ -17,7 +17,7 @@ namespace DoomTactics
     public class GameState : IState
     {
         private static readonly Logger Log = LogManager.GetCurrentClassLogger();
-        private readonly DoomTacticsGame _gameInstance;
+        public readonly DoomTacticsGame GameInstance;
         private readonly StateMachine _stateMachine;
 
         // gameplay
@@ -42,16 +42,16 @@ namespace DoomTactics
 
         public GameState(DoomTacticsGame gameInstance, SquidInputManager squidInputManager)
         {
-            _gameInstance = gameInstance;
+            GameInstance = gameInstance;
             Desktop = new DoomDesktop();
             SquidInputManager = squidInputManager;
-            _stateMachine = new StateMachine(new FreeCamera(this, null));            
+            _stateMachine = new StateMachine(new MatchIntroState(this));            
         }
 
         public void OnEnter()
         {
             // setup
-            SpriteSheetFactory.Initialize(_gameInstance.Content);
+            SpriteSheetFactory.Initialize(GameInstance.Content);
             HardcodedAnimations.CreateAnimations();
 
             // music
@@ -59,10 +59,10 @@ namespace DoomTactics
 
             // fonts
             FloatingTexts = new List<TimedText>();
-            DamageFont = _gameInstance.Content.Load<SpriteFont>("fonts/Doom12");
+            DamageFont = GameInstance.Content.Load<SpriteFont>("fonts/Doom12");
 
             // camera
-            float aspectRatio = (float)_gameInstance.Window.ClientBounds.Width / _gameInstance.Window.ClientBounds.Height;
+            float aspectRatio = (float)GameInstance.Window.ClientBounds.Width / GameInstance.Window.ClientBounds.Height;
             Camera = new Camera("camera", new Vector3(-96f, 32f, 32f), new Vector3(32.0f, 32.0f, 32.0f), Vector3.Up,
                                 aspectRatio);
             MessagingSystem.Subscribe(Camera.MoveCamera, DoomEventType.CameraMoveEvent, "camera", null);
@@ -73,14 +73,14 @@ namespace DoomTactics
             MessagingSystem.Subscribe(OnDisplayDamage, DoomEventType.DisplayDamage, "gamestate", null);
             MessagingSystem.Subscribe(OnDespawnText, DoomEventType.DespawnText, "gamestate", null);
 
-            Effect = new TileEffect(_gameInstance.Content);
+            Effect = new TileEffect(GameInstance.Content);
 
-            CreateLevelTemp(_gameInstance.Content);
+            CreateLevelTemp(GameInstance.Content);
 
-            SpriteBatch = new SpriteBatch(_gameInstance.GraphicsDevice);
-            SpriteEffect = new BasicEffect(_gameInstance.GraphicsDevice);
-            AlphaTestEffect = new AlphaTestEffect(_gameInstance.GraphicsDevice);
-            TextEffect = new AlphaTestEffect(_gameInstance.GraphicsDevice);
+            SpriteBatch = new SpriteBatch(GameInstance.GraphicsDevice);
+            SpriteEffect = new BasicEffect(GameInstance.GraphicsDevice);
+            AlphaTestEffect = new AlphaTestEffect(GameInstance.GraphicsDevice);
+            TextEffect = new AlphaTestEffect(GameInstance.GraphicsDevice);
         }
 
         public void OnExit()
@@ -103,7 +103,7 @@ namespace DoomTactics
 
         public void ReturnToMainMenu()
         {
-            NextState = new StateTransition(() => DoomTacticsGame.CreateMenuState(_gameInstance));
+            NextState = new StateTransition(() => DoomTacticsGame.CreateMenuState(GameInstance));
         }
 
         public void Render(GraphicsDevice device)
@@ -117,9 +117,9 @@ namespace DoomTactics
             Vector3 nearpoint = new Vector3(mousePosition, 0);
             Vector3 farpoint = new Vector3(mousePosition, 1.0f);
 
-            nearpoint = _gameInstance.GraphicsDevice.Viewport.Unproject(nearpoint, Camera.Projection, Camera.View,
+            nearpoint = GameInstance.GraphicsDevice.Viewport.Unproject(nearpoint, Camera.Projection, Camera.View,
                                                                         Matrix.Identity);
-            farpoint = _gameInstance.GraphicsDevice.Viewport.Unproject(farpoint, Camera.Projection, Camera.View,
+            farpoint = GameInstance.GraphicsDevice.Viewport.Unproject(farpoint, Camera.Projection, Camera.View,
                                                                        Matrix.Identity);
 
             Vector3 direction = Vector3.Normalize(farpoint - nearpoint);
@@ -203,9 +203,9 @@ namespace DoomTactics
             Vector3 nearpoint = new Vector3(mousePosition, 0);
             Vector3 farpoint = new Vector3(mousePosition, 1.0f);
 
-            nearpoint = _gameInstance.GraphicsDevice.Viewport.Unproject(nearpoint, Camera.Projection, Camera.View,
+            nearpoint = GameInstance.GraphicsDevice.Viewport.Unproject(nearpoint, Camera.Projection, Camera.View,
                                                                         Matrix.Identity);
-            farpoint = _gameInstance.GraphicsDevice.Viewport.Unproject(farpoint, Camera.Projection, Camera.View,
+            farpoint = GameInstance.GraphicsDevice.Viewport.Unproject(farpoint, Camera.Projection, Camera.View,
                                                                        Matrix.Identity);
 
             Vector3 direction = Vector3.Normalize(farpoint - nearpoint);

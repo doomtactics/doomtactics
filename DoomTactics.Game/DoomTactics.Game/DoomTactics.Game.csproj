@@ -192,6 +192,7 @@
     <Compile Include="State\MainStates\GameStates\ActionSelection.cs" />
     <Compile Include="State\MainStates\GameStates\GameStateBase.cs" />
     <Compile Include="State\MainStates\GameStates\ActionAnimationPlaying.cs" />
+    <Compile Include="State\MainStates\GameStates\MatchIntroState.cs" />
     <Compile Include="State\MainStates\GameStates\SelectWaitDirection.cs" />
     <Compile Include="State\MainStates\GameStates\TargetSelection.cs" />
     <Compile Include="State\MainStates\MenuState.cs" />
