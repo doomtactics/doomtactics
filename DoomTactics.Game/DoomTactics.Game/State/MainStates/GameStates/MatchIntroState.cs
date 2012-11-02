@@ -18,7 +18,7 @@ namespace DoomTactics
         private readonly Stopwatch _stopwatch;
         private Texture2D _fill;
         private bool _playedSecondSound;
-        private static readonly Color FillColor = new Color(128, 128, 128, 128);        
+        private static readonly Color FillColor = new Color(205, 133, 53, 70);
 
         public MatchIntroState(GameState gameState) : base(gameState)
         {
@@ -30,7 +30,7 @@ namespace DoomTactics
         public override void OnEnter()
         {
             _fill = new Texture2D(GameState.GameInstance.GraphicsDevice, 1, 1);
-            _fill.SetData(new[] { FillColor });
+            _fill.SetData(new[] { Color.White });
             var evt = new SoundEvent(DoomEventType.PlaySound, AnnouncerSoundOne);
             MessagingSystem.DispatchEvent(evt, "MatchIntro");
             _stopwatch.Start();
@@ -55,7 +55,9 @@ namespace DoomTactics
         public override void Render(GraphicsDevice device)
         {
             base.Render(device);
-            
+            GameState.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied, null, null, null);
+            GameState.SpriteBatch.Draw(_fill, new Rectangle(0, 0, GameState.GameInstance.GraphicsDevice.Viewport.Width, GameState.GameInstance.GraphicsDevice.Viewport.Height), FillColor);
+            GameState.SpriteBatch.End();
         }
 
         public override void OnExit()
