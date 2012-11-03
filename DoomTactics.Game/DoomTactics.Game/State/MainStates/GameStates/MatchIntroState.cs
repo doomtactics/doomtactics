@@ -14,7 +14,7 @@ namespace DoomTactics
         private const string AnnouncerSoundTwo = "action";
         private const string WordsTexture = "text/prepareforbattleaction";
         private static readonly Rectangle WordOneRectangle = new Rectangle(0, 0, 712, 37);
-        private static readonly Rectangle WordTwoRectangle = new Rectangle(0, 37, 427, 65);
+        private static readonly Rectangle WordTwoRectangle = new Rectangle(0, 37, 427, 60);
         private static readonly TimeSpan AnnouncerSoundOneDuration = TimeSpan.FromMilliseconds(3000);
         private static readonly TimeSpan AnnouncerSoundTwoDuration = TimeSpan.FromMilliseconds(1200);
         private static readonly Vector2 OneDisplayPosition = new Vector2(200, 200);
@@ -86,7 +86,6 @@ namespace DoomTactics
         public override void OnExit()
         {
             _fill.Dispose();
-            _words.Dispose();
         }
 
         public override bool IsPaused

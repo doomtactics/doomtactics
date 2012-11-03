@@ -158,6 +158,8 @@ namespace DoomTactics
             if (deathSoundNum == 1) deathSound = DeathSound2;
             MessagingSystem.DispatchEvent(new SoundEvent(DoomEventType.PlaySound, deathSound), ActorId);
             CurrentAnimation = ActorAnimationManager.Make("impdie", ActorId);
+            CurrentAnimation.OnComplete =
+                () => MessagingSystem.DispatchEvent(new ActorEvent(DoomEventType.ActorDied, this), ActorId);
         }
 
         public override void SetupStats()

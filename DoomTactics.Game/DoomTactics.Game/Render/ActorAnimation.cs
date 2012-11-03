@@ -12,6 +12,7 @@ namespace DoomTactics
         private readonly List<AnimationEntry> _animations;
         private readonly string _entityName;
         private readonly bool _loop;
+        private bool _endEventsInvoked;
         private int _currentIndex;
         private Action _onComplete;
 
@@ -30,6 +31,7 @@ namespace DoomTactics
             _loop = loop;
             _entityName = entityName;
             _animations = animationEntries ?? new List<AnimationEntry>();
+            _endEventsInvoked = false;
         }
 
         public void AddAnimationEntry(AnimationEntry animationEntry)
@@ -57,10 +59,11 @@ namespace DoomTactics
                 {
                     _currentIndex = 0;
                 }
-                else
+                else if (!_endEventsInvoked)
                 {
+                    _endEventsInvoked = true;
                     if (_onComplete != null)
-                        _onComplete.Invoke();
+                        _onComplete();
                     var evt = new DoomEvent(DoomEventType.AnimationEnd);
                     MessagingSystem.DispatchEvent(evt, _entityName);                    
                 }

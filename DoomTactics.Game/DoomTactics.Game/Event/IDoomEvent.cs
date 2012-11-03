@@ -16,6 +16,7 @@
         SpawnActor,
         DespawnActor,
         RemoveFromCurrentTile,
+        ActorDied,
 
         // damage
         DisplayDamage,

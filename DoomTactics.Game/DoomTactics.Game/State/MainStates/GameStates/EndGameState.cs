@@ -27,7 +27,7 @@ namespace DoomTactics
         private Texture2D _words;
         private bool _playedSoundOne;
         private bool _playedSoundTwo;
-        private Rectangle WordRectangle;
+        private Rectangle _wordRectangle;
 
 
         public EndGameState(GameState gameState, bool playerWon)
@@ -45,25 +45,25 @@ namespace DoomTactics
             _fill.SetData(new[] { Color.White });
             _words = GameState.GameInstance.Content.Load<Texture2D>(WordsTexture);
 
-            WordRectangle = _playerWon ? WinRectangle : LoseRectangle;
+            _wordRectangle = _playerWon ? WinRectangle : LoseRectangle;
+
+            _stopwatch.Start();
         }
 
         public override void OnExit()
         {
             _fill.Dispose();
-            _words.Dispose();
         }
 
         public override void Render(GraphicsDevice device)
         {
-            base.Render(device);
             base.Render(device);
             GameState.SpriteBatch.Begin(SpriteSortMode.Immediate, BlendState.NonPremultiplied, null, null, null);
             GameState.SpriteBatch.Draw(_fill, new Rectangle(0, 0, GameState.GameInstance.GraphicsDevice.Viewport.Width, GameState.GameInstance.GraphicsDevice.Viewport.Height), FillColor);
             GameState.SpriteBatch.End();
 
             GameState.SpriteBatch.Begin();
-            GameState.SpriteBatch.Draw(_words, DisplayPosition, WordRectangle, Color.White);
+            GameState.SpriteBatch.Draw(_words, DisplayPosition, _wordRectangle, Color.White);
             GameState.SpriteBatch.End();
         }
 
@@ -72,6 +72,7 @@ namespace DoomTactics
             base.Update(gameTime);
             if (_stopwatch.Elapsed > AnnouncerSoundOneDuration + AnnouncerSoundTwoDuration)
             {
+                _stopwatch.Stop();
                 NextState = new StateTransition(() => new FreeCamera(GameState, null));
             }
             else if (!_playedSoundTwo && _stopwatch.Elapsed > AnnouncerSoundOneDuration)

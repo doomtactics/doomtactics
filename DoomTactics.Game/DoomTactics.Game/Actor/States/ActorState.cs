@@ -11,5 +11,6 @@ namespace DoomTactics
         public virtual bool CanMove { get { return true; } }
         public virtual bool CanAct { get { return true; } }
         public virtual bool CanTakeTurn { get { return true; } }
+        public virtual bool IsDead { get { return false; } }
     }
 }

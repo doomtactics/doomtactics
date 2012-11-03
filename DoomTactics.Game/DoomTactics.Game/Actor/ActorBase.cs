@@ -335,6 +335,11 @@ namespace DoomTactics
             return CurrentActorState.Targetable;
         }
 
+        public virtual bool IsDead()
+        {
+            return CurrentActorState.IsDead;
+        }
+
         #endregion
     }
 }

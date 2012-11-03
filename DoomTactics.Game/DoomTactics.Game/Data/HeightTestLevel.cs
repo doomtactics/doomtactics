@@ -82,7 +82,7 @@ namespace DoomTactics.Data
 
 
             var impOne = new ActorInfo() { ActorType = ActorType.Imp, DisplayName = "Imp1", Name = "Imp1", TileX = 6, TileY = 4, Team = 1 };
-            var impTwo = new ActorInfo() { ActorType = ActorType.Imp, DisplayName = "Imp2", Name = "Imp2", TileX = 5, TileY = 4, Team = 1 };
+            //var impTwo = new ActorInfo() { ActorType = ActorType.Imp, DisplayName = "Imp2", Name = "Imp2", TileX = 5, TileY = 4, Team = 1 };
             var impThree = new ActorInfo()
             {
                 ActorType = ActorType.Imp,
@@ -92,7 +92,7 @@ namespace DoomTactics.Data
                 TileY = 7,
                 Team = 2,
             };
-            var impFour = new ActorInfo()
+            /*var impFour = new ActorInfo()
             {
                 ActorType = ActorType.Imp,
                 DisplayName = "Imp4",
@@ -101,18 +101,18 @@ namespace DoomTactics.Data
                 TileY = 8,
                 Team = 2
             };
-
+            */
             //var imp3 = new ActorInfo() { ActorType = ActorType.Imp, DisplayName = "Imp3", Name = "Imp3", TileX = 5, TileY = 3 };
             //var imp4 = new ActorInfo() { ActorType = ActorType.Imp, DisplayName = "Imp4", Name = "Imp4", TileX = length - 1, TileY = width - 1 };
             //var imp5 = new ActorInfo() { ActorType = ActorType.Imp, DisplayName = "Imp5", Name = "Imp5", TileX = 2, TileY = 3 };
             //var imp6 = new ActorInfo() { ActorType = ActorType.Imp, DisplayName = "Imp6", Name = "Imp6", TileX = 7, TileY = 2 };
 
 
-            data.ActorInfos = new ActorInfo[4];
+            data.ActorInfos = new ActorInfo[2];
             data.ActorInfos[0] = impOne;
-            data.ActorInfos[1] = impTwo;
-            data.ActorInfos[2] = impThree;
-            data.ActorInfos[3] = impFour;
+            //data.ActorInfos[1] = impTwo;
+            data.ActorInfos[1] = impThree;
+            //data.ActorInfos[3] = impFour;
             //data.ActorInfos[4] = imp5;
             //data.ActorInfos[5] = imp6;
 

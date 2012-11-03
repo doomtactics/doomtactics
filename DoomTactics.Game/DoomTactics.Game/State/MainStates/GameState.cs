@@ -72,6 +72,7 @@ namespace DoomTactics
             MessagingSystem.Subscribe(OnRemoveActorFromTile, DoomEventType.RemoveFromCurrentTile, "gamestate", null);
             MessagingSystem.Subscribe(OnDisplayDamage, DoomEventType.DisplayDamage, "gamestate", null);
             MessagingSystem.Subscribe(OnDespawnText, DoomEventType.DespawnText, "gamestate", null);
+            MessagingSystem.Subscribe(OnActorDeath, DoomEventType.ActorDied, "gamestate", null);
 
             Effect = new TileEffect(GameInstance.Content);
 
@@ -192,6 +193,19 @@ namespace DoomTactics
             var evt = (TextEvent) despawnTextEvent;
             FloatingTexts.Remove(evt.Text);
         }
+
+        public void OnActorDeath(IDoomEvent evt)
+        {
+            if (!Level.Actors.Any(x => x.Team == 1 && !x.IsDead()))
+            {
+                _stateMachine.SetState(new EndGameState(this, false));
+            }
+            else if (!Level.Actors.Any(x => x.Team == 2 && !x.IsDead()))
+            {
+                _stateMachine.SetState(new EndGameState(this, true));
+            }
+        }
+
 
         public ActorBase GetNextActiveUnit()
         {

@@ -26,5 +26,10 @@ namespace DoomTactics
         {
             get { return false; }
         }
+
+        public override bool IsDead
+        {
+            get { return true; }
+        }
     }
 }
