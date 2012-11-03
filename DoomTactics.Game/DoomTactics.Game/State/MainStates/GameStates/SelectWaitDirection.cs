@@ -32,14 +32,14 @@ namespace DoomTactics
 
         public void SetWaitDirection(Vector2 mousePosition)
         {
-            Vector3? targetPoint = GetTargetPoint(mousePosition, true);
+            Vector3? targetPoint = GetTargetPoint(mousePosition);
             if (targetPoint.HasValue)
                 GameState.ActiveUnit.FacePoint(targetPoint.Value, true);
         }
 
         public void FinalizeWaitDirection(Vector2 mousePosition)
         {
-            Vector3? targetPoint = GetTargetPoint(mousePosition, true);
+            Vector3? targetPoint = GetTargetPoint(mousePosition);
             if (targetPoint.HasValue)
             {
                 ActionInformation ai = GameState.ActiveUnit.Wait(targetPoint.Value);               
@@ -47,7 +47,7 @@ namespace DoomTactics
             }
         }
 
-        private Vector3? GetTargetPoint(Vector2 mousePosition, bool snapDirection)
+        private Vector3? GetTargetPoint(Vector2 mousePosition)
         {
             Ray ray = GameState.CreateRayFromMouseCursorPosition(mousePosition);
             Tile tile = GameState.Level.GetTileOfActor(GameState.ActiveUnit);

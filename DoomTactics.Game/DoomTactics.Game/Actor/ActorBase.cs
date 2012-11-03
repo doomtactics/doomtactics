@@ -30,6 +30,7 @@ namespace DoomTactics
         public IList<AbilityInformation> AbilityList;
         protected bool DidMove;
         protected bool DidAction;
+        protected ActorState CurrentActorState;
 
 
         public virtual SpriteSheet SpriteSheet
@@ -70,6 +71,7 @@ namespace DoomTactics
             Velocity = velocity;
             FacingDirection = Vector3.Forward;
             Team = team;
+            CurrentActorState = new Alive();
             AbilityList = new List<AbilityInformation>();
             SetupStats();
             SetupAbilityList();
@@ -226,7 +228,7 @@ namespace DoomTactics
 
         public virtual void Die()
         {
-
+            CurrentActorState = new Dead();
         }
 
         public void SnapToTile(Tile tile)
@@ -301,9 +303,11 @@ namespace DoomTactics
             CurrentStats.ChargeTime = 0;
         }
 
+        #region Actor Flags
+
         public virtual bool CanMove()
         {
-            return !DidMove;
+            return CurrentActorState.CanMove && !DidMove;
         }
 
         public virtual void SetMoved()
@@ -313,12 +317,24 @@ namespace DoomTactics
 
         public virtual bool CanAction()
         {
-            return !DidAction;
+            return CurrentActorState.CanAct && !DidAction;
         }
 
         public virtual void SetActioned()
         {
             DidAction = true;
         }
+
+        public virtual bool CanTakeTurn()
+        {
+            return CurrentActorState.CanTakeTurn;
+        }
+
+        public virtual bool IsTargetable()
+        {
+            return CurrentActorState.Targetable;
+        }
+
+        #endregion
     }
 }

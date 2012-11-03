@@ -103,7 +103,7 @@ namespace DoomTactics
         private Tuple<ActorBase, int> temp_GetEnemyInRangeOrClosest(Level currentLevel)
         {
             Tuple<ActorBase, int> closestEnemy = null;
-            foreach (var enemy in currentLevel.Actors.Where(x => x.Team != this.Team))
+            foreach (var enemy in currentLevel.Actors.Where(x => x.Team != this.Team && x.IsTargetable()))
             {
                 Tile enemyTile = currentLevel.GetTileOfActor(enemy);
                 Tile myTile = currentLevel.GetTileOfActor(this);
@@ -152,6 +152,7 @@ namespace DoomTactics
 
         public override void Die()
         {
+            base.Die();
             string deathSound = DeathSound1;
             int deathSoundNum = new Random().Next(0, 2);
             if (deathSoundNum == 1) deathSound = DeathSound2;

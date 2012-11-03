@@ -195,7 +195,7 @@ namespace DoomTactics
 
         public ActorBase GetNextActiveUnit()
         {
-            return Level.Actors.FirstOrDefault(x => x.CurrentStats.ChargeTime == 100 && x != ActiveUnit);
+            return Level.Actors.FirstOrDefault(x => x.CurrentStats.ChargeTime == 100 && x != ActiveUnit && x.CanTakeTurn());
         }
 
         public Ray CreateRayFromMouseCursorPosition(Vector2 mousePosition)
