@@ -190,6 +190,7 @@
     <Compile Include="State\IState.cs" />
     <Compile Include="State\MainStates\GameState.cs" />
     <Compile Include="State\MainStates\GameStates\AIDecision.cs" />
+    <Compile Include="State\MainStates\GameStates\EndGameState.cs" />
     <Compile Include="State\MainStates\GameStates\FreeCamera.cs" />
     <Compile Include="State\MainStates\GameStates\ActionSelection.cs" />
     <Compile Include="State\MainStates\GameStates\GameStateBase.cs" />

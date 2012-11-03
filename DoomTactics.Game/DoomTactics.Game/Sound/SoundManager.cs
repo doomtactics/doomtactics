@@ -26,7 +26,7 @@ namespace DoomTactics
             if (!_doPlaySounds)
                 return;
 
-            _soundBank.PlayCue(soundEffectName);
+            _soundBank.PlayCue(soundEffectName);            
         }
 
         public static void DisposeAll()
