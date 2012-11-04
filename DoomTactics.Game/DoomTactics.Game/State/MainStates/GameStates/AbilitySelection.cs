@@ -90,6 +90,10 @@ namespace DoomTactics
             {
                 tile.Tint = DefaultTint;
             }
+            foreach (var tile in _targetedAoe.ValidTiles())
+            {
+                tile.Tint = DefaultTint;
+            }
             if (_hoveredTile != null)
             {
                 _hoveredTile.Tint = DefaultTint;
