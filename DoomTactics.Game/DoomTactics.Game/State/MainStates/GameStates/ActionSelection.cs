@@ -104,7 +104,7 @@ namespace DoomTactics
 
         public void SwitchToTargetSelection(ActionInformation actionInformation)
         {
-            NextState = new StateTransition(() => new TargetSelection(GameState, this, actionInformation));
+            NextState = new StateTransition(() => new AbilitySelection(GameState, this, actionInformation));
         }
 
         public void SwitchToWaitDirection()

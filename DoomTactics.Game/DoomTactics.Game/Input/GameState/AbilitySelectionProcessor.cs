@@ -7,25 +7,32 @@ using Microsoft.Xna.Framework.Input;
 
 namespace DoomTactics
 {
-    public class TargetSelectionProcessor : GameStateBaseInputProcessor
+    public class AbilitySelectionProcessor : GameStateBaseInputProcessor
     {
-        private readonly TargetSelection _targetSelection;
+        private readonly AbilitySelection _abilitySelection;
 
-        public TargetSelectionProcessor(GameState gameState, TargetSelection targetSelection) 
+        public AbilitySelectionProcessor(GameState gameState, AbilitySelection abilitySelection) 
             : base(gameState)
         {
-            _targetSelection = targetSelection;
+            _abilitySelection = abilitySelection;
         }
 
         public override void ProcessInput(KeyboardState keyState, MouseState mouseState, GameTime gameTime)
         {
             if (KeyPressed(Keys.V, keyState))
             {
-                _targetSelection.ReturnToPrevious();
+                _abilitySelection.ReturnToPrevious();
             }
             if (MouseButtonClicked(mouseState.LeftButton, OldMouseState.LeftButton))
             {
-                _targetSelection.PerformAction();
+                if (!_abilitySelection.IsConfirming)
+                {
+                    _abilitySelection.SwitchToConfirming();
+                }
+                else
+                {
+                    _abilitySelection.PerformAction();
+                }
             }
 
             base.ProcessInput(keyState, mouseState, gameTime);

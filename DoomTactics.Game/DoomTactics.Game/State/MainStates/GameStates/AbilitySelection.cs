@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace DoomTactics
 {
-    public class TargetSelection : GameStateBase
+    public class AbilitySelection : GameStateBase
     {
         private static readonly Vector4 MoveSelectionHoveredTint = new Vector4(2.5f, 2.5f, 10.0f, 0.5f);
         private static readonly Vector4 MoveSelectionTint = new Vector4(0.75f, 0.75f, 10.0f, 0.5f);
@@ -19,13 +19,16 @@ namespace DoomTactics
         private Tile _hoveredTile;
         private readonly IState _previousState;
         private readonly ActionInformation _actionInformation;
+        private readonly StateMachine _stateMachine;
+        public bool IsConfirming;
+        private Tile _targetedTile;
 
-        public TargetSelection(GameState gameState, IState previousState, ActionInformation actionInformation)
+        public AbilitySelection(GameState gameState, IState previousState, ActionInformation actionInformation)
             : base(gameState)
         {
             _previousState = previousState;
             _actionInformation = actionInformation;
-            InputProcessor = new TargetSelectionProcessor(gameState, this);
+            InputProcessor = new AbilitySelectionProcessor(gameState, this);
         }
 
         public override void OnEnter()
@@ -39,22 +42,35 @@ namespace DoomTactics
             }
         }
 
+        public void SwitchToConfirming()
+        {
+            IsConfirming = true;
+            _targetedTile = GameState.FindHighlightedTile();
+        }
+
         public override void Update(GameTime gameTime)
         {
-            base.Update(gameTime);           
-            Tile hoveredTile = GameState.FindHighlightedTile();
-            if (hoveredTile != _hoveredTile)
+            base.Update(gameTime);
+            if (IsConfirming)
             {
-                if (_hoveredTile != null)
+
+            }
+            else
+            {
+                Tile hoveredTile = GameState.FindHighlightedTile();
+                if (hoveredTile != _hoveredTile)
                 {
-                    _hoveredTile.Tint = _actionInformation.AbilityRange.IsTileValid(_hoveredTile)
-                                            ? GetTint(_actionInformation.ActionType, false)
-                                            : DefaultTint;
-                }
-                _hoveredTile = hoveredTile;
-                if (_hoveredTile != null)
-                {
-                    _hoveredTile.Tint = GetTint(_actionInformation.ActionType, true);
+                    if (_hoveredTile != null)
+                    {
+                        _hoveredTile.Tint = _actionInformation.AbilityRange.IsTileValid(_hoveredTile)
+                                                ? GetTint(_actionInformation.ActionType, false)
+                                                : DefaultTint;
+                    }
+                    _hoveredTile = hoveredTile;
+                    if (_hoveredTile != null)
+                    {
+                        _hoveredTile.Tint = GetTint(_actionInformation.ActionType, true);
+                    }
                 }
             }
             GameState.SquidInputManager.Update(gameTime);
@@ -91,12 +107,11 @@ namespace DoomTactics
         }
 
         public void PerformAction()
-        {
-            Tile targeted = GameState.FindHighlightedTile();
-            if (targeted != null && _actionInformation.AbilityRange.IsTileValid(targeted))
+        {            
+            if (_targetedTile != null && _actionInformation.AbilityRange.IsTileValid(_targetedTile))
             {
-                Func<IState> animationState = () => 
-                    new ActionAnimationPlaying(GameState, _actionInformation, targeted);
+                Func<IState> animationState = () =>
+                    new ActionAnimationPlaying(GameState, _actionInformation, _targetedTile);
                 NextState = new StateTransition(animationState);
             }
         }
