@@ -21,11 +21,13 @@ namespace DoomTactics
         private static SquidInputManager _inputManager;
         private bool _enableMusic;
         private bool _enableSound;
+        private bool _skipLevelIntros;
        
-        public DoomTacticsGame(bool enableMusic, bool enableSound)
+        public DoomTacticsGame(bool enableMusic, bool enableSound, bool skipLevelIntros)
         {
             _enableMusic = enableMusic;
             _enableSound = enableSound;
+            _skipLevelIntros = skipLevelIntros;
             graphics = new GraphicsDeviceManager(this);
             graphics.PreferredBackBufferWidth = 1280;
             graphics.PreferredBackBufferHeight = 960;
@@ -70,6 +72,11 @@ namespace DoomTactics
         public static IState CreateMenuState(DoomTacticsGame gameInstance)
         {
             return new MenuState(gameInstance, _inputManager, _desktop);
+        }
+
+        public bool SkipLevelIntros
+        {
+            get { return _skipLevelIntros; }
         }
     }
 }

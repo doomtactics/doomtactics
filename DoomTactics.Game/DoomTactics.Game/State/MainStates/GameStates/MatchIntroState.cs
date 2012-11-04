@@ -50,7 +50,7 @@ namespace DoomTactics
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);            
-            if (_stopwatch.Elapsed > (AnnouncerSoundOneDuration + AnnouncerSoundTwoDuration))
+            if (_stopwatch.Elapsed > (AnnouncerSoundOneDuration + AnnouncerSoundTwoDuration) || GameState.GameInstance.SkipLevelIntros)
             {
                 _stopwatch.Stop();
                 NextState = new StateTransition(() => new FreeCamera(GameState, null));

@@ -12,6 +12,7 @@ namespace DoomTactics
         {
             bool enableMusic = true;
             bool enableSound = true;
+            bool skipLevelIntros = false;
             if (args.Length > 0)
             {
                 foreach (var arg in args)
@@ -20,9 +21,11 @@ namespace DoomTactics
                         enableMusic = false;
                     else if (arg == "--nosound")
                         enableSound = false;
+                    else if (arg == "--skipintros")
+                        skipLevelIntros = true;
                 }
             }
-            using (DoomTacticsGame game = new DoomTacticsGame(enableMusic, enableSound))
+            using (DoomTacticsGame game = new DoomTacticsGame(enableMusic, enableSound, skipLevelIntros))
             {
                 game.Run();
             }
