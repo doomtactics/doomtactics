@@ -12,6 +12,11 @@ namespace DoomTactics
             return new TileSelector();
         }
 
+        public static TileSelector SingleTile(Tile tile)
+        {
+            return new TileSelector(new List<Tile>() { tile });
+        }
+
         public static TileSelector OccupiedTileSelector(Level level, ActorBase exclude)
         {
             var tileList = level.Tiles.Where(x => x.ActorInTile != null && x.ActorInTile != exclude && x.ActorInTile.IsTargetable()).ToList();

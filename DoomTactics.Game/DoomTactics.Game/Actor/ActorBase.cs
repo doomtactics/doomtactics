@@ -240,7 +240,8 @@ namespace DoomTactics
         {
             Func<Tile, ActionAnimationScript> scriptGenerator = (tile) => WaitAction(direction);
             TileSelector selector = TileSelectorHelper.Empty();
-            return new ActionInformation(scriptGenerator, selector, ActionType.Wait);
+            Func<Tile, TileSelector> aoe = (tile) => TileSelectorHelper.Empty();
+            return new ActionInformation(scriptGenerator, selector, aoe, ActionType.Wait);
         }
 
         protected virtual ActionAnimationScript WaitAction(Vector3 direction)
@@ -261,8 +262,9 @@ namespace DoomTactics
         public ActionInformation MoveToTile(Level level)
         {
             Func<Tile, ActionAnimationScript> scriptGenerator = (tile) => MoveToTileAction(tile, level);
-            TileSelector selector = TileSelectorHelper.StandardMovementTileSelector(level, level.GetTileOfActor(this), this);
-            return new ActionInformation(scriptGenerator, selector, ActionType.Move);
+            TileSelector abilityRange = TileSelectorHelper.StandardMovementTileSelector(level, level.GetTileOfActor(this), this);
+            Func<Tile, TileSelector> areaOfEffect = TileSelectorHelper.SingleTile;
+            return new ActionInformation(scriptGenerator, abilityRange, areaOfEffect, ActionType.Move);
         }
 
         protected virtual ActionAnimationScript MoveToTileAction(Tile goalTile, Level level)

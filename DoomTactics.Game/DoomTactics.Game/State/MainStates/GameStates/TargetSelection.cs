@@ -33,7 +33,7 @@ namespace DoomTactics
             base.OnEnter();
             GameState.Desktop.Visible = true;
             GameState.Desktop.ShowCursor = true;
-            foreach (var tile in _actionInformation.Selector.ValidTiles())
+            foreach (var tile in _actionInformation.AbilityRange.ValidTiles())
             {
                 tile.Tint = GetTint(_actionInformation.ActionType, false);
             }
@@ -47,7 +47,7 @@ namespace DoomTactics
             {
                 if (_hoveredTile != null)
                 {
-                    _hoveredTile.Tint = _actionInformation.Selector.IsTileValid(_hoveredTile)
+                    _hoveredTile.Tint = _actionInformation.AbilityRange.IsTileValid(_hoveredTile)
                                             ? GetTint(_actionInformation.ActionType, false)
                                             : DefaultTint;
                 }
@@ -63,7 +63,7 @@ namespace DoomTactics
 
         public override void OnExit()
         {
-            foreach (var tile in _actionInformation.Selector.ValidTiles())
+            foreach (var tile in _actionInformation.AbilityRange.ValidTiles())
             {
                 tile.Tint = DefaultTint;
             }
@@ -93,7 +93,7 @@ namespace DoomTactics
         public void PerformAction()
         {
             Tile targeted = GameState.FindHighlightedTile();
-            if (targeted != null && _actionInformation.Selector.IsTileValid(targeted))
+            if (targeted != null && _actionInformation.AbilityRange.IsTileValid(targeted))
             {
                 Func<IState> animationState = () => 
                     new ActionAnimationPlaying(GameState, _actionInformation, targeted);
