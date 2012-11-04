@@ -17,6 +17,25 @@ namespace DoomTactics
             return new TileSelector(new List<Tile>() { tile });
         }
 
+        public static TileSelector CircularSelector(Level level, Tile currentTile, int radius)
+        {
+            var selector = new TileSelector();
+            for (int i = -radius; i <= radius; i++)
+            {
+                for (int j = -radius; j <= radius; j++)
+                {
+                    if (Math.Abs(i) + Math.Abs(j) <= radius)
+                    {
+                        Tile t = level.GetTileAt(currentTile.XCoord + j, currentTile.YCoord + i);
+                        if (t != null)
+                            selector.AddValidTile(t);
+                    }
+                }
+            }
+
+            return selector;
+        }
+
         public static TileSelector OccupiedTileSelector(Level level, ActorBase exclude)
         {
             var tileList = level.Tiles.Where(x => x.ActorInTile != null && x.ActorInTile != exclude && x.ActorInTile.IsTargetable()).ToList();
