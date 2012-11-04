@@ -22,6 +22,7 @@ namespace DoomTactics
         private readonly StateMachine _stateMachine;
         public bool IsConfirming;
         private Tile _targetedTile;
+        private TileSelector _targetedAoe;
 
         public AbilitySelection(GameState gameState, IState previousState, ActionInformation actionInformation)
             : base(gameState)
@@ -46,6 +47,12 @@ namespace DoomTactics
         {
             IsConfirming = true;
             _targetedTile = GameState.FindHighlightedTile();
+            _targetedAoe = _actionInformation.AbilityAreaOfEffect(_targetedTile);
+            var validTiles = _targetedAoe.ValidTiles();
+            foreach (var aoeTile in validTiles)
+            {
+                aoeTile.Tint = GetTint(_actionInformation.ActionType, true);
+            }
         }
 
         public override void Update(GameTime gameTime)
