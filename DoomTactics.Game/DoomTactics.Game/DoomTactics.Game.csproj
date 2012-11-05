@@ -169,6 +169,7 @@
     <Compile Include="Map\LevelFactory.cs" />
     <Compile Include="Map\Tile.cs" />
     <Compile Include="Map\TileTextures.cs" />
+    <Compile Include="Render\CacoSheet.cs" />
     <Compile Include="Sound\MusicManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
