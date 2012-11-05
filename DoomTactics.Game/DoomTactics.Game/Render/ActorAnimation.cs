@@ -33,6 +33,14 @@ namespace DoomTactics
             _animations = animationEntries ?? new List<AnimationEntry>();
             _endEventsInvoked = false;
         }
+        
+        public ActorAnimation(bool loop, params AnimationEntry[] animationEntries)
+        {
+            _loop = loop;
+            _entityName = "Prototype";
+            _animations = animationEntries.ToList();
+            _endEventsInvoked = false;
+        }
 
         public void AddAnimationEntry(AnimationEntry animationEntry)
         {
