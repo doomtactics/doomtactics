@@ -55,6 +55,7 @@ namespace DoomTactics
             {
                 _actorCreators = new Dictionary<ActorType, Func<string, Vector3, ActorBase>>();
                 _actorCreators.Add(ActorType.Imp, (s, v) => new Imp(s, v));
+                _actorCreators.Add(ActorType.Caco, (s, v) => new Caco(s, v));
             }
         }
 

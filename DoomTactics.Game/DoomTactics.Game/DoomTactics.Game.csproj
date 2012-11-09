@@ -124,6 +124,7 @@
     <Compile Include="Actor\Abilities\DamageType.cs" />
     <Compile Include="Actor\Abilities\ImpFireballDetails.cs" />
     <Compile Include="Actor\ActorBase.cs" />
+    <Compile Include="Actor\Caco.cs" />
     <Compile Include="Actor\GameplayStats.cs" />
     <Compile Include="Actor\Imp.cs" />
     <Compile Include="Actor\ImpFireball.cs" />

@@ -40,6 +40,21 @@ namespace DoomTactics
                                MaximumHeightCanMove = 1
                            };
             }
+            else if (actorType == ActorType.Caco)
+            {
+                return new GameplayStats()
+                           {
+                               Health = 300,
+                               Essence = 175,
+                               AD = 20,
+                               DP = 40,
+                               Armor = 12,
+                               DR = 18,
+                               Speed = 7,
+                               MovementRange = 5,
+                               MaximumHeightCanMove = 5
+                           };
+            }
 
             return Statsless();
         }

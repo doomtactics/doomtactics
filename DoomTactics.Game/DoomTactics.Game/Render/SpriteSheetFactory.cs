@@ -24,6 +24,7 @@ namespace DoomTactics
                 _sheets = new Dictionary<ActorType, Func<SpriteSheet>>();
                 _sheets[ActorType.Imp] = () => new ImpSheet(contentManager.Load<Texture2D>("sheets\\impsheetnew"));
                 _sheets[ActorType.ImpFireball] = () => new ImpFireballSheet(contentManager.Load<Texture2D>("sheets\\impfireballsheet"));
+                _sheets[ActorType.Caco] = () => new CacoSheet(contentManager.Load<Texture2D>("sheets\\cacosheet"));
             }
         }
     }

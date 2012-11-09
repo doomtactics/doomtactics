@@ -85,9 +85,9 @@ namespace DoomTactics.Data
 
                 // caco shoot fireball
                 {
-                    var anim1 = new AnimationEntry("cacoshoot1", TimeSpan.FromMilliseconds(500));
-                    var anim2 = new AnimationEntry("cacoshoot2", TimeSpan.FromMilliseconds(500));
-                    var anim3 = new AnimationEntry("cacoshoot3", TimeSpan.FromMilliseconds(500));
+                    var anim1 = new AnimationEntry("cacoshoot1", TimeSpan.FromMilliseconds(125));
+                    var anim2 = new AnimationEntry("cacoshoot2", TimeSpan.FromMilliseconds(125));
+                    var anim3 = new AnimationEntry("cacoshoot3", TimeSpan.FromMilliseconds(350));
                     var cacoShoot = new ActorAnimation(false, anim1, anim2, anim3);
                     ActorAnimationManager.RegisterAnimation("cacoshoot", cacoShoot);
                 }
@@ -102,14 +102,14 @@ namespace DoomTactics.Data
 
                 // caco death
                 {
-                    var anim1 = new AnimationEntry("cacodeath1", TimeSpan.FromMilliseconds(500));
-                    var anim2 = new AnimationEntry("cacodeath2", TimeSpan.FromMilliseconds(500));
-                    var anim3 = new AnimationEntry("cacodeath3", TimeSpan.FromMilliseconds(500));
-                    var anim4 = new AnimationEntry("cacodeath4", TimeSpan.FromMilliseconds(500));
-                    var anim5 = new AnimationEntry("cacodeath5", TimeSpan.FromMilliseconds(500));
-                    var anim6 = new AnimationEntry("cacodeath6", TimeSpan.FromMilliseconds(500));
+                    var anim1 = new AnimationEntry("cacodeath1", TimeSpan.FromMilliseconds(120));
+                    var anim2 = new AnimationEntry("cacodeath2", TimeSpan.FromMilliseconds(120));
+                    var anim3 = new AnimationEntry("cacodeath3", TimeSpan.FromMilliseconds(120));
+                    var anim4 = new AnimationEntry("cacodeath4", TimeSpan.FromMilliseconds(120));
+                    var anim5 = new AnimationEntry("cacodeath5", TimeSpan.FromMilliseconds(120));
+                    var anim6 = new AnimationEntry("cacodeath6", TimeSpan.FromMilliseconds(120));
                     var cacoDeath = new ActorAnimation(false, anim1, anim2, anim3, anim4, anim5, anim6);
-                    ActorAnimationManager.RegisterAnimation("cacodeath", cacoDeath);
+                    ActorAnimationManager.RegisterAnimation("cacodie", cacoDeath);
                 }
 
             }

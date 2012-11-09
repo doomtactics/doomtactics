@@ -92,6 +92,24 @@ namespace DoomTactics.Data
                 TileY = 7,
                 Team = 2,
             };
+            var cacoOne = new ActorInfo()
+                              {
+                                  ActorType = ActorType.Caco,
+                                  DisplayName = "Caco1",
+                                  Name = "Caco1",
+                                  TileX = 7,
+                                  TileY = 4,
+                                  Team = 1
+                              };
+            var cacoTwo = new ActorInfo()
+                              {
+                                  ActorType = ActorType.Caco,
+                                  DisplayName = "Caco2",
+                                  Name = "Caco2",
+                                  TileX = 2,
+                                  TileY = 7,
+                                  Team = 2
+                              };
             /*var impFour = new ActorInfo()
             {
                 ActorType = ActorType.Imp,
@@ -108,13 +126,15 @@ namespace DoomTactics.Data
             //var imp6 = new ActorInfo() { ActorType = ActorType.Imp, DisplayName = "Imp6", Name = "Imp6", TileX = 7, TileY = 2 };
 
 
-            data.ActorInfos = new ActorInfo[2];
+            data.ActorInfos = new ActorInfo[3];
             data.ActorInfos[0] = impOne;
             //data.ActorInfos[1] = impTwo;
             data.ActorInfos[1] = impThree;
             //data.ActorInfos[3] = impFour;
             //data.ActorInfos[4] = imp5;
             //data.ActorInfos[5] = imp6;
+            data.ActorInfos[2] = cacoOne;
+
 
             data.BackgroundTextureName = "textures\\doom\\sky3";
 

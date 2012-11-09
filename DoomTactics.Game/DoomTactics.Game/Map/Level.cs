@@ -50,6 +50,7 @@ namespace DoomTactics
 
         // Projectiles
         ImpFireball,
+        CacoFireball
     }
 
     public class Level
