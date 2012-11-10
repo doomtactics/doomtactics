@@ -112,6 +112,23 @@ namespace DoomTactics.Data
                     ActorAnimationManager.RegisterAnimation("cacodie", cacoDeath);
                 }
 
+                // caco fireball idle
+                {
+                    var anim1 = new AnimationEntry("cacofireball1", TimeSpan.FromMilliseconds(125));
+                    var anim2 = new AnimationEntry("cacofireball2", TimeSpan.FromMilliseconds(125));
+                    var cacoBallIdle = new ActorAnimation(true, anim1, anim2);
+                    ActorAnimationManager.RegisterAnimation("cacofireballidle", cacoBallIdle);
+                }
+                
+                // caco fireball death
+                {
+                    var anim1 = new AnimationEntry("cacofireballdeath1", TimeSpan.FromMilliseconds(125));
+                    var anim2 = new AnimationEntry("cacofireballdeath2", TimeSpan.FromMilliseconds(125));
+                    var anim3 = new AnimationEntry("cacofireballdeath3", TimeSpan.FromMilliseconds(125));
+                    var cacoFireballDeath = new ActorAnimation(false, anim1, anim2, anim3);
+                    ActorAnimationManager.RegisterAnimation("cacofireballdeath", cacoFireballDeath);
+                }
+
             }
 
         }

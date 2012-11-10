@@ -120,11 +120,13 @@
     <Compile Include="Actor\Abilities\AbilityDetails.cs" />
     <Compile Include="Actor\Abilities\AbilityInformation.cs" />
     <Compile Include="Actor\Abilities\AbilityType.cs" />
+    <Compile Include="Actor\Abilities\CacoFireballDetails.cs" />
     <Compile Include="Actor\Abilities\DamageResult.cs" />
     <Compile Include="Actor\Abilities\DamageType.cs" />
     <Compile Include="Actor\Abilities\ImpFireballDetails.cs" />
     <Compile Include="Actor\ActorBase.cs" />
     <Compile Include="Actor\Caco.cs" />
+    <Compile Include="Actor\CacoFireball.cs" />
     <Compile Include="Actor\GameplayStats.cs" />
     <Compile Include="Actor\Imp.cs" />
     <Compile Include="Actor\ImpFireball.cs" />
@@ -170,6 +172,7 @@
     <Compile Include="Map\LevelFactory.cs" />
     <Compile Include="Map\Tile.cs" />
     <Compile Include="Map\TileTextures.cs" />
+    <Compile Include="Render\CacoFireballSheet.cs" />
     <Compile Include="Render\CacoSheet.cs" />
     <Compile Include="Sound\MusicManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

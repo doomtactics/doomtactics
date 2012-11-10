@@ -15,14 +15,8 @@ namespace DoomTactics
         {
             _spawnMethods = new Dictionary<ActorType, Func<Vector3, Vector3, ActorBase>>();
 
-            _spawnMethods.Add(ActorType.ImpFireball, (p, v) =>
-            {
-                var fireball = new ImpFireball("fireball", p, v);
-                fireball.Position = p;
-                fireball.Velocity = v;
-                return fireball;
-            });
-
+            _spawnMethods.Add(ActorType.ImpFireball, (p, v) => new ImpFireball("impfireball", p, v));
+            _spawnMethods.Add(ActorType.CacoFireball, (p, v) => new CacoFireball("cacofireball", p, v));
             _initialized = true;
         }
 
