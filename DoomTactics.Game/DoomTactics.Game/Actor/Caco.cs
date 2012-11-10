@@ -8,6 +8,7 @@ namespace DoomTactics
 {
     public class Caco : ActorBase
     {
+        private const string FireballShootSound = "fireballshoot";
         private const string PainSound = "demonpain";
         private const string DeathSound = "cacodeath";
 
@@ -43,11 +44,12 @@ namespace DoomTactics
             var average = tilebox.Min + (tilebox.Max - tilebox.Min) / 2.0f;
             Vector3 target = new Vector3(average.X, tilebox.Max.Y + Height / 2.0f, average.Z);
             BoundingBox targetBoundingBox = new BoundingBox(target - new Vector3(20, 20, 20), target + new Vector3(20, 20, 20));
-            Vector3 source = new Vector3(Position.X, Position.Y + Height / 2.0f, Position.Z);
+            Vector3 source = new Vector3(Position.X, Position.Y + Height / 3.0f, Position.Z);
             var direction = target - source;
             var velocity = Vector3.Normalize(direction) * 5.0f;
             var cacoFireball = ActorSpawnMethods.GetSpawnMethod(ActorType.CacoFireball).Invoke(source, velocity);
             var spawnEvent = new ActorEvent(DoomEventType.SpawnActor, cacoFireball);
+            var soundEvent = new SoundEvent(DoomEventType.PlaySound, FireballShootSound);
 
             var script = new ActionAnimationScriptBuilder().Name(ActorId + "shootFireball")
                 .Segment()
@@ -55,6 +57,7 @@ namespace DoomTactics
                     {
                         FacePoint(selectedTile.GetTopCenter(), false);
                         MessagingSystem.DispatchEvent(spawnEvent, ActorId);
+                        MessagingSystem.DispatchEvent(soundEvent, ActorId);
                     })
                     .EndCondition(() => targetBoundingBox.Contains(cacoFireball.Position) == ContainmentType.Contains)
                     .OnComplete(() =>
